@@ -1,0 +1,49 @@
+@charset "UTF-8";
+@namespace d url(http://www.apple.com/DTDs/DictionaryService-1.0.rng);
+
+d|entry {
+}
+
+h1	{
+	font-size: 120%;
+}
+
+h3	{
+	font-size: 100%;
+}
+
+.genus,.foreign{
+    font-style:italic;
+    color:gray
+}
+.genus:before{content:'\00a0'}
+.indexnr:after{content:'\00a0'}
+.sense:after{content:'\0020'}
+.sense{
+    display:block;
+}
+.klammer:before{content:'\0020'}
+.etym:before{content:'\00a0('}
+.etym:after{content:')'}
+.b{border-bottom:1px dotted gray}
+.t{border-top:1px dotted gray}
+.l{border-left:1px dotted gray}
+.r{border-right:1px dotted gray}
+.dom{
+    font-family:sans-serif;
+    color:darkgreen;
+    font-style:italic;
+    font-variant:small-caps
+}
+.hinshi{
+    color:white;
+    background:#333;
+    font-size: 80%;
+    display:inline-block;
+    margin:4px;
+}
+.subheadword{
+    font-size: 80%;
+}
+.reg{font-style:italic;color:#483d8b}
+.usage{color:maroon;font-style:italic}
