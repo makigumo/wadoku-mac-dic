@@ -3,7 +3,7 @@
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:d="http://www.apple.com/DTDs/DictionaryService-1.0.rng"
     xmlns:wd="http://www.wadoku.de/xml/entry" exclude-result-prefixes="d" version="1.0">
-    <xsl:output method="xml" omit-xml-declaration="yes" standalone="yes" encoding="UTF-8"
+    <xsl:output method="xml" omit-xml-declaration="yes" encoding="UTF-8"
         indent="no"/>
     <xsl:strip-space elements="*"/>
 
@@ -449,7 +449,7 @@
         <xsl:if test="position()&gt;1">
             <xsl:text> </xsl:text>
         </xsl:if>
-        <span title="{@id}">
+        <a href="x-dictionary:r:{@id}">
             <xsl:choose>
                 <xsl:when test="@type='syn'">
                     <xsl:attribute name="class">reflink syn</xsl:attribute>
@@ -469,7 +469,7 @@
             </xsl:choose>
             <xsl:apply-templates select="./wd:transcr"/>
             <xsl:apply-templates select="./wd:jap"/>
-        </span>
+        </a>
     </xsl:template>
 
     <xsl:template match="wd:pos">
@@ -541,7 +541,7 @@
         </span>
     </xsl:template>
 
-    <xsl:template match="//wd:bracket/wd:def">
+    <xsl:template match="wd:bracket/wd:def">
         <xsl:if test="count(preceding-sibling::*)&gt;0">
             <xsl:text>; </xsl:text>
         </xsl:if>
@@ -559,11 +559,31 @@
         </span>
     </xsl:template>
 
-    <xsl:template match="//wd:foreign">
+    <xsl:template match="wd:emph">
+        <em>
+            <xsl:apply-templates/>
+        </em>
+    </xsl:template>
+    <xsl:template match="wd:foreign">
         <xsl:if test="position()&gt;1 and not(starts-with(text(), ','))">
             <xsl:text> </xsl:text>
         </xsl:if>
         <span class="foreign">
+            <xsl:apply-templates/>
+        </span>
+    </xsl:template>
+
+    <xsl:template match="wd:expl">
+        <xsl:if test="position()&gt;1">
+            <xsl:text>; </xsl:text>
+        </xsl:if>
+        <span class="expl">
+            <xsl:apply-templates/>
+        </span>
+    </xsl:template>
+
+    <xsl:template match="wd:transcr">
+        <span class="transcr">
             <xsl:apply-templates/>
         </span>
     </xsl:template>

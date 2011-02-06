@@ -25,6 +25,7 @@ h3	{
 .klammer:before{content:'\0020'}
 .etym:before{content:'\00a0('}
 .etym:after{content:')'}
+.famn{font-weight:150%}
 .b{border-bottom:1px dotted gray}
 .t{border-top:1px dotted gray}
 .l{border-left:1px dotted gray}
