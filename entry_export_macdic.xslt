@@ -10,6 +10,7 @@
     <xsl:template match="entries">
         <d:dictionary xmlns="http://www.w3.org/1999/xhtml"
             xmlns:d="http://www.apple.com/DTDs/DictionaryService-1.0.rng">
+            <xsl:text>&#10;</xsl:text>
             <xsl:apply-templates/>
         </d:dictionary>
     </xsl:template>
@@ -205,9 +206,11 @@
                         <xsl:apply-templates select="./wd:gramGrp/wd:pos"/>
                     </div>
                 </xsl:if>
+                <xsl:apply-templates select="wd:usg"/>
                 <xsl:apply-templates select="wd:sense"/>
             </div>
         </d:entry>
+        <xsl:text>&#10;</xsl:text>
     </xsl:template>
 
     <xsl:template mode="simple" match="wd:form/wd:orth">
@@ -239,13 +242,13 @@
             <xsl:text> </xsl:text>
         </xsl:if>
         <span class="sense">
-            <xsl:if test="count(//wd:sense) > 1">
+            <xsl:if test="count(../wd:sense) > 1">
                 <span class="indexnr">
                     <xsl:value-of select="position()"/>
                 </span>
             </xsl:if>
-            <xsl:apply-templates select="./wd:usg"/>
-            <xsl:apply-templates select=".//wd:trans"/>
+            <xsl:apply-templates select="wd:usg"/>
+            <xsl:apply-templates select="wd:trans"/>
             <!--<xsl:apply-templates select = ".//wd:def"  />
                 <xsl:apply-templates select = ".//def"  /-->
             <xsl:if test="./@season">

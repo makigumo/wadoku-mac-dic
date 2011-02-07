@@ -3,9 +3,11 @@
 
 d|entry {
 }
-
+body{
+    font-size:medium;
+}
 h1	{
-	font-size: 120%;
+	font-size: 150%;
 }
 
 h3	{
@@ -25,11 +27,20 @@ h3	{
 .klammer:before{content:'\0020'}
 .etym:before{content:'\00a0('}
 .etym:after{content:')'}
-.famn{font-weight:150%}
+.famn{font-weight:bold}
 .b{border-bottom:1px dotted gray}
 .t{border-top:1px dotted gray}
 .l{border-left:1px dotted gray}
 .r{border-right:1px dotted gray}
+.jap:before{content:' ('}
+.jap:after{content:')'}
+.transcr:before{content:'<'}
+.transcr:after{content:'>'}
+.jap + .transcr:before{content:'\0020'}
+.reflink.syn:before{content:'\21d2\00a0'}
+.reflink.anto:before{content:'\21d4\00a0'}
+.reflink.main:before{content:'\21d1\00a0'}
+.reflink.aread:before{content:'\2192\00a0'}
 .dom{
     font-family:sans-serif;
     color:darkgreen;
@@ -38,7 +49,7 @@ h3	{
 }
 .hinshi{
     color:white;
-    background:#333;
+    background:#888;
     font-size: 80%;
     display:inline-block;
     margin:4px;
