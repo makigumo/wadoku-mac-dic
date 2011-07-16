@@ -201,7 +201,7 @@
             </h1>
             <!-- meaning -->
             <div class="meaning">
-                <xsl:if test="//wd:pos">
+                <xsl:if test="count(wd:pos) > 0">
                     <div class="hinshi">
                         <xsl:apply-templates select="./wd:gramGrp/wd:pos"/>
                     </div>
