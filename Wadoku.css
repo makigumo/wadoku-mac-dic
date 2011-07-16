@@ -19,7 +19,8 @@ h3	{
     color:gray
 }
 .genus:before{content:'\00a0'}
-.indexnr:after{content:'\00a0'}
+.indexnr:after{content:'.\00a0'}
+.indexnr{font-weight: bold}
 .sense:after{content:'\0020'}
 .sense{
     display:block;
@@ -37,6 +38,7 @@ h3	{
 .transcr:before{content:'<'}
 .transcr:after{content:'>'}
 .jap + .transcr:before{content:'\0020'}
+.reflink {margin-left:4px;margin-right:4px;}
 .reflink.syn:before{content:'\21d2\00a0'}
 .reflink.anto:before{content:'\21d4\00a0'}
 .reflink.main:before{content:'\21d1\00a0'}
@@ -52,10 +54,13 @@ h3	{
     background:#888;
     font-size: 80%;
     display:inline-block;
-    margin:4px;
+    padding:4px;
+    margin-right:4px;
 }
 .subheadword{
     font-size: 80%;
 }
 .reg{font-style:italic;color:#483d8b}
 .usage{color:maroon;font-style:italic}
+.season:before{content:'\3010'}
+.season:after{content:'\3011'}
