@@ -201,12 +201,15 @@
             </h1>
             <!-- meaning -->
             <div class="meaning">
-                <xsl:if test="count(//wd:pos)!='0'">
+                <xsl:if test="//wd:pos">
                     <div class="hinshi">
                         <xsl:apply-templates select="./wd:gramGrp/wd:pos"/>
                     </div>
                 </xsl:if>
-                <xsl:apply-templates select="wd:usg"/>
+                <!-- if only one sense, handle usg in sense template -->
+                <xsl:if test="count(wd:sense) > 1">
+                    <xsl:apply-templates select="wd:usg"/>
+                </xsl:if>
                 <xsl:apply-templates select="wd:sense"/>
             </div>
         </d:entry>
@@ -242,11 +245,17 @@
             <xsl:text> </xsl:text>
         </xsl:if>
         <span class="sense">
-            <xsl:if test="count(../wd:sense) > 1">
-                <span class="indexnr">
-                    <xsl:value-of select="position()"/>
-                </span>
-            </xsl:if>
+            <xsl:choose>
+                <xsl:when test="count(../wd:sense) > 1">
+                    <span class="indexnr">
+                        <xsl:value-of select="position()"/>
+                    </span>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:apply-templates select="../wd:usg"/>
+                </xsl:otherwise>
+            </xsl:choose>
+
             <xsl:apply-templates select="wd:usg"/>
             <xsl:apply-templates select="wd:trans"/>
             <!--<xsl:apply-templates select = ".//wd:def"  />
@@ -452,7 +461,7 @@
         <xsl:if test="position()&gt;1">
             <xsl:text> </xsl:text>
         </xsl:if>
-        <a href="x-dictionary:r:{@id}">
+        <a href="x-dictionary:r:{@id}" title="{./wd:transcr}">
             <xsl:choose>
                 <xsl:when test="@type='syn'">
                     <xsl:attribute name="class">reflink syn</xsl:attribute>
