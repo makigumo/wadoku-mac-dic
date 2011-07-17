@@ -211,6 +211,7 @@
                     <xsl:apply-templates select="wd:usg"/>
                 </xsl:if>
                 <xsl:apply-templates select="wd:sense"/>
+                <xsl:apply-templates select="wd:link"/>
             </div>
         </d:entry>
         <xsl:text>&#10;</xsl:text>
@@ -461,7 +462,7 @@
         <xsl:if test="position()&gt;1">
             <xsl:text> </xsl:text>
         </xsl:if>
-        <a href="x-dictionary:r:{@id}" title="{./wd:transcr}">
+        <a href="x-dictionary:r:{@id}" title="{./wd:jap}">
             <xsl:choose>
                 <xsl:when test="@type='syn'">
                     <xsl:attribute name="class">reflink syn</xsl:attribute>
@@ -598,5 +599,11 @@
         <span class="transcr">
             <xsl:apply-templates/>
         </span>
+    </xsl:template>
+
+    <xsl:template match="wd:link">
+        <xsl:if test="@type='picture'">
+            <img alt="{@url}" src="Images/{@url}.jpg"/>
+        </xsl:if>
     </xsl:template>
 </xsl:stylesheet>
