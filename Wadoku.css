@@ -4,7 +4,12 @@
 d|entry {
 }
 body{
-    font-size:medium;
+    font-family: 'Hiragino Mincho ProN';
+    font-weight:normal;
+    line-height:1.33em;
+    margin-right: 1em;
+    margin-top: 0.4em;
+    margin-bottom: 10px;
 }
 h1	{
 	font-size: 150%;
@@ -13,6 +18,17 @@ h1	{
 h3	{
 	font-size: 100%;
 }
+
+a       {
+        color:#2971A7;
+        text-decoration:none;
+}
+
+a:hover {
+        color:#2971A7;
+        text-decoration:underline;
+}
+
 
 .genus,.foreign{
     font-style:italic;
@@ -24,6 +40,7 @@ h3	{
 .sense:after{content:'\0020'}
 .sense{
     display:block;
+    margin: 4px 0;
 }
 .klammer:before{content:'\0020'}
 .etym:before{content:'\00a0('}
@@ -43,6 +60,7 @@ h3	{
 .reflink.anto:before{content:'\21d4\00a0'}
 .reflink.main:before{content:'\21d1\00a0'}
 .reflink.aread:before{content:'\2192\00a0'}
+.reflink.parent:before{content:'\21e7\00a0'}
 .dom{
     font-family:sans-serif;
     color:darkgreen;
@@ -50,12 +68,14 @@ h3	{
     font-variant:small-caps
 }
 .hinshi{
-    color:white;
-    background:#888;
-    font-size: 80%;
-    display:inline-block;
-    padding:4px;
-    margin-right:4px;
+    font-family: 'HelveticaNeue';
+    font-size:60%;
+    background: #e0e0e0;
+    vertical-align:8%;
+    margin-right: 0.5em;
+    margin-top: .5em;
+    margin-bottom: .2em;
+    display: inline-block;
 }
 .subheadword{
     font-size: 80%;
@@ -64,3 +84,15 @@ h3	{
 .usage{color:maroon;font-style:italic}
 .season:before{content:'\3010'}
 .season:after{content:'\3011'}
+.latin{font-style: italic;}
+.label{
+    font-family: 'Hiragino Kaku Gothic ProN';
+    font-weight:bold;
+    font-size:80%;
+    color: #ffffff;
+    Background: #606060;
+    vertical-align:8%;
+    border: solid #606060;
+    border-width:2px 4px 2px 4px;
+    margin-right: 0.5em;
+}
