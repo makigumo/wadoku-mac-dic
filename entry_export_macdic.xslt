@@ -7,6 +7,9 @@
         indent="no"/>
     <xsl:strip-space elements="*"/>
 
+    <!-- lookup key für einträge mit referenzen auf einen Haupteintrag -->
+    <xsl:key name="refs" match="wd:entry[./wd:ref[@type='main']]" use="./wd:ref/@id"/>
+    
     <xsl:template match="entries">
         <d:dictionary xmlns="http://www.w3.org/1999/xhtml"
             xmlns:d="http://www.apple.com/DTDs/DictionaryService-1.0.rng">
@@ -213,8 +216,7 @@
                 </xsl:if>
                 <xsl:apply-templates select="wd:sense"/>
                 <xsl:apply-templates select="wd:link"/>
-                <xsl:variable name="id" select="@id"/>
-                <xsl:variable name="subs" select="../wd:entry[wd:ref[@type='main' and @id=$id]]"/>
+                <xsl:variable name="subs" select="key('refs',@id)"/>
                 <xsl:if test="count($subs)>0">
                     <!-- Ableitungen -->
                     <xsl:variable name="hasei" select="$subs[wd:ref[
@@ -238,16 +240,16 @@
                         <xsl:apply-templates mode="subentry" select="$subs[wd:ref[@subentrytype='head']]"/>
                         <xsl:apply-templates mode="subentry" select="$subs[wd:ref[@subentrytype='tail']]"/>
                     </xsl:if>
-
-
                     <!-- Rest -->
-                    <xsl:apply-templates mode="subentry" select="$subs[wd:ref[@subentrytype='VwBsp']]"/>
-                    <xsl:apply-templates mode="subentry" select="$subs[wd:ref[@subentrytype='XSatz']]"/>
-                    <xsl:apply-templates mode="subentry"
+                    <xsl:if test="(count($subs) - count($hasei) - count($subs[wd:ref[@subentrytype='head' or @subentrytype='tail']])) > 0">
+                        <xsl:apply-templates mode="subentry" select="$subs[wd:ref[@subentrytype='VwBsp']]"/>
+                        <xsl:apply-templates mode="subentry" select="$subs[wd:ref[@subentrytype='XSatz']]"/>
+                        <xsl:apply-templates mode="subentry"
                                          select="$subs[wd:ref[
                                          @subentrytype='WIdiom'
                                          or @subentrytype='ZSprW'
                                          or @subentrytype='other']]"/>
+                    </xsl:if>
                 </xsl:if>
                 <xsl:apply-templates mode="global" select="./wd:ref[@type='main']"/>
             </div>
@@ -280,21 +282,30 @@
         <xsl:choose>
             <xsl:when test="wd:ref[@subentrytype='head']">
                 <xsl:if test="position()=1"><div>►</div></xsl:if>
-                　<xsl:value-of select="$title"/>｜<xsl:apply-templates mode="compact" select="wd:sense"/>
+                <xsl:text>　</xsl:text>
             </xsl:when>
             <xsl:when test="wd:ref[@subentrytype='tail']">
                 <xsl:if test="position()=1"><div>◀</div></xsl:if>
-                　<xsl:value-of select="$title"/>｜<xsl:apply-templates mode="compact" select="wd:sense"/>
+                <xsl:text>　</xsl:text>
             </xsl:when>
             <xsl:when test="wd:ref[@subentrytype='VwBsp']">
                 <xsl:if test="position()=1"><div>◇</div></xsl:if>
-                　<xsl:value-of select="$title"/>｜<xsl:apply-templates mode="compact" select="wd:sense"/>
+                <xsl:text>　</xsl:text>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:if test="position()=1"><div>&#160;</div></xsl:if>
-                <xsl:value-of select="$title"/>｜<xsl:apply-templates mode="compact" select="wd:sense"/>
             </xsl:otherwise>
         </xsl:choose>
+        <!-- Untereintrag hat Untereinträge? dann als Link -->
+        <xsl:choose>
+            <xsl:when test="count(key('refs', @id)) > 0">
+                <a href="x-dictionary:r:{@id}"><xsl:value-of select="$title"/></a><xsl:text>｜</xsl:text><xsl:apply-templates mode="compact" select="wd:sense"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$title"/><xsl:text>｜</xsl:text><xsl:apply-templates mode="compact" select="wd:sense"/>                
+            </xsl:otherwise>
+        </xsl:choose>
+                        
         </div>
     </xsl:template>
 
