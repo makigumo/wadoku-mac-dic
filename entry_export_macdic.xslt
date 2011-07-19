@@ -275,9 +275,6 @@
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
-        <xsl:variable name="yomi">
-            <xsl:apply-templates select="./wd:form/wd:pron[not(@type)]"/>
-        </xsl:variable>
         <div class="subheadword">
         <xsl:choose>
             <xsl:when test="wd:ref[@subentrytype='head']">
@@ -292,9 +289,9 @@
                 <xsl:if test="position()=1"><div>◇</div></xsl:if>
                 <xsl:text>　</xsl:text>
             </xsl:when>
-            <xsl:otherwise>
+            <xsl:when test="wd:ref[@subentrytype='WIdiom' or @subentrytype='ZSprW' or @subentrytype='other' or @subentrytype='XSatz']">
                 <xsl:if test="position()=1"><div>&#160;</div></xsl:if>
-            </xsl:otherwise>
+            </xsl:when>
         </xsl:choose>
         <!-- Untereintrag hat Untereinträge? dann als Link -->
         <xsl:choose>
