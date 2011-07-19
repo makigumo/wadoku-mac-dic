@@ -792,4 +792,19 @@
             <xsl:apply-templates/>
         </span>
     </xsl:template>
+
+    <xsl:template match="wd:impli">
+        <span class="impli">
+            <xsl:apply-templates/>
+        </span>
+        <xsl:if test="position() != last()">
+            <xsl:text>; </xsl:text>
+        </xsl:if>
+    </xsl:template>
+
+    <xsl:template match="wd:expli">
+        <span class="expli">
+            <xsl:apply-templates/>
+        </span>
+    </xsl:template>
 </xsl:stylesheet>
