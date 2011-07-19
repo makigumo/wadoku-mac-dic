@@ -775,9 +775,21 @@
         </span>
     </xsl:template>
 
+    <xsl:template match="wd:jap">
+        <span class="jap">
+            <xsl:apply-templates/>
+        </span>
+    </xsl:template>
+
     <xsl:template match="wd:link">
         <xsl:if test="@type='picture'">
             <img alt="{@url}" src="Images/{@url}.jpg"/>
         </xsl:if>
+    </xsl:template>
+
+    <xsl:template match="wd:etym">
+        <span class="etym">
+            <xsl:apply-templates/>
+        </span>
     </xsl:template>
 </xsl:stylesheet>
