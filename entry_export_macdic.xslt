@@ -41,7 +41,7 @@
         <d:entry id="{@id}" d:title="{$title}">
             <!-- index -->
             <d:index d:value="{$yomi}" d:title="{$title}" d:yomi="{$yomi}"/>
-            <xsl:apply-templates select="./wd:form/wd:orth[not(@midashigo='true')]">
+            <xsl:apply-templates select="./wd:form/wd:orth[not(@midashigo='true') and . != $yomi]">
                 <xsl:with-param name="title" select="$title"/>
                 <xsl:with-param name="yomi" select="$yomi"/>
             </xsl:apply-templates>
