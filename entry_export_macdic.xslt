@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:d="http://www.apple.com/DTDs/DictionaryService-1.0.rng"
-    xmlns:wd="http://www.wadoku.de/xml/entry" exclude-result-prefixes="d" version="1.0">
+<xsl:stylesheet
+        xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:d="http://www.apple.com/DTDs/DictionaryService-1.0.rng"
+        xmlns:wd="http://www.wadoku.de/xml/entry"
+        exclude-result-prefixes="d"
+        version="1.0">
     <xsl:output method="xml" omit-xml-declaration="yes" encoding="UTF-8"
         indent="no"/>
     <xsl:strip-space elements="*"/>
@@ -49,7 +52,7 @@
             <h1>
                 <span class="headword">
                     <xsl:choose>
-                        <xsl:when test="count(./wd:form/wd:pron[@accent])!='0'">
+                        <xsl:when test="count(./wd:form/wd:pron[@accent])!=0">
                             <xsl:variable name="accent" select="number(./wd:form/wd:pron/@accent)"/>
                             <xsl:variable name="hiragana" select="$yomi"/>
                             <xsl:variable name="letters" select="'ゅゃょぁぃぅぇぉ'"/>
@@ -262,15 +265,12 @@
         <xsl:variable name="title">
             <xsl:choose>
                 <xsl:when test="count(./wd:form/wd:orth[@midashigo]) != 0">
-                    <xsl:apply-templates mode="simple" select="./wd:form/wd:orth[@midashigo]"/>
+                    <xsl:apply-templates mode="simple" select="./wd:form/wd:orth[@midashigo][1]"/>
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:if test="./wd:form/wd:orth[not(@irr)]">
                         <xsl:apply-templates mode="simple"
-                            select="./wd:form/wd:orth[not(@irr) and not(@midashigo)]"/>
-                    </xsl:if>
-                    <xsl:if test="./wd:form/wd:orth[@irr]">
-                        <xsl:apply-templates mode="simple" select="./wd:form/wd:orth[@irr]"/>
+                            select="./wd:form/wd:orth[not(@irr) and not(@midashigo)][1]"/>
                     </xsl:if>
                 </xsl:otherwise>
             </xsl:choose>
