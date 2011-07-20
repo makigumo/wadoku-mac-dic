@@ -95,3 +95,6 @@ a:hover {
     border-width:2px 4px 2px 4px;
     margin-right: 0.5em;
 }
+.title:before{content:'\201e'}
+.title:after{content:'\201f'}
+.klammer{color:gray}
