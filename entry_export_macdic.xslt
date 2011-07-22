@@ -37,7 +37,36 @@
                     <xsl:apply-templates/>
                 </xsl:otherwise>
             </xsl:choose>
+            <xsl:call-template name="front"/>
         </d:dictionary>
+    </xsl:template>
+
+    <xsl:template name="front">
+        <d:entry id="wadoku_front_matter" d:title="Wadoku Info">
+            <d:index d:title="Wadoku Info" d:value="wadoku"/>
+            <h1><b>Wadoku Mac Wörterbuch</b></h1>
+            <h2>Über</h2>
+            <p>
+                Dieses Wörterbuch wurde aus dem XML-Datensatz
+                <xsl:if test="count(entries/@date) > 0">
+                    <xsl:text>(vom </xsl:text>
+                    <xsl:value-of select="entries/@date"/>
+                    <xsl:text>)</xsl:text>
+                </xsl:if>
+                des <a href="http://www.wadoku.de/">Wadoku-Online-Wörterbuches</a>
+                erstellt.
+
+            </p>
+            <h2>Lizenz</h2>
+            <p>
+                <a href="http://www.wadoku.de/wiki/x/ZQE">http://www.wadoku.de/wiki/x/ZQE</a>
+            </p>
+            <h2>Ressourcen</h2>
+            <p>
+                XML-Dump: <a href="http://www.wadoku.de/wiki/display/WAD/Downloads+und+Links">http://www.wadoku.de/wiki/display/WAD/Downloads+und+Links</a>
+                Transformations-Skript und CSS: <a href="https://gist.github.com/813338">https://gist.github.com/813338</a>
+            </p>
+        </d:entry>
     </xsl:template>
 
     <xsl:template match="wd:entry">
