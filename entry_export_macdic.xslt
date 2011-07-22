@@ -240,8 +240,10 @@
                     <!-- Komposita -->
                     <xsl:if test="count($subs[wd:ref[@subentrytype='head' or @subentrytype='tail']]) > 0">
                         <span class="label"><b>合成語</b></span>
-                        <xsl:apply-templates mode="subentry" select="$subs[wd:ref[@subentrytype='head']]"/>
-                        <xsl:apply-templates mode="subentry" select="$subs[wd:ref[@subentrytype='tail']]"/>
+                        <!-- Sichergehen, dass dieser Eintrag gemeint ist, bei evtl. Head- und tail-Kompositum -->
+                        <xsl:variable name="id" select="@id"/>
+                        <xsl:apply-templates mode="subentry" select="$subs[wd:ref[@subentrytype='head' and @id=$id]]"/>
+                        <xsl:apply-templates mode="subentry" select="$subs[wd:ref[@subentrytype='tail' and @id=$id]]"/>
                     </xsl:if>
                     <!-- Rest -->
                     <xsl:if test="(count($subs) - count($hasei) - count($subs[wd:ref[@subentrytype='head' or @subentrytype='tail']])) > 0">
