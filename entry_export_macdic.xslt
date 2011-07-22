@@ -6,18 +6,37 @@
         xmlns:wd="http://www.wadoku.de/xml/entry"
         exclude-result-prefixes="d"
         version="1.0">
-    <xsl:output method="xml" omit-xml-declaration="yes" encoding="UTF-8"
-        indent="no"/>
-    <xsl:strip-space elements="*"/>
+    <xsl:output
+            method="xml"
+            omit-xml-declaration="yes"
+            encoding="UTF-8"
+            indent="no"/>
+
+    <!-- Parameter, der bestimmt, ob Untereinträge ihre eigenen Einträge erhalten,
+         oder nur im Haupteintrag erscheinen, wenn = yes
+    -->
+    <xsl:param name="strictSubHeadIndex">no</xsl:param>
 
     <!-- lookup key für einträge mit referenzen auf einen Haupteintrag -->
     <xsl:key name="refs" match="wd:entry[./wd:ref[@type='main']]" use="./wd:ref/@id"/>
-    
+
     <xsl:template match="entries">
         <d:dictionary xmlns="http://www.w3.org/1999/xhtml"
             xmlns:d="http://www.apple.com/DTDs/DictionaryService-1.0.rng">
             <xsl:text>&#10;</xsl:text>
-            <xsl:apply-templates/>
+
+            <xsl:choose>
+                <xsl:when test="$strictSubHeadIndex = 'yes'">
+                    <!-- nur Einträge,
+                      * die Untereinträge haben
+                      * ohne Untereinträge und selbst kein Untereintrag sind
+                      -->
+                    <xsl:apply-templates select="wd:entry[count(./wd:ref[@type='main']) = 0 or count(key('refs',@id)) > 0]"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:apply-templates/>
+                </xsl:otherwise>
+            </xsl:choose>
         </d:dictionary>
     </xsl:template>
 
@@ -48,6 +67,11 @@
                 <xsl:with-param name="title" select="$title"/>
                 <xsl:with-param name="yomi" select="$yomi"/>
             </xsl:apply-templates>
+            <!-- Index für Untereinträge -->
+            <xsl:if test="$strictSubHeadIndex = 'yes'">
+                <xsl:apply-templates mode="subheadindex" select="key('refs',@id)"/>
+            </xsl:if>
+
             <!-- header -->
             <h1>
                 <span class="headword">
@@ -277,7 +301,7 @@
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
-        <div class="subheadword">
+        <div class="subheadword" id="{@id}">
         <xsl:choose>
             <xsl:when test="wd:ref[@subentrytype='head']">
                 <xsl:if test="position()=1"><div>►</div></xsl:if>
@@ -301,10 +325,9 @@
                 <a href="x-dictionary:r:{@id}"><xsl:value-of select="$title"/></a><xsl:text>｜</xsl:text><xsl:apply-templates mode="compact" select="wd:sense"/>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:value-of select="$title"/><xsl:text>｜</xsl:text><xsl:apply-templates mode="compact" select="wd:sense"/>                
+                <xsl:value-of select="$title"/><xsl:text>｜</xsl:text><xsl:apply-templates mode="compact" select="wd:sense"/>
             </xsl:otherwise>
         </xsl:choose>
-                        
         </div>
     </xsl:template>
 
@@ -320,6 +343,33 @@
         <xsl:if test="not(position()=last())">
             <xsl:text>; </xsl:text>
         </xsl:if>
+    </xsl:template>
+
+    <!-- subentry indices -->
+    <xsl:template mode="subheadindex" match="wd:entry">
+        <xsl:variable name="title">
+            <xsl:choose>
+                <xsl:when test="count(./wd:form/wd:orth[@midashigo]) != 0">
+                    <xsl:apply-templates mode="simple" select="./wd:form/wd:orth[@midashigo]"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:if test="./wd:form/wd:orth[not(@irr)]">
+                        <xsl:apply-templates mode="simple"
+                            select="./wd:form/wd:orth[not(@irr) and not(@midashigo)]"/>
+                    </xsl:if>
+                    <xsl:if test="./wd:form/wd:orth[@irr]">
+                        <xsl:apply-templates mode="simple" select="./wd:form/wd:orth[@irr]"/>
+                    </xsl:if>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <xsl:variable name="yomi" select="./wd:form/wd:pron[not(@type)]"/>
+        <xsl:variable name="id" select="./@id"/>
+
+        <d:index d:value="{$yomi}" d:title="{$title}" d:yomi="{$yomi}"/>
+        <xsl:for-each select="./wd:form/wd:orth[not(@midashigo='true') and . != $yomi]">
+            <d:index d:title="{$title}" d:yomi="{$yomi}" d:value="{.}" d:anchor="xpointer(//*[@id='{$id}'])'"/>
+        </xsl:for-each>
     </xsl:template>
 
     <xsl:template match="wd:orth[not(@midashigo='true')]">
