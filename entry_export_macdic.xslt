@@ -22,7 +22,7 @@
 
     <xsl:template match="entries">
         <d:dictionary xmlns="http://www.w3.org/1999/xhtml"
-            xmlns:d="http://www.apple.com/DTDs/DictionaryService-1.0.rng">
+                      xmlns:d="http://www.apple.com/DTDs/DictionaryService-1.0.rng">
             <xsl:text>&#10;</xsl:text>
 
             <xsl:choose>
@@ -78,7 +78,7 @@
                 <xsl:otherwise>
                     <xsl:if test="./wd:form/wd:orth[not(@irr)]">
                         <xsl:apply-templates mode="simple"
-                            select="./wd:form/wd:orth[not(@irr) and not(@midashigo)]"/>
+                                             select="./wd:form/wd:orth[not(@irr) and not(@midashigo)]"/>
                     </xsl:if>
                     <xsl:if test="./wd:form/wd:orth[@irr]">
                         <xsl:apply-templates mode="simple" select="./wd:form/wd:orth[@irr]"/>
@@ -109,7 +109,7 @@
                             <xsl:variable name="hiragana" select="$yomi"/>
                             <xsl:variable name="letters" select="'ゅゃょぁぃぅぇぉ'"/>
                             <xsl:variable name="firstMora"
-                                select="string-length(translate(substring($hiragana,2,1),$letters,''))=0"/>
+                                          select="string-length(translate(substring($hiragana,2,1),$letters,''))=0"/>
                             <xsl:choose>
                                 <xsl:when test="$accent=0">
                                     <xsl:choose>
@@ -158,34 +158,34 @@
                                                 <xsl:value-of select="substring($hiragana,1,2)"/>
                                             </span>
                                             <xsl:variable name="temp"
-                                                select="substring($hiragana,3,$accent - 1)"/>
+                                                          select="substring($hiragana,3,$accent - 1)"/>
                                             <xsl:variable name="count"
-                                                select="string-length($temp)-string-length(translate($temp,$letters,''))"/>
+                                                          select="string-length($temp)-string-length(translate($temp,$letters,''))"/>
                                             <xsl:variable name="trail"
-                                                select="string-length(translate(substring($hiragana,3 + $count + $accent - 1,1),$letters,''))"/>
+                                                          select="string-length(translate(substring($hiragana,3 + $count + $accent - 1,1),$letters,''))"/>
                                             <xsl:choose>
                                                 <xsl:when test="$trail=0">
-                                                  <span class="t r">
-                                                  <xsl:value-of
-                                                  select="substring($hiragana,3,$count + $accent)"/>
-                                                  </span>
-                                                  <span class="b">
-                                                  <xsl:value-of
-                                                  select="substring($hiragana,3 + $count + $accent)"
-                                                  />
-                                                  </span>
+                                                    <span class="t r">
+                                                        <xsl:value-of
+                                                                select="substring($hiragana,3,$count + $accent)"/>
+                                                    </span>
+                                                    <span class="b">
+                                                        <xsl:value-of
+                                                                select="substring($hiragana,3 + $count + $accent)"
+                                                                />
+                                                    </span>
                                                 </xsl:when>
                                                 <xsl:otherwise>
-                                                  <span class="t r">
-                                                  <xsl:value-of
-                                                  select="substring($hiragana,3,$count + $accent - 1)"
-                                                  />
-                                                  </span>
-                                                  <span class="b">
-                                                  <xsl:value-of
-                                                  select="substring($hiragana,3 + $count + $accent - 1)"
-                                                  />
-                                                  </span>
+                                                    <span class="t r">
+                                                        <xsl:value-of
+                                                                select="substring($hiragana,3,$count + $accent - 1)"
+                                                                />
+                                                    </span>
+                                                    <span class="b">
+                                                        <xsl:value-of
+                                                                select="substring($hiragana,3 + $count + $accent - 1)"
+                                                                />
+                                                    </span>
                                                 </xsl:otherwise>
                                             </xsl:choose>
                                         </xsl:when>
@@ -194,34 +194,34 @@
                                                 <xsl:value-of select="substring($hiragana,1,1)"/>
                                             </span>
                                             <xsl:variable name="temp"
-                                                select="substring($hiragana,2,$accent - 1)"/>
+                                                          select="substring($hiragana,2,$accent - 1)"/>
                                             <xsl:variable name="count"
-                                                select="string-length($temp)-string-length(translate($temp,$letters,''))"/>
+                                                          select="string-length($temp)-string-length(translate($temp,$letters,''))"/>
                                             <xsl:variable name="trail"
-                                                select="string-length(translate(substring($hiragana,2 + $count + $accent - 1,1),$letters,''))"/>
+                                                          select="string-length(translate(substring($hiragana,2 + $count + $accent - 1,1),$letters,''))"/>
                                             <xsl:choose>
                                                 <xsl:when test="$trail=0">
-                                                  <span class="t r">
-                                                  <xsl:value-of
-                                                  select="substring($hiragana,2,$count + $accent)"/>
-                                                  </span>
-                                                  <span class="b">
-                                                  <xsl:value-of
-                                                  select="substring($hiragana,2 + $count + $accent)"
-                                                  />
-                                                  </span>
+                                                    <span class="t r">
+                                                        <xsl:value-of
+                                                                select="substring($hiragana,2,$count + $accent)"/>
+                                                    </span>
+                                                    <span class="b">
+                                                        <xsl:value-of
+                                                                select="substring($hiragana,2 + $count + $accent)"
+                                                                />
+                                                    </span>
                                                 </xsl:when>
                                                 <xsl:otherwise>
-                                                  <span class="t r">
-                                                  <xsl:value-of
-                                                  select="substring($hiragana,2,$count + $accent - 1)"
-                                                  />
-                                                  </span>
-                                                  <span class="b">
-                                                  <xsl:value-of
-                                                  select="substring($hiragana,2 + $count + $accent - 1)"
-                                                  />
-                                                  </span>
+                                                    <span class="t r">
+                                                        <xsl:value-of
+                                                                select="substring($hiragana,2,$count + $accent - 1)"
+                                                                />
+                                                    </span>
+                                                    <span class="b">
+                                                        <xsl:value-of
+                                                                select="substring($hiragana,2 + $count + $accent - 1)"
+                                                                />
+                                                    </span>
                                                 </xsl:otherwise>
                                             </xsl:choose>
                                         </xsl:otherwise>
@@ -239,14 +239,14 @@
                         <xsl:when test="count(./wd:form//wd:orth[@midashigo]) != 0">
                             <xsl:text>&#12304;</xsl:text>
                             <xsl:apply-templates mode="simple"
-                                select="./wd:form//wd:orth[@midashigo]"/>
+                                                 select="./wd:form//wd:orth[@midashigo]"/>
                             <xsl:text>&#12305;</xsl:text>
                         </xsl:when>
                         <xsl:otherwise>
                             <xsl:if test="./wd:form//wd:orth[not(@irr)]">
                                 <xsl:text>&#12304;</xsl:text>
                                 <xsl:apply-templates mode="simple"
-                                    select="./wd:form//wd:orth[not(@irr) and not(@midashigo)]"/>
+                                                     select="./wd:form//wd:orth[not(@irr) and not(@midashigo)]"/>
                                 <xsl:text>&#12305;</xsl:text>
                             </xsl:if>
                             <xsl:if test="./wd:form//wd:orth[@irr]">
@@ -302,7 +302,7 @@
                         <xsl:apply-templates mode="subentry" select="$subs[wd:ref[@subentrytype='VwBsp']]"/>
                         <xsl:apply-templates mode="subentry" select="$subs[wd:ref[@subentrytype='XSatz']]"/>
                         <xsl:apply-templates mode="subentry"
-                                         select="$subs[wd:ref[
+                                             select="$subs[wd:ref[
                                          @subentrytype='WIdiom'
                                          or @subentrytype='ZSprW'
                                          or @subentrytype='other']]"/>
@@ -324,38 +324,38 @@
                 <xsl:otherwise>
                     <xsl:if test="./wd:form/wd:orth[not(@irr)]">
                         <xsl:apply-templates mode="simple"
-                            select="./wd:form/wd:orth[not(@irr) and not(@midashigo)][1]"/>
+                                             select="./wd:form/wd:orth[not(@irr) and not(@midashigo)][1]"/>
                     </xsl:if>
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
         <div class="subheadword" id="{@id}">
-        <xsl:choose>
-            <xsl:when test="wd:ref[@subentrytype='head']">
-                <xsl:if test="position()=1"><div>►</div></xsl:if>
-                <xsl:text>　</xsl:text>
-            </xsl:when>
-            <xsl:when test="wd:ref[@subentrytype='tail']">
-                <xsl:if test="position()=1"><div>◀</div></xsl:if>
-                <xsl:text>　</xsl:text>
-            </xsl:when>
-            <xsl:when test="wd:ref[@subentrytype='VwBsp']">
-                <xsl:if test="position()=1"><div>◇</div></xsl:if>
-                <xsl:text>　</xsl:text>
-            </xsl:when>
-            <xsl:when test="wd:ref[@subentrytype='WIdiom' or @subentrytype='ZSprW' or @subentrytype='other' or @subentrytype='XSatz']">
-                <xsl:if test="position()=1"><div>&#160;</div></xsl:if>
-            </xsl:when>
-        </xsl:choose>
-        <!-- Untereintrag hat Untereinträge? dann als Link -->
-        <xsl:choose>
-            <xsl:when test="count(key('refs', @id)) > 0">
-                <a href="x-dictionary:r:{@id}"><xsl:value-of select="$title"/></a><xsl:text>｜</xsl:text><xsl:apply-templates mode="compact" select="wd:sense"/>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:value-of select="$title"/><xsl:text>｜</xsl:text><xsl:apply-templates mode="compact" select="wd:sense"/>
-            </xsl:otherwise>
-        </xsl:choose>
+            <xsl:choose>
+                <xsl:when test="wd:ref[@subentrytype='head']">
+                    <xsl:if test="position()=1"><div>►</div></xsl:if>
+                    <xsl:text>　</xsl:text>
+                </xsl:when>
+                <xsl:when test="wd:ref[@subentrytype='tail']">
+                    <xsl:if test="position()=1"><div>◀</div></xsl:if>
+                    <xsl:text>　</xsl:text>
+                </xsl:when>
+                <xsl:when test="wd:ref[@subentrytype='VwBsp']">
+                    <xsl:if test="position()=1"><div>◇</div></xsl:if>
+                    <xsl:text>　</xsl:text>
+                </xsl:when>
+                <xsl:when test="wd:ref[@subentrytype='WIdiom' or @subentrytype='ZSprW' or @subentrytype='other' or @subentrytype='XSatz']">
+                    <xsl:if test="position()=1"><div>&#160;</div></xsl:if>
+                </xsl:when>
+            </xsl:choose>
+            <!-- Untereintrag hat Untereinträge? dann als Link -->
+            <xsl:choose>
+                <xsl:when test="count(key('refs', @id)) > 0">
+                    <a href="x-dictionary:r:{@id}"><xsl:value-of select="$title"/></a><xsl:text>｜</xsl:text><xsl:apply-templates mode="compact" select="wd:sense"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="$title"/><xsl:text>｜</xsl:text><xsl:apply-templates mode="compact" select="wd:sense"/>
+                </xsl:otherwise>
+            </xsl:choose>
         </div>
     </xsl:template>
 
@@ -383,7 +383,7 @@
                 <xsl:otherwise>
                     <xsl:if test="./wd:form/wd:orth[not(@irr)]">
                         <xsl:apply-templates mode="simple"
-                            select="./wd:form/wd:orth[not(@irr) and not(@midashigo)]"/>
+                                             select="./wd:form/wd:orth[not(@irr) and not(@midashigo)]"/>
                     </xsl:if>
                     <xsl:if test="./wd:form/wd:orth[@irr]">
                         <xsl:apply-templates mode="simple" select="./wd:form/wd:orth[@irr]"/>
@@ -400,9 +400,16 @@
         </xsl:for-each>
     </xsl:template>
 
+    <!-- index -->
     <xsl:template match="wd:orth[not(@midashigo='true')]">
         <xsl:param name="yomi"/>
-        <d:index d:title="{.}" d:yomi="{$yomi}">
+        <d:index d:title="{.}">
+            <!-- kein yomi wenn Schreibung in Hiragana -->
+            <xsl:if test=". != $yomi">
+                <xsl:attribute name="d:yomi">
+                    <xsl:value-of select="$yomi"/>
+                </xsl:attribute>
+            </xsl:if>
             <xsl:attribute name="d:value">
                 <xsl:value-of select="."/>
             </xsl:attribute>
@@ -413,58 +420,58 @@
         <xsl:if test="position()>1">
             <xsl:text> </xsl:text>
         </xsl:if>
+        <xsl:choose>
+            <xsl:when test="count(../wd:sense) > 1">
+                <span class="indexnr">
+                    <xsl:value-of select="position()"/>
+                </span>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:apply-templates select="../wd:usg"/>
+            </xsl:otherwise>
+        </xsl:choose>
+
+        <xsl:apply-templates select="wd:usg"/>
+        <xsl:apply-templates select="wd:trans"/>
+        <!--<xsl:apply-templates select = ".//wd:def"  />
+   <xsl:apply-templates select = ".//def"  /-->
+        <xsl:if test="./@season">
             <xsl:choose>
-                <xsl:when test="count(../wd:sense) > 1">
-                    <span class="indexnr">
-                        <xsl:value-of select="position()"/>
+                <xsl:when test="./@season='spring'">
+                    <span class="season spring" title="Jahreszeitenwort/季語: Frühling">
+                        <xsl:text>春</xsl:text>
                     </span>
                 </xsl:when>
-                <xsl:otherwise>
-                    <xsl:apply-templates select="../wd:usg"/>
-                </xsl:otherwise>
+                <xsl:when test="./@season='summer'">
+                    <span class="season summer" title="Jahreszeitenwort/季語: Sommer">
+                        <xsl:text>夏</xsl:text>
+                    </span>
+                </xsl:when>
+                <xsl:when test="./@season='autumn'">
+                    <span class="season autumn" title="Jahreszeitenwort/季語: Herbst">
+                        <xsl:text>秋</xsl:text>
+                    </span>
+                </xsl:when>
+                <xsl:when test="./@season='winter'">
+                    <span class="season winter" title="Jahreszeitenwort/季語: Winter">
+                        <xsl:text>冬</xsl:text>
+                    </span>
+                </xsl:when>
+                <xsl:when test="./@season='newyear'">
+                    <span class="season newyear" title="Jahreszeitenwort/季語: Neujahr">
+                        <xsl:text>新年</xsl:text>
+                    </span>
+                </xsl:when>
             </xsl:choose>
-
-            <xsl:apply-templates select="wd:usg"/>
-            <xsl:apply-templates select="wd:trans"/>
-            <!--<xsl:apply-templates select = ".//wd:def"  />
-                <xsl:apply-templates select = ".//def"  /-->
-            <xsl:if test="./@season">
-                <xsl:choose>
-                    <xsl:when test="./@season='spring'">
-                        <span class="season spring" title="Jahreszeitenwort/季語: Frühling">
-                            <xsl:text>春</xsl:text>
-                        </span>
-                    </xsl:when>
-                    <xsl:when test="./@season='summer'">
-                        <span class="season summer" title="Jahreszeitenwort/季語: Sommer">
-                            <xsl:text>夏</xsl:text>
-                        </span>
-                    </xsl:when>
-                    <xsl:when test="./@season='autumn'">
-                        <span class="season autumn" title="Jahreszeitenwort/季語: Herbst">
-                            <xsl:text>秋</xsl:text>
-                        </span>
-                    </xsl:when>
-                    <xsl:when test="./@season='winter'">
-                        <span class="season winter" title="Jahreszeitenwort/季語: Winter">
-                            <xsl:text>冬</xsl:text>
-                        </span>
-                    </xsl:when>
-                    <xsl:when test="./@season='newyear'">
-                        <span class="season newyear" title="Jahreszeitenwort/季語: Neujahr">
-                            <xsl:text>新年</xsl:text>
-                        </span>
-                    </xsl:when>
-                </xsl:choose>
-            </xsl:if>
-            <xsl:if test="./wd:etym">
-                <xsl:text> </xsl:text>
-                <xsl:apply-templates select="./wd:etym"/>
-            </xsl:if>
-            <xsl:if test="./wd:ref">
-                <xsl:text> </xsl:text>
-                <xsl:apply-templates select="./wd:ref"/>
-            </xsl:if>
+        </xsl:if>
+        <xsl:if test="./wd:etym">
+            <xsl:text> </xsl:text>
+            <xsl:apply-templates select="./wd:etym"/>
+        </xsl:if>
+        <xsl:if test="./wd:ref">
+            <xsl:text> </xsl:text>
+            <xsl:apply-templates select="./wd:ref"/>
+        </xsl:if>
     </xsl:template>
 
     <xsl:template match="wd:sense">
@@ -547,11 +554,11 @@
                     <xsl:when test="$lastchild">
                         <xsl:choose>
                             <xsl:when
-                                test="contains(substring($lastchild, string-length($lastchild), 1), '.')"/>
+                                    test="contains(substring($lastchild, string-length($lastchild), 1), '.')"/>
                             <xsl:when
-                                test="contains(substring($lastchild, string-length($lastchild), 1), '!')"/>
+                                    test="contains(substring($lastchild, string-length($lastchild), 1), '!')"/>
                             <xsl:when
-                                test="contains(substring($lastchild, string-length($lastchild), 1), '?')"/>
+                                    test="contains(substring($lastchild, string-length($lastchild), 1), '?')"/>
                             <xsl:otherwise>
                                 <xsl:text>.</xsl:text>
                             </xsl:otherwise>
@@ -566,7 +573,7 @@
                 <span class="rel">
                     <xsl:choose>
                         <xsl:when
-                            test="following-sibling::wd:trans[1]/wd:usg[@type='hint' and text()='rel.']">
+                                test="following-sibling::wd:trans[1]/wd:usg[@type='hint' and text()='rel.']">
                             <xsl:text> || </xsl:text>
                         </xsl:when>
                         <xsl:otherwise>
@@ -580,7 +587,7 @@
 
     <xsl:template match="wd:token">
         <xsl:if
-            test="position()&gt;1 and string-length(.)>0 and count(preceding-sibling::wd:text)=0">
+                test="position()&gt;1 and string-length(.)>0 and count(preceding-sibling::wd:text)=0">
             <xsl:text> </xsl:text>
         </xsl:if>
         <span class="token">
@@ -591,8 +598,7 @@
             <xsl:value-of select="./@genus"/>
             <xsl:value-of select="./@numerus"/>
             <xsl:if test="not(@genus) and not(@numerus) and @article='false'">NAr</xsl:if>
-            <xsl:if test="not(@genus) and not(@numerus) and @noArticleNecessary='true'"
-                >NArN</xsl:if>
+            <xsl:if test="not(@genus) and not(@numerus) and @noArticleNecessary='true'">NArN</xsl:if>
             <xsl:if test="@article='false' or @noArticleNecessary='true'">)</xsl:if>
         </span>
     </xsl:template>
@@ -695,7 +701,7 @@
                 <xsl:otherwise>
                     <xsl:if test="$entry/wd:form/wd:orth[not(@irr)]">
                         <xsl:apply-templates mode="simple"
-                            select="$entry/wd:form/wd:orth[not(@irr) and not(@midashigo)]"/>
+                                             select="$entry/wd:form/wd:orth[not(@irr) and not(@midashigo)]"/>
                     </xsl:if>
                     <xsl:if test="$entry/wd:form/wd:orth[@irr]">
                         <xsl:apply-templates mode="simple" select="$entry/wd:form/wd:orth[@irr]"/>
@@ -747,7 +753,7 @@
                 <xsl:value-of select="@type"/>
                 <xsl:if test="not(contains(substring(@type, string-length(@type), 1), '.'))">
                     <xsl:if
-                        test="@type!='Redensart' and @type!='Kanji' and @type!='BspSatz' and @type!='Sonderzeichen' and @type!='Sonderform'">
+                            test="@type!='Redensart' and @type!='Kanji' and @type!='BspSatz' and @type!='Sonderzeichen' and @type!='Sonderform'">
                         <xsl:text>.</xsl:text>
                     </xsl:if>
                 </xsl:if>
