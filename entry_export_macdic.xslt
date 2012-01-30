@@ -93,7 +93,6 @@
             <!-- index -->
             <d:index d:value="{$yomi}" d:title="{$title}" d:yomi="{$yomi}"/>
             <xsl:apply-templates select="./wd:form/wd:orth[not(@midashigo='true') and . != $yomi]">
-                <xsl:with-param name="title" select="$title"/>
                 <xsl:with-param name="yomi" select="$yomi"/>
             </xsl:apply-templates>
             <!-- Index für Untereinträge -->
@@ -402,9 +401,8 @@
     </xsl:template>
 
     <xsl:template match="wd:orth[not(@midashigo='true')]">
-        <xsl:param name="title"/>
         <xsl:param name="yomi"/>
-        <d:index d:title="{$title}" d:yomi="{$yomi}">
+        <d:index d:title="{.}" d:yomi="{$yomi}">
             <xsl:attribute name="d:value">
                 <xsl:value-of select="."/>
             </xsl:attribute>
