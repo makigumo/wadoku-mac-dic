@@ -45,7 +45,7 @@ HTML-Datei mit den Voreinstellungselementen.
 
 ## Änderungen in build_dict.sh
 
-```
+```diff
 diff --git a/bin/build_dict.sh b/bin/build_dict.sh
 index 369d708..c354215 100755
 --- a/bin/build_dict.sh
