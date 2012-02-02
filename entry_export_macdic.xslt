@@ -885,4 +885,10 @@
             <xsl:apply-templates/>
         </span>
     </xsl:template>
+
+    <xsl:template match="wd:*">
+        <span class="{name(.)}">
+            <xsl:apply-templates/>
+        </span>
+    </xsl:template>
 </xsl:stylesheet>
