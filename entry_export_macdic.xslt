@@ -782,7 +782,12 @@
         </xsl:if>
         <span class="klammer">
             <xsl:text>(</xsl:text>
-            <xsl:apply-templates/>
+            <xsl:for-each select="./*">
+                <xsl:apply-templates select="."/>
+                <xsl:if test="not(position()=last())">
+                    <xsl:text>; </xsl:text>
+                </xsl:if>
+            </xsl:for-each>
             <!--  Scientific in Klammern
                 <xsl:if test="count(//wd:trans[@langdesc='scientific'])>0">
                 <xsl:text>; </xsl:text>
@@ -796,29 +801,12 @@
     </xsl:template>
 
     <xsl:template match="wd:birthdeath">
-        <xsl:if test="position()&gt;1">
-            <xsl:text> </xsl:text>
-        </xsl:if>
-        <xsl:apply-templates/>
-    </xsl:template>
-
-    <xsl:template match="wd:bracket/wd:birthdeath">
-        <xsl:if test="position()&gt;1">
-            <xsl:text>; </xsl:text>
-        </xsl:if>
-        <xsl:apply-templates/>
-    </xsl:template>
-
-    <xsl:template match="wd:def">
-        <span class="def">
+        <span class="birthdeath">
             <xsl:apply-templates/>
         </span>
     </xsl:template>
 
-    <xsl:template match="wd:bracket/wd:def">
-        <xsl:if test="count(preceding-sibling::*)&gt;0">
-            <xsl:text>; </xsl:text>
-        </xsl:if>
+    <xsl:template match="wd:def">
         <span class="def">
             <xsl:apply-templates/>
         </span>
@@ -848,9 +836,6 @@
     </xsl:template>
 
     <xsl:template match="wd:expl">
-        <xsl:if test="position()&gt;1">
-            <xsl:text>; </xsl:text>
-        </xsl:if>
         <span class="expl">
             <xsl:apply-templates/>
         </span>
