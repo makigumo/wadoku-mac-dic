@@ -879,4 +879,10 @@
             <xsl:apply-templates/>
         </span>
     </xsl:template>
+
+    <xsl:template match="wd:date">
+        <span class="date">
+            <xsl:apply-templates/>
+        </span>
+    </xsl:template>
 </xsl:stylesheet>
