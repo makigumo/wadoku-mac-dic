@@ -800,18 +800,6 @@
         </xsl:if>
     </xsl:template>
 
-    <xsl:template match="wd:birthdeath">
-        <span class="birthdeath">
-            <xsl:apply-templates/>
-        </span>
-    </xsl:template>
-
-    <xsl:template match="wd:def">
-        <span class="def">
-            <xsl:apply-templates/>
-        </span>
-    </xsl:template>
-
     <xsl:template match="wd:famn">
         <xsl:if test="position()&gt;1">
             <xsl:text> </xsl:text>
@@ -826,29 +814,12 @@
             <xsl:apply-templates/>
         </em>
     </xsl:template>
+
     <xsl:template match="wd:foreign">
         <xsl:if test="position()&gt;1 and not(starts-with(text(), ','))">
             <xsl:text> </xsl:text>
         </xsl:if>
         <span class="foreign">
-            <xsl:apply-templates/>
-        </span>
-    </xsl:template>
-
-    <xsl:template match="wd:expl">
-        <span class="expl">
-            <xsl:apply-templates/>
-        </span>
-    </xsl:template>
-
-    <xsl:template match="wd:transcr">
-        <span class="transcr">
-            <xsl:apply-templates/>
-        </span>
-    </xsl:template>
-
-    <xsl:template match="wd:jap">
-        <span class="jap">
             <xsl:apply-templates/>
         </span>
     </xsl:template>
@@ -859,12 +830,6 @@
         </xsl:if>
     </xsl:template>
 
-    <xsl:template match="wd:etym">
-        <span class="etym">
-            <xsl:apply-templates/>
-        </span>
-    </xsl:template>
-
     <xsl:template match="wd:impli">
         <span class="impli">
             <xsl:apply-templates/>
@@ -872,18 +837,6 @@
         <xsl:if test="position() != last()">
             <xsl:text>; </xsl:text>
         </xsl:if>
-    </xsl:template>
-
-    <xsl:template match="wd:expli">
-        <span class="expli">
-            <xsl:apply-templates/>
-        </span>
-    </xsl:template>
-
-    <xsl:template match="wd:date">
-        <span class="date">
-            <xsl:apply-templates/>
-        </span>
     </xsl:template>
 
     <xsl:template match="wd:*">
