@@ -95,6 +95,7 @@ a:hover {
 .usage{color:maroon;font-style:italic}
 .season:before{content:'\3010'}
 .season:after{content:'\3011'}
+.season{color: gray}
 .latin{font-style: italic;}
 .label{
     font-family: 'Hiragino Kaku Gothic ProN';
