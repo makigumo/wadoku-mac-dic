@@ -44,9 +44,11 @@
     <xsl:template name="front">
         <d:entry id="wadoku_front_matter" d:title="Wadoku Info">
             <d:index d:title="Wadoku Info" d:value="wadoku"/>
-            <h1><b>Wadoku Mac Wörterbuch</b></h1>
-            <h2>Über</h2>
-            <p>
+            <h1 d:pr="de">WaDoku - Japanisch-Deutsches Wörterbuch für Mac</h1>
+            <h1 d:pr="ja">Mac用和独辞典</h1>
+            <h2 d:pr="de">Über</h2>
+            <h2 d:pr="ja">本辞典について</h2>
+            <p d:pr="de">
                 Dieses Wörterbuch wurde aus dem XML-Datensatz
                 <xsl:if test="count(entries/@date) > 0">
                     <xsl:text>(vom </xsl:text>
@@ -55,13 +57,53 @@
                 </xsl:if>
                 des <a href="http://www.wadoku.de/">Wadoku-Online-Wörterbuches</a>
                 erstellt.
-
             </p>
-            <h2>Lizenz</h2>
+            <p d:pr="ja">
+                <xsl:text>本辞典は</xsl:text>
+                <a href="http://www.wadoku.de/">和独辞典のオンライン版</a>
+                <xsl:text>のXMLデータ</xsl:text>
+                <xsl:if test="count(entries/@date) > 0">
+                    <xsl:text>(</xsl:text>
+                    <xsl:value-of select="entries/@date"/>
+                    <xsl:text>より)</xsl:text>
+                </xsl:if>
+                <xsl:text>を変換したものです。</xsl:text>
+            </p>
+            <h2 d:pr="de">Statistik</h2>
+            <h2 d:pr="ja">統計</h2>
+            <p>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th d:pr="de">Datensätze</th>
+                            <th d:pr="ja">レコード数</th>
+                            <td><xsl:value-of select="count(wd:entry)"/></td>
+                        </tr>
+                        <tr>
+                            <th d:pr="de">Schreibungen</th>
+                            <th d:pr="ja">表記数</th>
+                            <td><xsl:value-of select="count(wd:entry//wd:orth[not(@type='midashigo')])"/></td>
+                        </tr>
+                        <tr>
+                            <th d:pr="de">Bedeutungen</th>
+                            <th d:pr="ja">意味数</th>
+                            <td><xsl:value-of select="count(wd:entry//wd:sense)"/></td>
+                        </tr>
+                        <tr>
+                            <th d:pr="de">Übersetzungen</th>
+                            <th d:pr="ja">翻訳項目数</th>
+                            <td><xsl:value-of select="count(wd:entry//wd:trans)"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </p>
+            <h2 d:pr="de">Lizenz</h2>
+            <h2 d:pr="ja">ライセンス</h2>
             <p>
                 <a href="http://www.wadoku.de/wiki/x/ZQE">http://www.wadoku.de/wiki/x/ZQE</a>
             </p>
-            <h2>Ressourcen</h2>
+            <h2 d:pr="de">Ressourcen</h2>
+            <h2 d:pr="ja">リソース</h2>
             <p>
                 XML-Dump: <a href="http://www.wadoku.de/wiki/display/WAD/Downloads+und+Links">http://www.wadoku.de/wiki/display/WAD/Downloads+und+Links</a>
                 Transformations-Skript und CSS: <a href="https://gist.github.com/813338">https://gist.github.com/813338</a>
