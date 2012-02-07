@@ -406,7 +406,7 @@
     <xsl:template mode="simple" match="wd:form/wd:orth">
         <xsl:choose>
             <xsl:when test="@midashigo='true'">
-                <xsl:value-of select="translate(.,'(){}','（）｛｝')"/>
+                <xsl:value-of select="translate(.,'(){}・','（）｛｝･')"/>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:apply-templates/>
