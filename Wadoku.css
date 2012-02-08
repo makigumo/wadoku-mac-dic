@@ -61,8 +61,7 @@ a:hover {
 .t{border-top:1px dotted gray}
 .l{border-left:1px dotted gray}
 .r{border-right:1px dotted gray}
-.transcr:before{content:'<'}
-.transcr:after{content:'>'}
+.transcr{font-style: italic;}
 .jap + .transcr:before,.transcr + .jap:before{content:'\0020'}
 .reflink {margin-left:4px;margin-right:4px;}
 .reflink.syn:before{content:'\21d2\00a0'}
@@ -86,8 +85,9 @@ a:hover {
     display: inline-block;
     padding: 0 2px;
 }
-.hinshi:before {content: '〘'}
-.hinshi:after {content: '〙'}
+.hinshi:before {content: '('}
+.hinshi:after {content: ')'}
+.hinshi .transcr+.expl:before {content: ' '}
 .subheadword{
     font-size: 80%;
 }
