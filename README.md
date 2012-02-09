@@ -21,11 +21,11 @@ Transformationsskript zur Umsetzung der Voreinstellungen.
 
 * Muss in OtherResources liegen.
 
-### prefs.xhtml
+### Resources
 
-HTML-Datei mit den Voreinstellungselementen.
+Verzeichnis mit HTML-Dateien für die Voreinstellungselementen.
 
-* Muss in OtherResources liegen.
+* Verzeichnis muss in OtherResources liegen.
 
 ## plist-Einträge
 
