@@ -300,6 +300,7 @@
                     </xsl:choose>
                 </span>
             </h1>
+            <div class="uid" d:pr="show_uid"><xsl:value-of select="@id"/></div>
             <!-- meaning -->
             <div class="meaning">
                 <xsl:if test="count(./wd:gramGrp/wd:pos) > 0">

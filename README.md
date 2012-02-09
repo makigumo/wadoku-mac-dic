@@ -4,7 +4,7 @@ Kleines Howto zur Erzeugung des Mac Dictionarys.
 
 ## Dateien
 
-### entry_export_macdic.xslt 
+### entry_export_macdic.xslt
 
 Transformationsskript zur Umwandlung der XML-Daten in das XML-Format
 des Mac Dictionary Development Kit (/Developer/Extras/Dictionary Development Kit).
@@ -33,10 +33,10 @@ HTML-Datei mit den Voreinstellungselementen.
 	<key>DCSDictionaryDefaultPrefs</key>
 	<dict>
 	    <key>lang</key>
-            <string>0</string>
-            <key>version</key>
-            <string>1</string>
-        </dict>
+        <string>0</string>
+        <key>version</key>
+        <string>1</string>
+    </dict>
 	<key>DCSDictionaryPrefsHTML</key>
 	<string>prefs.xhtml</string>
 	<key>DCSDictionaryXSL</key>
@@ -52,11 +52,11 @@ index 369d708..c354215 100755
 +++ b/bin/build_dict.sh
 @@ -8,7 +8,7 @@ DICT_BUILD_TOOL_DIR=${DICT_BUILD_TOOL_DIR:-"/Developer/Extras/Dictionary Develop
  DICT_BUILD_TOOL_BIN="$DICT_BUILD_TOOL_DIR/bin"
- 
+
  do_add_supplementary_key=1
 -preserve_unused_ref_id_in_reference_index=0
 +preserve_unused_ref_id_in_reference_index=1
- 
+
  COMPRESS_OPT=
  COMPRESS_SETTING=0
 ```

@@ -29,6 +29,10 @@ span.hyouki {
     vertical-align:10%;
 }
 
+.uid {
+    font-size: 80%;
+}
+
 a       {
     color:#2971A7;
     text-decoration:none;
