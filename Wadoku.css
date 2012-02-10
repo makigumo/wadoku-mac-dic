@@ -56,7 +56,7 @@ a:hover {
     display:block;
     margin: 4px 0;
 }
-.klammer:before{content:'\0020'}
+.klammer:before,.klammer+.token:before{content:'\0020'}
 .etym {color: gray;}
 .etym:before{content:'\00a0('}
 .etym:after{content:')'}
