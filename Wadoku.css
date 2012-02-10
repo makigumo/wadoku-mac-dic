@@ -97,6 +97,7 @@ a:hover {
 }
 .reg{font-style:italic;color:#483d8b}
 .usage{color:maroon;font-style:italic}
+.reg+.token:before,.usage+.token:before{content:'\0020'}
 .season:before{content:'\3010'}
 .season:after{content:'\3011'}
 .season{color: gray}
