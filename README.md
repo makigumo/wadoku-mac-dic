@@ -1,13 +1,29 @@
 # Howto
 
-Kleines Howto zur Erzeugung des Mac Dictionarys.
+Kleines Howto zur Erzeugung des Mac-Wörterbuches.
+
+## Vorbemerkungen
+
+Das erzeugte Wörterbuch ist kompatibel mit OS X 10.5 (Leopard).
+Folgende Option erzeugt ein mit OS X 10.6 kompatibles Wörterbuch,
+dieses ist im Allgemeinen stärker komprimiert und nimmt damit
+weniger Platz auf der Festplatte ein.
+Im Makefile:
+```
+DICT_BUILD_OPTS = -v 10.6
+```
+
+Es wird das Dictionary Development Kit benötigt:, welches bei installiertem Xcode
+in ``/Developer/Extras/Dictionary Development Kit`` liegt.
+Beim App-Store-Download von Xcode 4.3 ist es im Extra-Paket
+``Auxiliary Tools for Xcode``[1](https://developer.apple.com/downloads/index.action).
 
 ## Dateien
 
 ### entry_export_macdic.xslt
 
 Transformationsskript zur Umwandlung der XML-Daten in das XML-Format
-des Mac Dictionary Development Kit (/Developer/Extras/Dictionary Development Kit).
+des Mac Dictionary Development Kit.
 
 ### Wadoku.css
 
@@ -30,6 +46,8 @@ Verzeichnis mit HTML-Dateien für die Voreinstellungselementen.
 ## plist-Einträge
 
 ```xml
+    <key>DCSDictionaryFrontMatterReferenceID</key>
+    <string>wadoku_front_matter</string
 	<key>DCSDictionaryDefaultPrefs</key>
 	<dict>
 	    <key>lang</key>
@@ -63,4 +81,4 @@ index 369d708..c354215 100755
 
 ## Referenzen
 
-http://developer.apple.com/library/mac/#documentation/UserExperience/Conceptual/DictionaryServicesProgGuide/Introduction/Introduction.html
+[Dictionary Services Programming Guide](http://developer.apple.com/library/mac/#documentation/UserExperience/Conceptual/DictionaryServicesProgGuide/Introduction/Introduction.html)
