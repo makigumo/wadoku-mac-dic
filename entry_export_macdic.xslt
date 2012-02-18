@@ -6,6 +6,7 @@
         xmlns:wd="http://www.wadoku.de/xml/entry"
         exclude-result-prefixes="d"
         version="1.0">
+    <xsl:import href="front_matter.xsl"/>
     <xsl:output
             method="xml"
             omit-xml-declaration="yes"
@@ -39,76 +40,6 @@
             </xsl:choose>
             <xsl:call-template name="front"/>
         </d:dictionary>
-    </xsl:template>
-
-    <xsl:template name="front">
-        <d:entry id="wadoku_front_matter" d:title="Wadoku Info">
-            <d:index d:title="Wadoku Info" d:value="wadoku"/>
-            <h1 d:pr="de">WaDoku - Japanisch-Deutsches Wörterbuch für Mac</h1>
-            <h1 d:pr="ja">Mac用和独辞典</h1>
-            <h2 d:pr="de">Über</h2>
-            <h2 d:pr="ja">本辞典について</h2>
-            <p d:pr="de">
-                Dieses Wörterbuch wurde aus dem XML-Datensatz
-                <xsl:if test="count(entries/@date) > 0">
-                    <xsl:text>(vom </xsl:text>
-                    <xsl:value-of select="entries/@date"/>
-                    <xsl:text>)</xsl:text>
-                </xsl:if>
-                des <a href="http://www.wadoku.de/">Wadoku-Online-Wörterbuches</a>
-                erstellt.
-            </p>
-            <p d:pr="ja">
-                <xsl:text>本辞典は</xsl:text>
-                <a href="http://www.wadoku.de/">和独辞典のオンライン版</a>
-                <xsl:text>のXMLデータ</xsl:text>
-                <xsl:if test="count(entries/@date) > 0">
-                    <xsl:text>(</xsl:text>
-                    <xsl:value-of select="entries/@date"/>
-                    <xsl:text>より)</xsl:text>
-                </xsl:if>
-                <xsl:text>を変換したものです。</xsl:text>
-            </p>
-            <h2 d:pr="de">Statistik</h2>
-            <h2 d:pr="ja">統計</h2>
-            <p>
-                <table>
-                    <tbody>
-                        <tr>
-                            <th d:pr="de">Datensätze</th>
-                            <th d:pr="ja">レコード数</th>
-                            <td><xsl:value-of select="count(wd:entry)"/></td>
-                        </tr>
-                        <tr>
-                            <th d:pr="de">Schreibungen</th>
-                            <th d:pr="ja">表記数</th>
-                            <td><xsl:value-of select="count(wd:entry//wd:orth[not(@type='midashigo')])"/></td>
-                        </tr>
-                        <tr>
-                            <th d:pr="de">Bedeutungen</th>
-                            <th d:pr="ja">意味数</th>
-                            <td><xsl:value-of select="count(wd:entry//wd:sense)"/></td>
-                        </tr>
-                        <tr>
-                            <th d:pr="de">Übersetzungen</th>
-                            <th d:pr="ja">翻訳項目数</th>
-                            <td><xsl:value-of select="count(wd:entry//wd:trans)"/></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </p>
-            <h2 d:pr="de">Lizenz</h2>
-            <h2 d:pr="ja">ライセンス</h2>
-            <p>
-                <a href="http://www.wadoku.de/wiki/x/ZQE">http://www.wadoku.de/wiki/x/ZQE</a>
-            </p>
-            <h2 d:pr="de">Ressourcen</h2>
-            <h2 d:pr="ja">リソース</h2>
-            <p>
-                XML-Dump: <a href="http://www.wadoku.de/wiki/display/WAD/Downloads+und+Links">http://www.wadoku.de/wiki/display/WAD/Downloads+und+Links</a>
-                Transformations-Skript und CSS: <a href="https://gist.github.com/813338">https://gist.github.com/813338</a>
-            </p>
-        </d:entry>
     </xsl:template>
 
     <xsl:template match="wd:entry">
@@ -362,36 +293,10 @@
     <!-- subentry -->
     <xsl:template mode="subentry" match="wd:entry">
         <xsl:variable name="title">
-            <xsl:choose>
-                <xsl:when test="count(./wd:form/wd:orth[@midashigo]) != 0">
-                    <xsl:apply-templates mode="simple" select="./wd:form/wd:orth[@midashigo][1]"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:if test="./wd:form/wd:orth[not(@irr)]">
-                        <xsl:apply-templates mode="simple"
-                                             select="./wd:form/wd:orth[not(@irr) and not(@midashigo)][1]"/>
-                    </xsl:if>
-                </xsl:otherwise>
-            </xsl:choose>
+            <xsl:call-template name="get_subentry_title"/>
         </xsl:variable>
         <div class="subheadword" id="{@id}">
-            <xsl:choose>
-                <xsl:when test="wd:ref[@subentrytype='head']">
-                    <xsl:if test="position()=1"><div>►</div></xsl:if>
-                    <xsl:text>　</xsl:text>
-                </xsl:when>
-                <xsl:when test="wd:ref[@subentrytype='tail']">
-                    <xsl:if test="position()=1"><div>◀</div></xsl:if>
-                    <xsl:text>　</xsl:text>
-                </xsl:when>
-                <xsl:when test="wd:ref[@subentrytype='VwBsp']">
-                    <xsl:if test="position()=1"><div>◇</div></xsl:if>
-                    <xsl:text>　</xsl:text>
-                </xsl:when>
-                <xsl:when test="wd:ref[@subentrytype='WIdiom' or @subentrytype='ZSprW' or @subentrytype='other' or @subentrytype='XSatz']">
-                    <xsl:if test="position()=1"><div>&#160;</div></xsl:if>
-                </xsl:when>
-            </xsl:choose>
+            <xsl:call-template name="get_subentry_type"/>
             <!-- Untereintrag hat Untereinträge? dann als Link -->
             <xsl:choose>
                 <xsl:when test="count(key('refs', @id)) > 0">
@@ -402,6 +307,40 @@
                 </xsl:otherwise>
             </xsl:choose>
         </div>
+    </xsl:template>
+
+    <xsl:template name="get_subentry_title">
+        <xsl:choose>
+            <xsl:when test="count(./wd:form/wd:orth[@midashigo]) != 0">
+                <xsl:apply-templates mode="simple" select="./wd:form/wd:orth[@midashigo][1]"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:if test="./wd:form/wd:orth[not(@irr)]">
+                    <xsl:apply-templates mode="simple"
+                                         select="./wd:form/wd:orth[not(@irr) and not(@midashigo)][1]"/>
+                </xsl:if>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
+    <xsl:template name="get_subentry_type">
+        <xsl:choose>
+            <xsl:when test="wd:ref[@subentrytype='head']">
+                <xsl:if test="position()=1"><div>►</div></xsl:if>
+                <xsl:text>　</xsl:text>
+            </xsl:when>
+            <xsl:when test="wd:ref[@subentrytype='tail']">
+                <xsl:if test="position()=1"><div>◀</div></xsl:if>
+                <xsl:text>　</xsl:text>
+            </xsl:when>
+            <xsl:when test="wd:ref[@subentrytype='VwBsp']">
+                <xsl:if test="position()=1"><div>◇</div></xsl:if>
+                <xsl:text>　</xsl:text>
+            </xsl:when>
+            <xsl:when test="wd:ref[@subentrytype='WIdiom' or @subentrytype='ZSprW' or @subentrytype='other' or @subentrytype='XSatz']">
+                <xsl:if test="position()=1"><div>&#160;</div></xsl:if>
+            </xsl:when>
+        </xsl:choose>
     </xsl:template>
 
     <xsl:template mode="simple" match="wd:form/wd:orth">
@@ -860,10 +799,11 @@
         </span>
     </xsl:template>
 
-    <xsl:template match="wd:link">
-        <xsl:if test="@type='picture'">
-            <img alt="{@url}" src="Images/{@url}.jpg"/>
-        </xsl:if>
+    <xsl:template match="wd:link[@type='picture']">
+        <div class="image">
+            <img alt="{text()}" src="Images/{@url}.jpg"/>
+            <div class="caption"><xsl:value-of select="text()"/></div>
+        </div>
     </xsl:template>
 
     <xsl:template match="wd:impli">

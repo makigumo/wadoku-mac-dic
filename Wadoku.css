@@ -43,7 +43,14 @@ a:hover {
     text-decoration:underline;
 }
 
-
+.image {
+    text-align: center;
+}
+.image .caption {
+    color:gray;
+    font-size: 80%;
+    font-weight: bold;
+}
 .genus,.foreign{
     font-style:italic;
     color:gray
@@ -149,7 +156,9 @@ html.apple_client-panel a:active
 html.apple_client-panel div.lineart {
     display: none;
 }
-html.apple_client-panel img {
+html.apple_client-panel .image,
+html.apple_client-panel .uid
+{
     display: none;
 }
 
