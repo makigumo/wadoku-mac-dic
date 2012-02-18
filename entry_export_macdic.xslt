@@ -7,6 +7,7 @@
         exclude-result-prefixes="d"
         version="1.0">
     <xsl:import href="front_matter.xsl"/>
+    <xsl:import href="image_appendix.xsl"/>
     <xsl:output
             method="xml"
             omit-xml-declaration="yes"
@@ -39,6 +40,7 @@
                 </xsl:otherwise>
             </xsl:choose>
             <xsl:call-template name="front"/>
+            <xsl:call-template name="image_appendix"/>
         </d:dictionary>
     </xsl:template>
 
