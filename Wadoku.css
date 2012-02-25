@@ -153,11 +153,10 @@ html.apple_client-panel a:active
     color: #000000;
     text-decoration: none;
 }
-html.apple_client-panel div.lineart {
-    display: none;
-}
 html.apple_client-panel .image,
-html.apple_client-panel .uid
+html.apple_client-panel .uid,
+html.apple_client-panel .hinshi,
+html.apple_client-panel .parentheadword
 {
     display: none;
 }
@@ -169,13 +168,8 @@ html.apple_client-panel h1 > *
     color: #777777;
 }
 
-html.apple_client-panel .hinshi {
-    display: none;
-}
-
 html.apple_client-panel span.meaning,
-html.apple_client-panel span.subheadword,
-html.apple_client-panel span.example
+html.apple_client-panel span.subheadword
 {
     display: block;
     padding-bottom: 2px;
