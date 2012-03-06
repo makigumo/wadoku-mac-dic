@@ -8,6 +8,7 @@
                 doctype-system="http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd" />
     <xsl:param name="lang">0</xsl:param>
     <xsl:param name="show_uid-yes">0</xsl:param>
+    <xsl:param name="show_genera-yes">1</xsl:param>
 
     <xsl:template match="*[@d:pr='ja']">
         <xsl:if test="$lang = '0'">
@@ -33,6 +34,14 @@
                         select="."/></xsl:attribute>
                 <xsl:value-of select="."/>
             </xsl:element>
+        </xsl:if>
+    </xsl:template>
+
+    <xsl:template match="span[@class='genus']">
+        <xsl:if test="$show_genera-yes = '1'">
+            <xsl:copy>
+                <xsl:apply-templates select="@*|node()" />
+            </xsl:copy>
         </xsl:if>
     </xsl:template>
 

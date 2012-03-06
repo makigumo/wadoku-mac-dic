@@ -39,7 +39,7 @@ Transformationsskript zur Umsetzung der Voreinstellungen.
 
 ### Resources
 
-Verzeichnis mit HTML-Dateien für die Voreinstellungselementen.
+Verzeichnis mit HTML-Dateien für die Voreinstellungselemente.
 
 * Verzeichnis muss in OtherResources liegen.
 
@@ -53,6 +53,10 @@ Verzeichnis mit HTML-Dateien für die Voreinstellungselementen.
 	    <key>lang</key>
         <string>0</string>
         <key>version</key>
+        <string>1</string>
+        <key>show_uid</key>
+        <string/>
+        <key>show_genera</key>
         <string>1</string>
     </dict>
 	<key>DCSDictionaryPrefsHTML</key>
