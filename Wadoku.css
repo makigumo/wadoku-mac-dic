@@ -43,6 +43,10 @@ a:hover {
     text-decoration:underline;
 }
 
+rt {
+    color: gray;
+}
+
 .image {
     text-align: center;
 }

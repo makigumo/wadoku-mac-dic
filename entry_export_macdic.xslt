@@ -300,14 +300,22 @@
         <div class="subheadword" id="{@id}">
             <xsl:call-template name="get_subentry_type"/>
             <!-- Untereintrag hat Untereinträge? dann als Link -->
-            <xsl:choose>
-                <xsl:when test="count(key('refs', @id)) > 0">
-                    <a href="x-dictionary:r:{@id}"><xsl:value-of select="$title"/></a><xsl:text>｜</xsl:text><xsl:apply-templates mode="compact" select="wd:sense"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:value-of select="$title"/><xsl:text>｜</xsl:text><xsl:apply-templates mode="compact" select="wd:sense"/>
-                </xsl:otherwise>
-            </xsl:choose>
+            <ruby>
+                <rb>
+                    <xsl:choose>
+                        <xsl:when test="count(key('refs', @id)) > 0">
+                            <a href="x-dictionary:r:{@id}">
+                                <xsl:value-of select="$title"/>
+                            </a>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:value-of select="$title"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </rb>
+                <rt><xsl:value-of select="./wd:form/wd:pron[not(@type)]"/></rt>
+            </ruby>
+            <xsl:text>｜</xsl:text><xsl:apply-templates mode="compact" select="wd:sense"/>
         </div>
     </xsl:template>
 
