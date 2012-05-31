@@ -5,7 +5,7 @@
         xmlns:d="http://www.apple.com/DTDs/DictionaryService-1.0.rng"
         xmlns:wd="http://www.wadoku.de/xml/entry"
         exclude-result-prefixes="d"
-        version="1.0">
+        version="2.0">
     <xsl:import href="front_matter.xsl"/>
     <xsl:import href="image_appendix.xsl"/>
     <xsl:output
@@ -64,12 +64,21 @@
         <xsl:variable name="yomi">
             <xsl:apply-templates select="./wd:form/wd:pron[not(@type)]"/>
         </xsl:variable>
+        <xsl:variable name="extended_yomi">
+            <xsl:value-of select="
+            translate(./wd:form/wd:pron[@type='hatsuon'],'&lt;>[]1234567890:　 GrJoDevN_＿','')
+            "/>
+        </xsl:variable>
         <d:entry id="{@id}" d:title="{$title}">
             <!-- index -->
             <d:index d:value="{$yomi}" d:title="{$title}" d:yomi="{$yomi}"/>
             <xsl:apply-templates select="./wd:form/wd:orth[not(@midashigo='true') and . != $yomi]">
                 <xsl:with-param name="yomi" select="$yomi"/>
             </xsl:apply-templates>
+            <!-- Lesungen mit … auch ohne … in den Suchindex -->
+            <xsl:if test="contains($yomi, '…')">
+                <d:index d:value="{translate($yomi, '…', '')}" d:title="{$title}" d:yomi="{$yomi}"/>
+            </xsl:if>
             <!-- Index für Untereinträge -->
             <xsl:if test="$strictSubHeadIndex = 'yes'">
                 <xsl:apply-templates mode="subheadindex" select="key('refs',@id)"/>
@@ -78,11 +87,12 @@
             <!-- header -->
             <h1>
                 <span class="headword">
+                    <ruby><rb>
                     <xsl:choose>
                         <xsl:when test="count(./wd:form/wd:pron[@accent])!=0">
                             <xsl:variable name="accent" select="number(./wd:form/wd:pron/@accent)"/>
-                            <xsl:variable name="hiragana" select="$yomi"/>
-                            <xsl:variable name="letters" select="'ゅゃょぁぃぅぇぉ'"/>
+                            <xsl:variable name="hiragana" select="$extended_yomi"/>
+                            <xsl:variable name="letters" select="'ゅゃょぁぃぅぇぉ・･~’'"/>
                             <xsl:variable name="firstMora"
                                           select="string-length(translate(substring($hiragana,2,1),$letters,''))=0"/>
                             <xsl:choose>
@@ -208,6 +218,9 @@
                             <xsl:value-of select="$yomi"/>
                         </xsl:otherwise>
                     </xsl:choose>
+                    </rb>
+                        <rt><xsl:value-of select="./wd:form/wd:pron[@type='romaji']"/></rt>
+                    </ruby>
                 </span>
                 <span class="hyouki">
                     <xsl:choose>
@@ -408,6 +421,20 @@
                 <xsl:value-of select="."/>
             </xsl:attribute>
         </d:index>
+        <!-- wenn … enthalten, auch ohne … in den Index -->
+        <xsl:if test="contains(., '…')">
+            <d:index d:title="{.}">
+                <!-- kein yomi wenn Schreibung in Hiragana -->
+                <xsl:if test=". != $yomi">
+                    <xsl:attribute name="d:yomi">
+                        <xsl:value-of select="$yomi"/>
+                    </xsl:attribute>
+                </xsl:if>
+                <xsl:attribute name="d:value">
+                    <xsl:value-of select="translate(., '…', '')"/>
+                </xsl:attribute>
+            </d:index>
+        </xsl:if>
     </xsl:template>
 
     <xsl:template match="wd:sense" mode="compact">
