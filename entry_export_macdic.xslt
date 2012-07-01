@@ -68,7 +68,9 @@
         </xsl:variable>
         <xsl:variable name="extended_yomi">
             <xsl:value-of select="
-            translate(./wd:form/wd:pron[@type='hatsuon'],'&lt;>[]1234567890:　 GrJoDevN_＿','')
+                translate(
+                translate(./wd:form/wd:pron[@type='hatsuon'],'&lt;>[]1234567890:　 GrJoDevN_＿',''),
+                '・', '･')
             "/>
         </xsl:variable>
         <d:entry id="{@id}" d:title="{$title}">
