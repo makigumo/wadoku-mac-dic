@@ -47,7 +47,7 @@ Verzeichnis mit HTML-Dateien für die Voreinstellungselemente.
 
 ```xml
     <key>DCSDictionaryFrontMatterReferenceID</key>
-    <string>wadoku_front_matter</string
+    <string>wadoku_front_matter</string>
 	<key>DCSDictionaryDefaultPrefs</key>
 	<dict>
 	    <key>lang</key>
