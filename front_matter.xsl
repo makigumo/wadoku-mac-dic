@@ -41,8 +41,8 @@
             <h2 d:pr="ja">付録</h2>
             <p>
                 <ol>
-                    <li><a d:pr="de" href="x-dictionary:r:wadoku_appendix_image">Illustrationen</a></li>
-                    <li><a d:pr="ja" href="x-dictionary:r:wadoku_appendix_image">イラストレーション</a></li>
+                    <li d:pr="de"><a href="x-dictionary:r:wadoku_appendix_image">Illustrationen</a></li>
+                    <li d:pr="ja"><a href="x-dictionary:r:wadoku_appendix_image">イラストレーション</a></li>
                 </ol>
             </p>
             <h2 d:pr="de">Statistik</h2>

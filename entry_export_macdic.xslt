@@ -92,7 +92,7 @@
                         <xsl:when test="count(./wd:form/wd:pron[@accent])!=0">
                             <xsl:variable name="accent" select="number(./wd:form/wd:pron/@accent)"/>
                             <xsl:variable name="hiragana" select="$extended_yomi"/>
-                            <xsl:variable name="letters" select="'ゅゃょぁぃぅぇぉ・･~’'"/>
+                            <xsl:variable name="letters" select="'ゅゃょぁぃぅぇぉ・･~’…'"/>
                             <xsl:variable name="firstMora"
                                           select="string-length(translate(substring($hiragana,2,1),$letters,''))=0"/>
                             <xsl:choose>
@@ -840,6 +840,12 @@
         <div class="image">
             <img alt="{text()}" src="Images/{@url}.jpg"/>
             <div class="caption"><xsl:value-of select="text()"/></div>
+        </div>
+    </xsl:template>
+
+    <xsl:template match="wd:link[lower-case(@type)='url']">
+        <div class="url">
+            <a href="{.}"><xsl:value-of select="."/></a>
         </div>
     </xsl:template>
 

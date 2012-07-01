@@ -9,7 +9,7 @@ body{
     line-height:1.33em;
     margin-right: 1em;
     margin-top: 0.4em;
-    margin-bottom: 10px;
+    margin-bottom: 0.4px;
 }
 
 h1 {
@@ -48,12 +48,21 @@ rt {
 }
 
 .image {
+    display: block;
+    margin-top: 0.4em;
     text-align: center;
 }
 .image .caption {
     color:gray;
     font-size: 80%;
     font-weight: bold;
+}
+.url {
+    display: block;
+    font-size: 80%;
+}
+.url:before {
+    content: 'Link: '
 }
 .genus,.foreign{
     font-style:italic;
@@ -109,9 +118,14 @@ rt {
 .reg{font-style:italic;color:#483d8b}
 .usage{color:maroon;font-style:italic}
 .reg+.token:before,.usage+.token:before{content:'\0020'}
-.season:before{content:'\3010'}
-.season:after{content:'\3011'}
-.season{color: gray}
+.season{
+  color: gray;
+  border: 1px solid gray;
+  -webkit-border-radius: 3px;
+  padding: 2px 2px 0px 3px;
+  margin-right:0.5em;
+  margin-left:0.5em;
+}
 .latin{font-style: italic;}
 .label{
     font-family: 'Hiragino Kaku Gothic ProN';
@@ -127,6 +141,10 @@ rt {
 .title:before{content:'\201e'}
 .title:after{content:'\201f'}
 .klammer{color:gray}
+
+span.image_appendix_entry {
+    font-size: 80%;
+}
 
 /* für Lion Dictionary popup */
 
@@ -158,8 +176,10 @@ html.apple_client-panel a:active
     text-decoration: none;
 }
 html.apple_client-panel .image,
+html.apple_client-panel .url,
 html.apple_client-panel .uid,
 html.apple_client-panel .hinshi,
+html.apple_client-panel .reflink.parent,
 html.apple_client-panel .parentheadword
 {
     display: none;
