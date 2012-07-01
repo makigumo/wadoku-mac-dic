@@ -43,6 +43,8 @@
                 <ol>
                     <li d:pr="de"><a href="x-dictionary:r:wadoku_appendix_image">Illustrationen</a></li>
                     <li d:pr="ja"><a href="x-dictionary:r:wadoku_appendix_image">イラストレーション</a></li>
+                    <li d:pr="de"><a href="x-dictionary:r:wadoku_appendix_seasonwords">Jahreszeitenwörter</a></li>
+                    <li d:pr="ja"><a href="x-dictionary:r:wadoku_appendix_seasonwords">季語</a></li>
                 </ol>
             </p>
             <h2 d:pr="de">Statistik</h2>

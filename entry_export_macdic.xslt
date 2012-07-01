@@ -8,6 +8,7 @@
         version="2.0">
     <xsl:import href="front_matter.xsl"/>
     <xsl:import href="image_appendix.xsl"/>
+    <xsl:import href="seasonword_appendix.xsl"/>
     <xsl:output
             method="xml"
             omit-xml-declaration="yes"
@@ -41,6 +42,7 @@
             </xsl:choose>
             <xsl:call-template name="front"/>
             <xsl:call-template name="image_appendix"/>
+            <xsl:call-template name="seasonword_appendix"/>
         </d:dictionary>
     </xsl:template>
 

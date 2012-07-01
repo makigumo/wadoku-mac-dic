@@ -119,12 +119,13 @@ rt {
 .usage{color:maroon;font-style:italic}
 .reg+.token:before,.usage+.token:before{content:'\0020'}
 .season{
-  color: gray;
-  border: 1px solid gray;
-  -webkit-border-radius: 3px;
-  padding: 2px 2px 0px 3px;
-  margin-right:0.5em;
-  margin-left:0.5em;
+    font-size: 80%;
+    color: gray;
+    border: 1px solid #ddd;
+    -webkit-border-radius: 3px;
+    padding: 2px 2px 0px 3px;
+    margin-right: 0.5em;
+    margin-left: 0.5em;
 }
 .latin{font-style: italic;}
 .label{
@@ -142,10 +143,16 @@ rt {
 .title:after{content:'\201f'}
 .klammer{color:gray}
 
+div.image_appendix_line {
+
+}
 span.image_appendix_entry {
     font-size: 80%;
 }
 
+dd .season {
+    display: none;
+}
 /* für Lion Dictionary popup */
 
 html.apple_client-panel {
