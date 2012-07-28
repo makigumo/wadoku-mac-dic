@@ -279,9 +279,15 @@
                     <xsl:if test="count($hasei) > 0">
                         <span class="label" d:pr="ja"><b>派生語</b></span>
                         <span class="label" d:pr="de"><b>Ableitungen</b></span>
-                        <xsl:apply-templates mode="subentry" select="$hasei[wd:ref[@subentrytype='suru']]"/>
-                        <xsl:apply-templates mode="subentry" select="$hasei[wd:ref[@subentrytype='sa']]"/>
-                        <xsl:apply-templates mode="subentry" select="$hasei[wd:ref[not(@subentrytype='sa') and not(@subentrytype='suru')]]"/>
+                        <xsl:apply-templates mode="subentry" select="$hasei[wd:ref[@subentrytype='suru']]">
+                            <xsl:sort select=".//wd:pron[not(@type)]/wd:text/text()"/>
+                        </xsl:apply-templates>
+                        <xsl:apply-templates mode="subentry" select="$hasei[wd:ref[@subentrytype='sa']]">
+                            <xsl:sort select=".//wd:pron[not(@type)]/wd:text/text()"/>
+                        </xsl:apply-templates>
+                        <xsl:apply-templates mode="subentry" select="$hasei[wd:ref[not(@subentrytype='sa') and not(@subentrytype='suru')]]">
+                            <xsl:sort select=".//wd:pron[not(@type)]/wd:text/text()"/>
+                        </xsl:apply-templates>
                     </xsl:if>
                     <!-- Komposita -->
                     <xsl:if test="count($subs[wd:ref[@subentrytype='head' or @subentrytype='tail']]) > 0">
@@ -289,18 +295,28 @@
                         <span class="label" d:pr="de"><b>Zusammensetzungen</b></span>
                         <!-- Sichergehen, dass dieser Eintrag gemeint ist, bei evtl. Head- und tail-Kompositum -->
                         <xsl:variable name="id" select="@id"/>
-                        <xsl:apply-templates mode="subentry" select="$subs[wd:ref[@subentrytype='head' and @id=$id]]"/>
-                        <xsl:apply-templates mode="subentry" select="$subs[wd:ref[@subentrytype='tail' and @id=$id]]"/>
+                        <xsl:apply-templates mode="subentry" select="$subs[wd:ref[@subentrytype='head' and @id=$id]]">
+                            <xsl:sort select=".//wd:pron[not(@type)]/wd:text/text()"/>
+                        </xsl:apply-templates>
+                        <xsl:apply-templates mode="subentry" select="$subs[wd:ref[@subentrytype='tail' and @id=$id]]">
+                            <xsl:sort select=".//wd:pron[not(@type)]/wd:text/text()"/>
+                        </xsl:apply-templates>
                     </xsl:if>
                     <!-- Rest -->
                     <xsl:if test="(count($subs) - count($hasei) - count($subs[wd:ref[@subentrytype='head' or @subentrytype='tail']])) > 0">
-                        <xsl:apply-templates mode="subentry" select="$subs[wd:ref[@subentrytype='VwBsp']]"/>
-                        <xsl:apply-templates mode="subentry" select="$subs[wd:ref[@subentrytype='XSatz']]"/>
+                        <xsl:apply-templates mode="subentry" select="$subs[wd:ref[@subentrytype='VwBsp']]">
+                            <xsl:sort select=".//wd:pron[not(@type)]/wd:text/text()"/>
+                        </xsl:apply-templates>
+                        <xsl:apply-templates mode="subentry" select="$subs[wd:ref[@subentrytype='XSatz']]">
+                            <xsl:sort select=".//wd:pron[not(@type)]/wd:text/text()"/>
+                        </xsl:apply-templates>
                         <xsl:apply-templates mode="subentry"
                                              select="$subs[wd:ref[
                                          @subentrytype='WIdiom'
                                          or @subentrytype='ZSprW'
-                                         or @subentrytype='other']]"/>
+                                         or @subentrytype='other']]">
+                            <xsl:sort select=".//wd:pron[not(@type)]/wd:text/text()"/>
+                        </xsl:apply-templates>
                     </xsl:if>
                 </xsl:if>
                 <xsl:apply-templates mode="global" select="./wd:ref[@type='main']"/>
