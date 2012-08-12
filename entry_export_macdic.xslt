@@ -64,13 +64,15 @@
             </xsl:choose>
         </xsl:variable>
         <xsl:variable name="yomi">
-            <xsl:apply-templates select="./wd:form/wd:pron[not(@type)]"/>
+            <xsl:value-of select="replace(./wd:form/wd:pron[not(@type)],'う゛','ゔ')"/>
         </xsl:variable>
         <xsl:variable name="extended_yomi">
             <xsl:value-of select="
+                replace(
                 translate(
                 translate(./wd:form/wd:pron[@type='hatsuon'],'&lt;>[]1234567890:　 GrJoDevN_＿',''),
-                '・', '･')
+                '・', '·'),
+                'う゛','ゔ')
             "/>
         </xsl:variable>
         <d:entry id="{@id}" d:title="{$title}">
