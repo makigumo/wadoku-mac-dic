@@ -98,7 +98,7 @@
                         <xsl:when test="./wd:form/wd:pron[@accent]">
                             <xsl:variable name="accent" select="number(./wd:form/wd:pron/@accent)"/>
                             <xsl:variable name="hiragana" select="$extended_yomi"/>
-                            <xsl:variable name="letters" select="'ゅゃょぁぃぅぇぉ・･~’…'"/>
+                            <xsl:variable name="letters" select="'ゅゃょぁぃぅぇぉ・･·~’…'"/>
                             <xsl:variable name="firstMora"
                                           select="string-length(translate(substring($hiragana,2,1),$letters,''))=0"/>
                             <xsl:choose>
