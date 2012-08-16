@@ -221,7 +221,7 @@
                             </xsl:choose>
                         </xsl:when>
                         <xsl:otherwise>
-                            <xsl:value-of select="$yomi"/>
+                            <xsl:value-of select="$extended_yomi"/>
                         </xsl:otherwise>
                     </xsl:choose>
                     </rb>
