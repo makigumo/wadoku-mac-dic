@@ -67,11 +67,15 @@
             <xsl:value-of select="replace(./wd:form/wd:pron[not(@type)],'う゛','ゔ')"/>
         </xsl:variable>
         <xsl:variable name="extended_yomi">
+            <!--
+              * entferne störende Symbole
+              * typographische Korrekturen/Vereinheitlichung
+            --> 
             <xsl:value-of select="
                 replace(
                 translate(
                 translate(./wd:form/wd:pron[@type='hatsuon'],'&lt;>[]1234567890:　 GrJoDevN_＿',''),
-                '・', '·'),
+                &quot;・･'’&quot;, '··||'),
                 'う゛','ゔ')
             "/>
         </xsl:variable>
@@ -98,7 +102,8 @@
                         <xsl:when test="./wd:form/wd:pron[@accent]">
                             <xsl:variable name="accent" select="number(./wd:form/wd:pron/@accent)"/>
                             <xsl:variable name="hiragana" select="$extended_yomi"/>
-                            <xsl:variable name="letters" select="'ゅゃょぁぃぅぇぉ・･·~’…'"/>
+                            <!-- Symbole, die nicht als Mora gelten: werden nicht gezählt -->
+                            <xsl:variable name="letters" select="'ゅゃょぁぃぅぇぉ・･·~’|…'"/>
                             <xsl:variable name="firstMora"
                                           select="string-length(translate(substring($hiragana,2,1),$letters,''))=0"/>
                             <xsl:choose>
