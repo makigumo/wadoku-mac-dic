@@ -66,19 +66,6 @@
         <xsl:variable name="yomi">
             <xsl:value-of select="replace(./wd:form/wd:pron[not(@type)],'う゛','ゔ')"/>
         </xsl:variable>
-        <xsl:variable name="extended_yomi">
-            <!--
-              * entferne störende Symbole
-              * typographische Korrekturen/Vereinheitlichung
-            --> 
-            <xsl:value-of select="
-                replace(
-                translate(
-                translate(./wd:form/wd:pron[@type='hatsuon'],'&lt;>[]1234567890:　 GrJoDevN_＿',''),
-                &quot;・･'’&quot;, '··||'),
-                'う゛','ゔ')
-            "/>
-        </xsl:variable>
         <d:entry id="{@id}" d:title="{$title}">
             <!-- index -->
             <d:index d:value="{$yomi}" d:title="{$title}" d:yomi="{$yomi}"/>
@@ -97,140 +84,13 @@
             <!-- header -->
             <h1>
                 <span class="headword">
-                    <ruby><rb>
-                    <xsl:choose>
-                        <xsl:when test="./wd:form/wd:pron[@accent]">
-                            <xsl:variable name="accent" select="number(./wd:form/wd:pron/@accent)"/>
-                            <xsl:variable name="hiragana" select="$extended_yomi"/>
-                            <!-- Symbole, die nicht als Mora gelten: werden nicht gezählt -->
-                            <xsl:variable name="letters" select="'ゅゃょぁぃぅぇぉ・･·~’|…'"/>
-                            <xsl:variable name="firstMora"
-                                          select="string-length(translate(substring($hiragana,2,1),$letters,''))=0"/>
-                            <xsl:choose>
-                                <xsl:when test="$accent=0">
-                                    <xsl:choose>
-                                        <xsl:when test="$firstMora">
-                                            <span class="b">
-                                                <xsl:value-of select="substring($hiragana,1,2)"/>
-                                            </span>
-                                            <span class="t l">
-                                                <xsl:value-of select="substring($hiragana,3)"/>
-                                            </span>
-                                        </xsl:when>
-                                        <xsl:otherwise>
-                                            <span class="b">
-                                                <xsl:value-of select="substring($hiragana,1,1)"/>
-                                            </span>
-                                            <span class="t l">
-                                                <xsl:value-of select="substring($hiragana,2)"/>
-                                            </span>
-                                        </xsl:otherwise>
-                                    </xsl:choose>
-                                </xsl:when>
-                                <xsl:when test="$accent=1">
-                                    <xsl:choose>
-                                        <xsl:when test="$firstMora">
-                                            <span class="t r">
-                                                <xsl:value-of select="substring($hiragana,1,2)"/>
-                                            </span>
-                                            <span class="b">
-                                                <xsl:value-of select="substring($hiragana,3)"/>
-                                            </span>
-                                        </xsl:when>
-                                        <xsl:otherwise>
-                                            <span class="t r">
-                                                <xsl:value-of select="substring($hiragana,1,1)"/>
-                                            </span>
-                                            <span class="b">
-                                                <xsl:value-of select="substring($hiragana,2)"/>
-                                            </span>
-                                        </xsl:otherwise>
-                                    </xsl:choose>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <xsl:choose>
-                                        <xsl:when test="$firstMora">
-                                            <span class="b r">
-                                                <xsl:value-of select="substring($hiragana,1,2)"/>
-                                            </span>
-                                            <xsl:variable name="temp"
-                                                          select="substring($hiragana,3,$accent - 1)"/>
-                                            <xsl:variable name="count"
-                                                          select="string-length($temp)-string-length(translate($temp,$letters,''))"/>
-                                            <xsl:variable name="trail"
-                                                          select="string-length(translate(substring($hiragana,3 + $count + $accent - 1,1),$letters,''))"/>
-                                            <xsl:choose>
-                                                <xsl:when test="$trail=0">
-                                                    <span class="t r">
-                                                        <xsl:value-of
-                                                                select="substring($hiragana,3,$count + $accent)"/>
-                                                    </span>
-                                                    <span class="b">
-                                                        <xsl:value-of
-                                                                select="substring($hiragana,3 + $count + $accent)"
-                                                                />
-                                                    </span>
-                                                </xsl:when>
-                                                <xsl:otherwise>
-                                                    <span class="t r">
-                                                        <xsl:value-of
-                                                                select="substring($hiragana,3,$count + $accent - 1)"
-                                                                />
-                                                    </span>
-                                                    <span class="b">
-                                                        <xsl:value-of
-                                                                select="substring($hiragana,3 + $count + $accent - 1)"
-                                                                />
-                                                    </span>
-                                                </xsl:otherwise>
-                                            </xsl:choose>
-                                        </xsl:when>
-                                        <xsl:otherwise>
-                                            <span class="b r">
-                                                <xsl:value-of select="substring($hiragana,1,1)"/>
-                                            </span>
-                                            <xsl:variable name="temp"
-                                                          select="substring($hiragana,2,$accent - 1)"/>
-                                            <xsl:variable name="count"
-                                                          select="string-length($temp)-string-length(translate($temp,$letters,''))"/>
-                                            <xsl:variable name="trail"
-                                                          select="string-length(translate(substring($hiragana,2 + $count + $accent - 1,1),$letters,''))"/>
-                                            <xsl:choose>
-                                                <xsl:when test="$trail=0">
-                                                    <span class="t r">
-                                                        <xsl:value-of
-                                                                select="substring($hiragana,2,$count + $accent)"/>
-                                                    </span>
-                                                    <span class="b">
-                                                        <xsl:value-of
-                                                                select="substring($hiragana,2 + $count + $accent)"
-                                                                />
-                                                    </span>
-                                                </xsl:when>
-                                                <xsl:otherwise>
-                                                    <span class="t r">
-                                                        <xsl:value-of
-                                                                select="substring($hiragana,2,$count + $accent - 1)"
-                                                                />
-                                                    </span>
-                                                    <span class="b">
-                                                        <xsl:value-of
-                                                                select="substring($hiragana,2 + $count + $accent - 1)"
-                                                                />
-                                                    </span>
-                                                </xsl:otherwise>
-                                            </xsl:choose>
-                                        </xsl:otherwise>
-                                    </xsl:choose>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:value-of select="$extended_yomi"/>
-                        </xsl:otherwise>
-                    </xsl:choose>
-                    </rb>
-                        <rt><xsl:value-of select="./wd:form/wd:pron[@type='romaji']"/></rt>
+                    <ruby>
+                        <rb>
+                            <xsl:call-template name="reading_from_extended_yomi"/>
+                        </rb>
+                        <rt>
+                            <xsl:value-of select="./wd:form/wd:pron[@type='romaji']"/>
+                        </rt>
                     </ruby>
                 </span>
                 <span class="hyouki">
@@ -332,6 +192,155 @@
         <xsl:text>&#10;</xsl:text>
     </xsl:template>
 
+    <xsl:template name="reading_from_extended_yomi">
+        <xsl:variable name="yomi">
+            <!--
+              * entferne störende Symbole
+              * typographische Korrekturen/Vereinheitlichung
+            -->
+            <xsl:value-of select="
+                            replace(
+                            translate(
+                            translate(./wd:form/wd:pron[@type='hatsuon'],'&lt;>[]1234567890:　 GrJoDevN_＿',''),
+                            &quot;・･'’&quot;, '··￨￨'),
+                            'う゛','ゔ')
+                        "/>
+        </xsl:variable>
+
+        <xsl:choose>
+            <xsl:when test="./wd:form/wd:pron[@accent]">
+                <xsl:variable name="accent" select="number(./wd:form/wd:pron/@accent)"/>
+                <xsl:variable name="hiragana" select="$yomi"/>
+                <!-- Symbole, die nicht als Mora gelten: werden nicht gezählt -->
+                <xsl:variable name="letters" select="'ゅゃょぁぃぅぇぉ・･·~’￨|…'"/>
+                <xsl:variable name="firstMora"
+                              select="string-length(translate(substring($hiragana,2,1),$letters,''))=0"/>
+                <xsl:choose>
+                    <xsl:when test="$accent=0">
+                        <xsl:choose>
+                            <xsl:when test="$firstMora">
+                                <span class="b">
+                                    <xsl:value-of select="substring($hiragana,1,2)"/>
+                                </span>
+                                <span class="t l">
+                                    <xsl:value-of select="substring($hiragana,3)"/>
+                                </span>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <span class="b">
+                                    <xsl:value-of select="substring($hiragana,1,1)"/>
+                                </span>
+                                <span class="t l">
+                                    <xsl:value-of select="substring($hiragana,2)"/>
+                                </span>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:when>
+                    <xsl:when test="$accent=1">
+                        <xsl:choose>
+                            <xsl:when test="$firstMora">
+                                <span class="t r">
+                                    <xsl:value-of select="substring($hiragana,1,2)"/>
+                                </span>
+                                <span class="b">
+                                    <xsl:value-of select="substring($hiragana,3)"/>
+                                </span>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <span class="t r">
+                                    <xsl:value-of select="substring($hiragana,1,1)"/>
+                                </span>
+                                <span class="b">
+                                    <xsl:value-of select="substring($hiragana,2)"/>
+                                </span>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:choose>
+                            <xsl:when test="$firstMora">
+                                <span class="b r">
+                                    <xsl:value-of select="substring($hiragana,1,2)"/>
+                                </span>
+                                <xsl:variable name="temp"
+                                              select="substring($hiragana,3,$accent - 1)"/>
+                                <xsl:variable name="count"
+                                              select="string-length($temp)-string-length(translate($temp,$letters,''))"/>
+                                <xsl:variable name="trail"
+                                              select="string-length(translate(substring($hiragana,3 + $count + $accent - 1,1),$letters,''))"/>
+                                <xsl:choose>
+                                    <xsl:when test="$trail=0">
+                                        <span class="t r">
+                                            <xsl:value-of
+                                                    select="substring($hiragana,3,$count + $accent)"/>
+                                        </span>
+                                        <span class="b">
+                                            <xsl:value-of
+                                                    select="substring($hiragana,3 + $count + $accent)"
+                                                    />
+                                        </span>
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        <span class="t r">
+                                            <xsl:value-of
+                                                    select="substring($hiragana,3,$count + $accent - 1)"
+                                                    />
+                                        </span>
+                                        <span class="b">
+                                            <xsl:value-of
+                                                    select="substring($hiragana,3 + $count + $accent - 1)"
+                                                    />
+                                        </span>
+                                    </xsl:otherwise>
+                                </xsl:choose>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <span class="b r">
+                                    <xsl:value-of select="substring($hiragana,1,1)"/>
+                                </span>
+                                <xsl:variable name="temp"
+                                              select="substring($hiragana,2,$accent - 1)"/>
+                                <xsl:variable name="count"
+                                              select="string-length($temp)-string-length(translate($temp,$letters,''))"/>
+                                <xsl:variable name="trail"
+                                              select="string-length(translate(substring($hiragana,2 + $count + $accent - 1,1),$letters,''))"/>
+                                <xsl:choose>
+                                    <xsl:when test="$trail=0">
+                                        <span class="t r">
+                                            <xsl:value-of
+                                                    select="substring($hiragana,2,$count + $accent)"/>
+                                        </span>
+                                        <span class="b">
+                                            <xsl:value-of
+                                                    select="substring($hiragana,2 + $count + $accent)"
+                                                    />
+                                        </span>
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        <span class="t r">
+                                            <xsl:value-of
+                                                    select="substring($hiragana,2,$count + $accent - 1)"
+                                                    />
+                                        </span>
+                                        <span class="b">
+                                            <xsl:value-of
+                                                    select="substring($hiragana,2 + $count + $accent - 1)"
+                                                    />
+                                        </span>
+                                    </xsl:otherwise>
+                                </xsl:choose>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$yomi"/>
+            </xsl:otherwise>
+        </xsl:choose>
+
+    </xsl:template>
+
     <!-- subentry -->
     <xsl:template mode="subentry" match="wd:entry">
         <xsl:variable name="title">
@@ -353,7 +362,9 @@
                         </xsl:otherwise>
                     </xsl:choose>
                 </rb>
-                <rt><xsl:value-of select="./wd:form/wd:pron[not(@type)]"/></rt>
+                <rt>
+                    <xsl:call-template name="reading_from_extended_yomi"/>
+                </rt>
             </ruby>
             <xsl:text>｜</xsl:text><xsl:apply-templates mode="compact" select="wd:sense"/>
         </div>
