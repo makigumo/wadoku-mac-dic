@@ -201,7 +201,7 @@
             <xsl:value-of select="
                             replace(
                             translate(
-                            translate(./wd:form/wd:pron[@type='hatsuon'],'&lt;>[]1234567890:　 GrJoDevN_＿',''),
+                            translate(./wd:form/wd:pron[@type='hatsuon'],'&lt;>/[]1234567890:　 GrJoDevN_＿',''),
                             &quot;・･'’&quot;, '··￨￨'),
                             'う゛','ゔ')
                         "/>
