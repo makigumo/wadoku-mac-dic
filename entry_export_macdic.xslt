@@ -68,16 +68,20 @@
         </xsl:variable>
         <d:entry id="{@id}" d:title="{$title}">
             <!-- index -->
-            <d:index d:value="{$yomi}" d:title="{$title}" d:yomi="{$yomi}"/>
-            <xsl:apply-templates mode="index"
-                                 select="./wd:form/wd:orth[not(@midashigo='true') and . != $yomi]">
-                <xsl:with-param name="title" select="$title"/>
-                <xsl:with-param name="yomi" select="$yomi"/>
-            </xsl:apply-templates>
-            <!-- Lesungen mit … auch ohne … in den Suchindex -->
+            <!-- Lesung -->
+            <d:index d:title="{$title}" d:value="{$yomi}" d:yomi="{$yomi}"/>
+            <!-- Lesung mit … auch ohne … in den Suchindex -->
             <xsl:if test="contains($yomi, '…')">
                 <d:index d:value="{translate($yomi, '…', '')}" d:title="{$title}" d:yomi="{$yomi}"/>
             </xsl:if>
+            <!-- Schreibungen -->
+            <xsl:for-each select="./wd:form/wd:orth[not(@midashigo='true') and . != $yomi]">
+                <xsl:apply-templates mode="index"
+                                     select=".">
+                    <xsl:with-param name="title" select="$title"/>
+                    <xsl:with-param name="yomi" select="$yomi"/>
+                </xsl:apply-templates>
+            </xsl:for-each>
             <!-- Index für Untereinträge -->
             <xsl:if test="$strictSubHeadIndex = 'yes'">
                 <xsl:apply-templates mode="subheadindex" select="key('refs',@id)"/>
@@ -112,7 +116,8 @@
                             </xsl:if>
                             <xsl:if test="./wd:form/wd:orth[@irr]">
                                 <xsl:text>&#12310;</xsl:text>
-                                <xsl:apply-templates mode="simple" select="./wd:form/wd:orth[@irr]"/>
+                                <xsl:apply-templates mode="simple"
+                                                     select="./wd:form/wd:orth[@irr]"/>
                                 <xsl:text>&#12311;</xsl:text>
                             </xsl:if>
                         </xsl:otherwise>
