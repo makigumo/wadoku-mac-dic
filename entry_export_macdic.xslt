@@ -486,6 +486,22 @@
                 </xsl:if>
             </d:index>
         </xsl:if>
+        <!-- alternative nakaten in den Index -->
+        <xsl:if test="contains(., '・') or contains(., '･')">
+            <d:index d:title="{$title}"
+                     d:yomi="{$yomi}"
+                     d:value="{translate(., '・･', '··')}"/>
+            <xsl:if test="contains(., '・')">
+                <d:index d:title="{$title}"
+                         d:yomi="{$yomi}"
+                         d:value="{translate(., '・', '･')}"/>
+            </xsl:if>
+            <xsl:if test="contains(., '･')">
+                <d:index d:title="{$title}"
+                         d:yomi="{$yomi}"
+                         d:value="{translate(., '･', '・')}"/>
+            </xsl:if>
+        </xsl:if>
     </xsl:template>
 
     <xsl:template match="wd:sense" mode="compact">
