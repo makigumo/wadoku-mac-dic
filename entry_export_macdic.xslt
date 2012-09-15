@@ -69,7 +69,9 @@
         <d:entry id="{@id}" d:title="{$title}">
             <!-- index -->
             <d:index d:value="{$yomi}" d:title="{$title}" d:yomi="{$yomi}"/>
-            <xsl:apply-templates select="./wd:form/wd:orth[not(@midashigo='true') and . != $yomi]">
+            <xsl:apply-templates mode="index"
+                                 select="./wd:form/wd:orth[not(@midashigo='true') and . != $yomi]">
+                <xsl:with-param name="title" select="$title"/>
                 <xsl:with-param name="yomi" select="$yomi"/>
             </xsl:apply-templates>
             <!-- Lesungen mit … auch ohne … in den Suchindex -->
@@ -146,13 +148,16 @@
                     <xsl:if test="$hasei">
                         <span class="label" d:pr="ja"><b>派生語</b></span>
                         <span class="label" d:pr="de"><b>Ableitungen</b></span>
-                        <xsl:apply-templates mode="subentry" select="$hasei[wd:ref[@subentrytype='suru']]">
+                        <xsl:apply-templates mode="subentry"
+                                             select="$hasei[wd:ref[@subentrytype='suru']]">
                             <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
                         </xsl:apply-templates>
-                        <xsl:apply-templates mode="subentry" select="$hasei[wd:ref[@subentrytype='sa']]">
+                        <xsl:apply-templates mode="subentry"
+                                             select="$hasei[wd:ref[@subentrytype='sa']]">
                             <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
                         </xsl:apply-templates>
-                        <xsl:apply-templates mode="subentry" select="$hasei[wd:ref[not(@subentrytype='sa') and not(@subentrytype='suru')]]">
+                        <xsl:apply-templates mode="subentry"
+                                             select="$hasei[wd:ref[not(@subentrytype='sa') and not(@subentrytype='suru')]]">
                             <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
                         </xsl:apply-templates>
                     </xsl:if>
@@ -162,19 +167,23 @@
                         <span class="label" d:pr="de"><b>Zusammensetzungen</b></span>
                         <!-- Sichergehen, dass dieser Eintrag gemeint ist, bei evtl. Head- und tail-Kompositum -->
                         <xsl:variable name="id" select="@id"/>
-                        <xsl:apply-templates mode="subentry" select="$subs[wd:ref[@subentrytype='head' and @id=$id]]">
+                        <xsl:apply-templates mode="subentry"
+                                             select="$subs[wd:ref[@subentrytype='head' and @id=$id]]">
                             <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
                         </xsl:apply-templates>
-                        <xsl:apply-templates mode="subentry" select="$subs[wd:ref[@subentrytype='tail' and @id=$id]]">
+                        <xsl:apply-templates mode="subentry"
+                                             select="$subs[wd:ref[@subentrytype='tail' and @id=$id]]">
                             <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
                         </xsl:apply-templates>
                     </xsl:if>
                     <!-- Rest -->
                     <xsl:if test="(count($subs) - count($hasei) - count($subs[wd:ref[@subentrytype='head' or @subentrytype='tail']])) > 0">
-                        <xsl:apply-templates mode="subentry" select="$subs[wd:ref[@subentrytype='VwBsp']]">
+                        <xsl:apply-templates mode="subentry"
+                                             select="$subs[wd:ref[@subentrytype='VwBsp']]">
                             <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
                         </xsl:apply-templates>
-                        <xsl:apply-templates mode="subentry" select="$subs[wd:ref[@subentrytype='XSatz']]">
+                        <xsl:apply-templates mode="subentry"
+                                             select="$subs[wd:ref[@subentrytype='XSatz']]">
                             <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
                         </xsl:apply-templates>
                         <xsl:apply-templates mode="subentry"
@@ -366,14 +375,17 @@
                     <xsl:call-template name="reading_from_extended_yomi"/>
                 </rt>
             </ruby>
-            <xsl:text>｜</xsl:text><xsl:apply-templates mode="compact" select="wd:sense"/>
+            <xsl:text>｜</xsl:text>
+            <xsl:apply-templates mode="compact"
+                                 select="wd:sense"/>
         </div>
     </xsl:template>
 
     <xsl:template name="get_subentry_title">
         <xsl:choose>
             <xsl:when test="./wd:form/wd:orth[@midashigo]">
-                <xsl:apply-templates mode="simple" select="./wd:form/wd:orth[@midashigo][1]"/>
+                <xsl:apply-templates mode="simple"
+                                     select="./wd:form/wd:orth[@midashigo][1]"/>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:if test="./wd:form/wd:orth[not(@irr)]">
@@ -407,10 +419,10 @@
     <xsl:template mode="simple" match="wd:form/wd:orth">
         <xsl:choose>
             <xsl:when test="@midashigo='true'">
-                <xsl:value-of select="translate(.,'(){}・','（）｛｝･')"/>
+                <xsl:value-of select="translate(.,'(){}・･','（）｛｝··')"/>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:apply-templates/>
+                <xsl:value-of select="translate(.,'・･','··')"/>
             </xsl:otherwise>
         </xsl:choose>
         <xsl:if test="not(position()=last())">
@@ -431,7 +443,8 @@
                                              select="./wd:form/wd:orth[not(@irr) and not(@midashigo)]"/>
                     </xsl:if>
                     <xsl:if test="./wd:form/wd:orth[@irr]">
-                        <xsl:apply-templates mode="simple" select="./wd:form/wd:orth[@irr]"/>
+                        <xsl:apply-templates mode="simple"
+                                             select="./wd:form/wd:orth[@irr]"/>
                     </xsl:if>
                 </xsl:otherwise>
             </xsl:choose>
@@ -441,36 +454,36 @@
 
         <d:index d:value="{$yomi}" d:title="{$title}" d:yomi="{$yomi}"/>
         <xsl:for-each select="./wd:form/wd:orth[not(@midashigo='true') and . != $yomi]">
-            <d:index d:title="{$title}" d:yomi="{$yomi}" d:value="{.}" d:anchor="xpointer(//*[@id='{$id}'])'"/>
+            <d:index d:title="{$title}"
+                     d:yomi="{$yomi}"
+                     d:value="{.}"
+                     d:anchor="xpointer(//*[@id='{$id}'])'"/>
         </xsl:for-each>
     </xsl:template>
 
     <!-- index -->
-    <xsl:template match="wd:orth[not(@midashigo='true')]">
+    <xsl:template mode="index" match="wd:orth[not(@midashigo='true')]">
+        <xsl:param name="title"/>
         <xsl:param name="yomi"/>
-        <d:index d:title="{.}">
+        <d:index d:title="{$title}"
+                 d:value="{.}">
             <!-- kein yomi wenn Schreibung in Hiragana -->
             <xsl:if test=". != $yomi">
                 <xsl:attribute name="d:yomi">
                     <xsl:value-of select="$yomi"/>
                 </xsl:attribute>
             </xsl:if>
-            <xsl:attribute name="d:value">
-                <xsl:value-of select="."/>
-            </xsl:attribute>
         </d:index>
         <!-- wenn … enthalten, auch ohne … in den Index -->
         <xsl:if test="contains(., '…')">
-            <d:index d:title="{.}">
+            <d:index d:title="{$title}"
+                     d:value="{translate(., '…', '')}">
                 <!-- kein yomi wenn Schreibung in Hiragana -->
                 <xsl:if test=". != $yomi">
                     <xsl:attribute name="d:yomi">
                         <xsl:value-of select="$yomi"/>
                     </xsl:attribute>
                 </xsl:if>
-                <xsl:attribute name="d:value">
-                    <xsl:value-of select="translate(., '…', '')"/>
-                </xsl:attribute>
             </d:index>
         </xsl:if>
     </xsl:template>
