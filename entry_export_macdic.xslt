@@ -470,6 +470,17 @@
     <xsl:template mode="index" match="wd:orth[not(@midashigo='true')]">
         <xsl:param name="title"/>
         <xsl:param name="yomi"/>
+        <!-- Schreibung auch als Titel, passt besser zu den Standard-Wörterbüchern -->
+        <d:index d:title="{.}"
+                 d:value="{.}">
+            <!-- kein yomi wenn Schreibung in Hiragana -->
+            <xsl:if test=". != $yomi">
+                <xsl:attribute name="d:yomi">
+                    <xsl:value-of select="$yomi"/>
+                </xsl:attribute>
+            </xsl:if>
+        </d:index>
+        <!-- Schreibung unter dem Eintrags-Midashigo -->
         <d:index d:title="{$title}"
                  d:value="{.}">
             <!-- kein yomi wenn Schreibung in Hiragana -->
