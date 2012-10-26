@@ -153,6 +153,47 @@ span.image_appendix_entry {
 dd .season {
     display: none;
 }
+
+span.njk:before {
+    content:'×';
+    font-size:80%;
+    vertical-align:50%;
+    color: gray;
+}
+
+span.njok:before {
+    content:'△';
+    font-size:60%;
+    vertical-align:40%;
+    color: gray;
+}
+
+span.jjk:before {
+    content:'〈';
+    color: gray;
+}
+span.jjk:after {
+    content:'〉';
+    color: gray;
+}
+
+span.fjjk:before {
+    content:'《';
+    color: gray;
+}
+span.fjjk:after {
+    content:'》';
+    color: gray;
+}
+span.paren:before {
+    content: '（';
+    color: gray;
+}
+span.paren:after {
+    content: '）';
+    color: gray;
+}
+
 /* für Lion Dictionary popup */
 
 html.apple_client-panel {

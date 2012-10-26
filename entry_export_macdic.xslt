@@ -206,6 +206,43 @@
         <xsl:text>&#10;</xsl:text>
     </xsl:template>
 
+    <xsl:template name="enrich_midashigo">
+        <xsl:analyze-string select="." regex="△(.)|×(.)|〈(.*?)〉|｛(.*?)｝|（(.*?)）">
+            <xsl:matching-substring>
+                <xsl:choose>
+                    <xsl:when test="regex-group(1)">
+                        <span class="njok"><!-- non joyo on/kun -->
+                            <xsl:value-of select="regex-group(1)"/>
+                        </span>
+                    </xsl:when>
+                    <xsl:when test="regex-group(2)">
+                        <span class="njk"><!-- non joyo kanji -->
+                            <xsl:value-of select="regex-group(2)"/>
+                        </span>
+                    </xsl:when>
+                    <xsl:when test="regex-group(3)">
+                        <span class="jjk"><!-- jukujikun joyo kanji -->
+                            <xsl:value-of select="regex-group(3)"/>
+                        </span>
+                    </xsl:when>
+                    <xsl:when test="regex-group(4)">
+                        <span class="fjjk"><!-- fuhyo jukujikun joyo kanji -->
+                            <xsl:value-of select="regex-group(4)"/>
+                        </span>
+                    </xsl:when>
+                    <xsl:when test="regex-group(5)">
+                        <span class="paren"><!-- parenthesis -->
+                            <xsl:value-of select="regex-group(5)"/>
+                        </span>
+                    </xsl:when>
+                </xsl:choose>
+            </xsl:matching-substring>
+            <xsl:non-matching-substring>
+                <xsl:value-of select="."/>
+            </xsl:non-matching-substring>
+        </xsl:analyze-string>
+    </xsl:template>
+
     <xsl:template name="reading_from_extended_yomi">
         <xsl:variable name="yomi">
             <!--
@@ -424,7 +461,9 @@
     <xsl:template mode="simple" match="wd:form/wd:orth">
         <xsl:choose>
             <xsl:when test="@midashigo='true'">
-                <xsl:value-of select="translate(.,'(){}・･','（）｛｝··')"/>
+                <xsl:for-each select="translate(.,'(){}・･','（）｛｝··')">
+                    <xsl:call-template name="enrich_midashigo"/>
+                </xsl:for-each>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="translate(.,'・･','··')"/>
