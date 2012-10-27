@@ -20,6 +20,11 @@
     -->
     <xsl:param name="strictSubHeadIndex">no</xsl:param>
 
+    <!-- Trenner für Schreibungen/Stichworte -->
+    <xsl:param name="orthdivider">
+        <span class="divider">；</span>
+    </xsl:param>
+
     <!-- lookup key für einträge mit referenzen auf einen Haupteintrag -->
     <xsl:key name="refs" match="wd:entry[./wd:ref[@type='main']]" use="./wd:ref/@id"/>
 
@@ -470,7 +475,7 @@
             </xsl:otherwise>
         </xsl:choose>
         <xsl:if test="not(position()=last())">
-            <xsl:text>; </xsl:text>
+            <xsl:value-of select="$orthdivider"/>
         </xsl:if>
     </xsl:template>
 
