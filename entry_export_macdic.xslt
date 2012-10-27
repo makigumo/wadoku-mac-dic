@@ -410,11 +410,11 @@
                     <xsl:choose>
                         <xsl:when test="key('refs', @id)">
                             <a href="x-dictionary:r:{@id}">
-                                <xsl:value-of select="$title"/>
+                                <xsl:copy-of select="$title"/>
                             </a>
                         </xsl:when>
                         <xsl:otherwise>
-                            <xsl:value-of select="$title"/>
+                            <xsl:copy-of select="$title"/>
                         </xsl:otherwise>
                     </xsl:choose>
                 </rb>
@@ -475,7 +475,7 @@
             </xsl:otherwise>
         </xsl:choose>
         <xsl:if test="not(position()=last())">
-            <xsl:value-of select="$orthdivider"/>
+            <xsl:copy-of select="$orthdivider"/>
         </xsl:if>
     </xsl:template>
 
@@ -853,7 +853,7 @@
 
         <div class="parentheadword">
             <a href="x-dictionary:r:{@id}" class="reflink parent">
-                <xsl:value-of select="$title"/>
+                <xsl:copy-of select="$title"/>
             </a>
         </div>
     </xsl:template>
