@@ -155,9 +155,9 @@ dd .season {
 }
 
 span.njk:before {
-    content:'×';
-    font-size:80%;
-    vertical-align:50%;
+    content:'╳';
+    font-size:60%;
+    vertical-align:40%;
     color: gray;
 }
 
