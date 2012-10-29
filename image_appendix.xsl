@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="1.0"
+<xsl:stylesheet version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:d="http://www.apple.com/DTDs/DictionaryService-1.0.rng"
@@ -13,8 +13,8 @@
 
     <xsl:template name="image_appendix">
         <d:entry id="wadoku_appendix_image" d:title="Anhang: Bilder">
-            <h1 d:pr="de">Illustrationen (<xsl:value-of select="count(wd:entry[.//wd:link/@type='picture'])"/>)</h1>
-            <h1 d:pr="ja">イラストレーション (<xsl:value-of select="count(wd:entry[.//wd:link/@type='picture'])"/>)</h1>
+            <h1 xml:lang="de">Illustrationen (<xsl:value-of select="count(wd:entry[.//wd:link/@type='picture'])"/>)</h1>
+            <h1 xml:lang="ja">イラストレーション (<xsl:value-of select="count(wd:entry[.//wd:link/@type='picture'])"/>)</h1>
             <dl>
                 <xsl:for-each select="wd:entry[.//wd:link/@type='picture']">
                     <xsl:sort select=".//wd:link[@type='picture']/text()"/>

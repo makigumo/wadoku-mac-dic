@@ -1,6 +1,29 @@
 @charset "UTF-8";
 @namespace d url(http://www.apple.com/DTDs/DictionaryService-1.0.rng);
 
+/*  -----------------------------------------------
+    die verschiedenen Darstellungsarten
+    -----------------------------------------------
+
+    Dictionary.app
+    --------------
+    html.apple_client-application
+
+    Popup-Panel
+    -----------
+    html.apple_client-panel
+    - lässt alles mit d:priority='2' weg
+
+    Text
+    ----
+    - ersetzt Gaiji durch Textrepräsentation in @d:alt
+
+    SimpleText
+    ----------
+    - lässt alles mit d:priority='2' weg
+    - ersetzt Gaiji durch Textrepräsentation in @d:alt
+
+*/
 d|entry {
 }
 body{

@@ -129,7 +129,7 @@
                     </xsl:choose>
                 </span>
             </h1>
-            <div class="uid" d:pr="show_uid"><xsl:value-of select="@id"/></div>
+            <div class="uid"><xsl:value-of select="@id"/></div>
             <!-- meaning -->
             <div class="meaning">
                 <xsl:if test="./wd:gramGrp/wd:pos">
@@ -156,8 +156,8 @@
                     and not(@subentrytype='other')
                     ]]"/>
                     <xsl:if test="$hasei">
-                        <span class="label" d:pr="ja"><b>派生語</b></span>
-                        <span class="label" d:pr="de"><b>Ableitungen</b></span>
+                        <span class="label" xml:lang="ja"><b>派生語</b></span>
+                        <span class="label" xml:lang="de"><b>Ableitungen</b></span>
                         <xsl:apply-templates mode="subentry"
                                              select="$hasei[wd:ref[@subentrytype='suru']]">
                             <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
@@ -173,8 +173,8 @@
                     </xsl:if>
                     <!-- Komposita -->
                     <xsl:if test="$subs[wd:ref[@subentrytype='head' or @subentrytype='tail']]">
-                        <span class="label" d:pr="ja"><b>合成語</b></span>
-                        <span class="label" d:pr="de"><b>Zusammensetzungen</b></span>
+                        <span class="label" xml:lang="ja"><b>合成語</b></span>
+                        <span class="label" xml:lang="de"><b>Zusammensetzungen</b></span>
                         <!-- Sichergehen, dass dieser Eintrag gemeint ist, bei evtl. Head- und tail-Kompositum -->
                         <xsl:variable name="id" select="@id"/>
                         <xsl:apply-templates mode="subentry"
@@ -633,42 +633,42 @@
     <xsl:template name="season">
         <xsl:choose>
             <xsl:when test="./@season='spring'">
-                <span class="season spring" d:pr="ja" title="季語">
+                <span class="season spring" xml:lang="ja" title="季語">
                     <xsl:text>春</xsl:text>
                 </span>
-                <span class="season spring" d:pr="de" title="Jahreszeitenwort">
+                <span class="season spring" xml:lang="de" title="Jahreszeitenwort">
                     <xsl:text>Frühling</xsl:text>
                 </span>
             </xsl:when>
             <xsl:when test="./@season='summer'">
-                <span class="season summer" d:pr="ja" title="季語">
+                <span class="season summer" xml:lang="ja" title="季語">
                     <xsl:text>夏</xsl:text>
                 </span>
-                <span class="season summer" d:pr="de" title="Jahreszeitenwort">
+                <span class="season summer" xml:lang="de" title="Jahreszeitenwort">
                     <xsl:text>Sommer</xsl:text>
                 </span>
             </xsl:when>
             <xsl:when test="./@season='autumn'">
-                <span class="season autumn" d:pr="ja" title="季語">
+                <span class="season autumn" xml:lang="ja" title="季語">
                     <xsl:text>秋</xsl:text>
                 </span>
-                <span class="season autumn" d:pr="de" title="Jahreszeitenwort">
+                <span class="season autumn" xml:lang="de" title="Jahreszeitenwort">
                     <xsl:text>Herbst</xsl:text>
                 </span>
             </xsl:when>
             <xsl:when test="./@season='winter'">
-                <span class="season winter" d:pr="ja" title="季語">
+                <span class="season winter" xml:lang="ja" title="季語">
                     <xsl:text>冬</xsl:text>
                 </span>
-                <span class="season winter" d:pr="de" title="Jahreszeitenwort">
+                <span class="season winter" xml:lang="de" title="Jahreszeitenwort">
                     <xsl:text>Winter</xsl:text>
                 </span>
             </xsl:when>
             <xsl:when test="./@season='newyear'">
-                <span class="season newyear" d:pr="ja" title="季語">
+                <span class="season newyear" xml:lang="ja" title="季語">
                     <xsl:text>新年</xsl:text>
                 </span>
-                <span class="season newyear" d:pr="de" title="Jahreszeitenwort">
+                <span class="season newyear" xml:lang="de" title="Jahreszeitenwort">
                     <xsl:text>Neujahr</xsl:text>
                 </span>
             </xsl:when>
