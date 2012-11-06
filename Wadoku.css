@@ -99,7 +99,7 @@ rt {
     display:block;
     margin: 4px 0;
 }
-.klammer:before,.klammer+.token:before{content:'\0020'}
+.klammer:before,.klammer+.token:before,.klammer+.famn:before{content:'\0020'}
 .etym {color: gray;}
 .etym:before{content:'\00a0('}
 .etym:after{content:')'}
@@ -140,7 +140,7 @@ rt {
 }
 .reg{font-style:italic;color:#483d8b}
 .usage{color:maroon;font-style:italic}
-.reg+.token:before,.usage+.token:before{content:'\0020'}
+.reg+.token:before,.usage+.token:before,.famn+.token:before{content:'\0020'}
 .season{
     font-size: 80%;
     color: gray;
