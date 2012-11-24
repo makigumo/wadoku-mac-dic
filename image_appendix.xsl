@@ -13,22 +13,25 @@
 
     <xsl:template name="image_appendix">
         <d:entry id="wadoku_appendix_image" d:title="Anhang: Bilder">
-            <h1 xml:lang="de">Illustrationen (<xsl:value-of select="count(wd:entry[.//wd:link/@type='picture'])"/>)</h1>
-            <h1 xml:lang="ja">イラストレーション (<xsl:value-of select="count(wd:entry[.//wd:link/@type='picture'])"/>)</h1>
+            <h1 xml:lang="de">Illustrationen (<xsl:value-of select="count(//wd:link[@type='picture'])"/>)</h1>
+            <h1 xml:lang="ja">イラストレーション (<xsl:value-of select="count(//wd:link[@type='picture'])"/>)</h1>
             <dl>
-                <xsl:for-each select="wd:entry[.//wd:link/@type='picture']">
-                    <xsl:sort select=".//wd:link[@type='picture']/text()"/>
+                <xsl:for-each-group select="wd:entry"
+                                    group-by=".//wd:link[@type='picture']/text()">
+                    <xsl:sort select="current-grouping-key()"/>
                     <dt>
-                        <a href="x-dictionary:r:{@id}">
-                            <xsl:value-of select=".//wd:link[@type='picture']/text()"/>
-                        </a>
+                        <xsl:value-of select="current-grouping-key()"/>
                     </dt>
-                    <dd>
-                        <xsl:call-template name="get_subentry_title"/>
-                        <xsl:text> | </xsl:text>
-                        <xsl:apply-templates mode="compact" select="./wd:sense"/>
-                    </dd>
-                </xsl:for-each>
+                    <xsl:for-each select="current-group()">
+                        <dd>
+                            <a href="x-dictionary:r:{@id}">
+                                <xsl:call-template name="get_subentry_title"/>
+                            </a>
+                            <xsl:text> | </xsl:text>
+                            <xsl:apply-templates mode="compact" select="./wd:sense"/>
+                        </dd>
+                    </xsl:for-each>
+                </xsl:for-each-group>
             </dl>
         </d:entry>
     </xsl:template>
