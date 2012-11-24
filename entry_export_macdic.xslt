@@ -97,7 +97,19 @@
                 <span class="headword">
                     <ruby>
                         <rb>
-                            <xsl:call-template name="reading_from_extended_yomi"/>
+                            <xsl:variable name="head_yomi">
+                                <xsl:call-template name="reading_from_extended_yomi"/>
+                            </xsl:variable>
+                            <xsl:analyze-string
+                                    regex="￨"
+                                    select="$head_yomi">
+                                <xsl:matching-substring>
+                                    <span class="divider">￨</span>
+                                </xsl:matching-substring>
+                                <xsl:non-matching-substring>
+                                    <xsl:value-of select="."/>
+                                </xsl:non-matching-substring>
+                            </xsl:analyze-string>
                         </rb>
                         <rt>
                             <xsl:value-of select="./wd:form/wd:pron[@type='romaji']"/>
@@ -391,7 +403,7 @@
                 </xsl:choose>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:value-of select="$yomi"/>
+                <xsl:copy-of select="$yomi"/>
             </xsl:otherwise>
         </xsl:choose>
 

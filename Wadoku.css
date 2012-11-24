@@ -46,6 +46,10 @@ span.headword {
     margin-bottom: 0.2em;
 }
 
+span.headword .divider {
+    color: #ddd;
+}
+
 span.hyouki {
     font-weight:normal;
     font-size:80%;
