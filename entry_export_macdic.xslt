@@ -97,19 +97,7 @@
                 <span class="headword">
                     <ruby>
                         <rb>
-                            <xsl:variable name="head_yomi">
-                                <xsl:call-template name="reading_from_extended_yomi"/>
-                            </xsl:variable>
-                            <xsl:analyze-string
-                                    regex="￨"
-                                    select="$head_yomi">
-                                <xsl:matching-substring>
-                                    <span class="divider">￨</span>
-                                </xsl:matching-substring>
-                                <xsl:non-matching-substring>
-                                    <xsl:value-of select="."/>
-                                </xsl:non-matching-substring>
-                            </xsl:analyze-string>
+                            <xsl:call-template name="reading_from_extended_yomi"/>
                         </rb>
                         <rt>
                             <xsl:value-of select="./wd:form/wd:pron[@type='romaji']"/>
@@ -223,6 +211,24 @@
         <xsl:text>&#10;</xsl:text>
     </xsl:template>
 
+    <xsl:template name="insert_divider">
+        <!--
+        ersetzt Pipe (|) durch span-Element mit divider class
+        arbeitet auf Strings
+        -->
+        <xsl:param name="t"/>
+        <xsl:analyze-string
+                regex="￨"
+                select="$t">
+            <xsl:matching-substring>
+                <span class="divider">￨</span>
+            </xsl:matching-substring>
+            <xsl:non-matching-substring>
+                <xsl:value-of select="."/>
+            </xsl:non-matching-substring>
+        </xsl:analyze-string>
+    </xsl:template>
+
     <xsl:template name="enrich_midashigo">
         <xsl:analyze-string select="." regex="△(.)|×(.)|〈(.*?)〉|｛(.*?)｝|（(.*?)）">
             <xsl:matching-substring>
@@ -288,18 +294,30 @@
                         <xsl:choose>
                             <xsl:when test="$firstMora">
                                 <span class="b">
-                                    <xsl:value-of select="substring($hiragana,1,2)"/>
+                                    <xsl:call-template name="insert_divider">
+                                        <xsl:with-param name="t"
+                                                        select="substring($hiragana,1,2)"/>
+                                    </xsl:call-template>
                                 </span>
                                 <span class="t l">
-                                    <xsl:value-of select="substring($hiragana,3)"/>
+                                    <xsl:call-template name="insert_divider">
+                                        <xsl:with-param name="t"
+                                                        select="substring($hiragana,3)"/>
+                                    </xsl:call-template>
                                 </span>
                             </xsl:when>
                             <xsl:otherwise>
                                 <span class="b">
-                                    <xsl:value-of select="substring($hiragana,1,1)"/>
+                                    <xsl:call-template name="insert_divider">
+                                        <xsl:with-param name="t"
+                                                        select="substring($hiragana,1,1)"/>
+                                    </xsl:call-template>
                                 </span>
                                 <span class="t l">
-                                    <xsl:value-of select="substring($hiragana,2)"/>
+                                    <xsl:call-template name="insert_divider">
+                                        <xsl:with-param name="t"
+                                                        select="substring($hiragana,2)"/>
+                                    </xsl:call-template>
                                 </span>
                             </xsl:otherwise>
                         </xsl:choose>
@@ -308,18 +326,30 @@
                         <xsl:choose>
                             <xsl:when test="$firstMora">
                                 <span class="t r">
-                                    <xsl:value-of select="substring($hiragana,1,2)"/>
+                                    <xsl:call-template name="insert_divider">
+                                        <xsl:with-param name="t"
+                                                        select="substring($hiragana,1,2)"/>
+                                    </xsl:call-template>
                                 </span>
                                 <span class="b">
-                                    <xsl:value-of select="substring($hiragana,3)"/>
+                                    <xsl:call-template name="insert_divider">
+                                        <xsl:with-param name="t"
+                                                        select="substring($hiragana,3)"/>
+                                    </xsl:call-template>
                                 </span>
                             </xsl:when>
                             <xsl:otherwise>
                                 <span class="t r">
-                                    <xsl:value-of select="substring($hiragana,1,1)"/>
+                                    <xsl:call-template name="insert_divider">
+                                        <xsl:with-param name="t"
+                                                        select="substring($hiragana,1,1)"/>
+                                    </xsl:call-template>
                                 </span>
                                 <span class="b">
-                                    <xsl:value-of select="substring($hiragana,2)"/>
+                                    <xsl:call-template name="insert_divider">
+                                        <xsl:with-param name="t"
+                                                        select="substring($hiragana,2)"/>
+                                    </xsl:call-template>
                                 </span>
                             </xsl:otherwise>
                         </xsl:choose>
@@ -328,7 +358,10 @@
                         <xsl:choose>
                             <xsl:when test="$firstMora">
                                 <span class="b r">
-                                    <xsl:value-of select="substring($hiragana,1,2)"/>
+                                    <xsl:call-template name="insert_divider">
+                                        <xsl:with-param name="t"
+                                                        select="substring($hiragana,1,2)"/>
+                                    </xsl:call-template>
                                 </span>
                                 <xsl:variable name="temp"
                                               select="substring($hiragana,3,$accent - 1)"/>
@@ -339,32 +372,40 @@
                                 <xsl:choose>
                                     <xsl:when test="$trail=0">
                                         <span class="t r">
-                                            <xsl:value-of
-                                                    select="substring($hiragana,3,$count + $accent)"/>
+                                            <xsl:call-template name="insert_divider">
+                                                <xsl:with-param name="t"
+                                                                select="substring($hiragana,3,$count + $accent)"/>
+                                            </xsl:call-template>
                                         </span>
                                         <span class="b">
-                                            <xsl:value-of
-                                                    select="substring($hiragana,3 + $count + $accent)"
-                                                    />
+                                            <xsl:call-template name="insert_divider">
+                                                <xsl:with-param name="t"
+                                                                select="substring($hiragana,3 + $count + $accent)"/>
+                                            </xsl:call-template>
                                         </span>
                                     </xsl:when>
                                     <xsl:otherwise>
                                         <span class="t r">
-                                            <xsl:value-of
-                                                    select="substring($hiragana,3,$count + $accent - 1)"
-                                                    />
+                                            <xsl:call-template name="insert_divider">
+                                                <xsl:with-param name="t"
+                                                                select="substring($hiragana,3,$count + $accent - 1)"/>
+                                            </xsl:call-template>
                                         </span>
                                         <span class="b">
-                                            <xsl:value-of
-                                                    select="substring($hiragana,3 + $count + $accent - 1)"
-                                                    />
+                                            <xsl:call-template name="insert_divider">
+                                                <xsl:with-param name="t"
+                                                                select="substring($hiragana,3 + $count + $accent - 1)"/>
+                                            </xsl:call-template>
                                         </span>
                                     </xsl:otherwise>
                                 </xsl:choose>
                             </xsl:when>
                             <xsl:otherwise>
                                 <span class="b r">
-                                    <xsl:value-of select="substring($hiragana,1,1)"/>
+                                    <xsl:call-template name="insert_divider">
+                                        <xsl:with-param name="t"
+                                                        select="substring($hiragana,1,1)"/>
+                                    </xsl:call-template>
                                 </span>
                                 <xsl:variable name="temp"
                                               select="substring($hiragana,2,$accent - 1)"/>
@@ -375,25 +416,30 @@
                                 <xsl:choose>
                                     <xsl:when test="$trail=0">
                                         <span class="t r">
-                                            <xsl:value-of
-                                                    select="substring($hiragana,2,$count + $accent)"/>
+                                            <xsl:call-template name="insert_divider">
+                                                <xsl:with-param name="t"
+                                                                select="substring($hiragana,2,$count + $accent)"/>
+                                            </xsl:call-template>
                                         </span>
                                         <span class="b">
-                                            <xsl:value-of
-                                                    select="substring($hiragana,2 + $count + $accent)"
-                                                    />
+                                            <xsl:call-template name="insert_divider">
+                                                <xsl:with-param name="t"
+                                                                select="substring($hiragana,2 + $count + $accent)"/>
+                                            </xsl:call-template>
                                         </span>
                                     </xsl:when>
                                     <xsl:otherwise>
                                         <span class="t r">
-                                            <xsl:value-of
-                                                    select="substring($hiragana,2,$count + $accent - 1)"
-                                                    />
+                                            <xsl:call-template name="insert_divider">
+                                                <xsl:with-param name="t"
+                                                                select="substring($hiragana,2,$count + $accent - 1)"/>
+                                            </xsl:call-template>
                                         </span>
                                         <span class="b">
-                                            <xsl:value-of
-                                                    select="substring($hiragana,2 + $count + $accent - 1)"
-                                                    />
+                                            <xsl:call-template name="insert_divider">
+                                                <xsl:with-param name="t"
+                                                                select="substring($hiragana,2 + $count + $accent - 1)"/>
+                                            </xsl:call-template>
                                         </span>
                                     </xsl:otherwise>
                                 </xsl:choose>
@@ -403,7 +449,10 @@
                 </xsl:choose>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:copy-of select="$yomi"/>
+                <xsl:call-template name="insert_divider">
+                    <xsl:with-param name="t"
+                                    select="$yomi"/>
+                </xsl:call-template>
             </xsl:otherwise>
         </xsl:choose>
 
