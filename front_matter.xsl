@@ -27,15 +27,13 @@
                 erstellt.
             </p>
             <p xml:lang="ja">
-                <xsl:text>本辞典は</xsl:text>
-                <a href="http://www.wadoku.de/">オンライン和独辞典</a>
-                <xsl:text>のXMLデータ</xsl:text>
+                本辞典は<a href="http://www.wadoku.de/">オンライン和独辞典</a>のXMLデータ
                 <xsl:if test="count(entries/@date) > 0">
                     <xsl:text>(</xsl:text>
                     <xsl:value-of select="entries/@date"/>
                     <xsl:text>より)</xsl:text>
                 </xsl:if>
-                <xsl:text>を変換したものです。</xsl:text>
+                を変換したものです。
             </p>
             <h2 xml:lang="de">Anhang</h2>
             <h2 xml:lang="ja">付録</h2>
@@ -82,9 +80,13 @@
             </p>
             <h2 xml:lang="de">Ressourcen</h2>
             <h2 xml:lang="ja">リソース</h2>
-            <p>
+            <p xml:lang="de">
                 XML-Dump: <a href="http://www.wadoku.de/wiki/display/WAD/Downloads+und+Links">http://www.wadoku.de/wiki/display/WAD/Downloads+und+Links</a>
-                Transformations-Skript und CSS: <a href="https://gist.github.com/813338">https://gist.github.com/813338</a>
+                Transformations-Skript, CSS usw.: <a href="https://gist.github.com/813338">https://gist.github.com/813338</a>
+            </p>
+            <p xml:lang="ja">
+                XMLデータ:<a href="http://www.wadoku.de/wiki/display/WAD/Downloads+und+Links">http://www.wadoku.de/wiki/display/WAD/Downloads+und+Links</a>
+                変換スクリプトやCSSスタイルシートなど: <a href="https://gist.github.com/813338">https://gist.github.com/813338</a>
             </p>
         </d:entry>
     </xsl:template>
