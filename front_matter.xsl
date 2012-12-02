@@ -3,6 +3,7 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:d="http://www.apple.com/DTDs/DictionaryService-1.0.rng"
                 xmlns:wd="http://www.wadoku.de/xml/entry"
+                xmlns="http://www.w3.org/1999/xhtml"
                 exclude-result-prefixes="d">
     <xsl:output
             method="xml"
@@ -37,42 +38,38 @@
             </p>
             <h2 xml:lang="de">Anhang</h2>
             <h2 xml:lang="ja">付録</h2>
-            <p>
-                <ol>
-                    <li xml:lang="de"><a href="x-dictionary:r:wadoku_appendix_image">Illustrationen</a></li>
-                    <li xml:lang="ja"><a href="x-dictionary:r:wadoku_appendix_image">イラストレーション</a></li>
-                    <li xml:lang="de"><a href="x-dictionary:r:wadoku_appendix_seasonwords">Jahreszeitenwörter</a></li>
-                    <li xml:lang="ja"><a href="x-dictionary:r:wadoku_appendix_seasonwords">季語</a></li>
-                </ol>
-            </p>
+            <ol>
+                <li xml:lang="de"><a href="x-dictionary:r:wadoku_appendix_image">Illustrationen</a></li>
+                <li xml:lang="ja"><a href="x-dictionary:r:wadoku_appendix_image">イラストレーション</a></li>
+                <li xml:lang="de"><a href="x-dictionary:r:wadoku_appendix_seasonwords">Jahreszeitenwörter</a></li>
+                <li xml:lang="ja"><a href="x-dictionary:r:wadoku_appendix_seasonwords">季語</a></li>
+            </ol>
             <h2 xml:lang="de">Statistik</h2>
             <h2 xml:lang="ja">統計</h2>
-            <p>
-                <table>
-                    <tbody>
-                        <tr>
-                            <th xml:lang="de">Datensätze</th>
-                            <th xml:lang="ja">レコード数</th>
-                            <td><xsl:value-of select="count(wd:entry)"/></td>
-                        </tr>
-                        <tr>
-                            <th xml:lang="de">Schreibungen</th>
-                            <th xml:lang="ja">表記数</th>
-                            <td><xsl:value-of select="count(wd:entry//wd:orth[not(@type='midashigo')])"/></td>
-                        </tr>
-                        <tr>
-                            <th xml:lang="de">Bedeutungen</th>
-                            <th xml:lang="ja">意味数</th>
-                            <td><xsl:value-of select="count(wd:entry//wd:sense)"/></td>
-                        </tr>
-                        <tr>
-                            <th xml:lang="de">Übersetzungen</th>
-                            <th xml:lang="ja">翻訳項目数</th>
-                            <td><xsl:value-of select="count(wd:entry//wd:trans)"/></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </p>
+            <table>
+                <tbody>
+                    <tr>
+                        <th xml:lang="de">Datensätze</th>
+                        <th xml:lang="ja">レコード数</th>
+                        <td><xsl:value-of select="count(wd:entry)"/></td>
+                    </tr>
+                    <tr>
+                        <th xml:lang="de">Schreibungen</th>
+                        <th xml:lang="ja">表記数</th>
+                        <td><xsl:value-of select="count(wd:entry//wd:orth[not(@type='midashigo')])"/></td>
+                    </tr>
+                    <tr>
+                        <th xml:lang="de">Bedeutungen</th>
+                        <th xml:lang="ja">意味数</th>
+                        <td><xsl:value-of select="count(wd:entry//wd:sense)"/></td>
+                    </tr>
+                    <tr>
+                        <th xml:lang="de">Übersetzungen</th>
+                        <th xml:lang="ja">翻訳項目数</th>
+                        <td><xsl:value-of select="count(wd:entry//wd:trans)"/></td>
+                    </tr>
+                </tbody>
+            </table>
             <h2 xml:lang="de">Lizenz</h2>
             <h2 xml:lang="ja">ライセンス</h2>
             <p>
