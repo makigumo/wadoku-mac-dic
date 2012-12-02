@@ -115,6 +115,7 @@ rt {
 .transcr{font-style: italic;}
 .jap + .transcr:before,.transcr + .jap:before{content:'\0020'}
 .reflink {margin-left:4px;margin-right:4px;}
+.def > .reflink {margin-left: 0; margin-right: 0}
 .reflink.syn:before{content:'\21d2\00a0'}
 .reflink.anto:before{content:'\21d4\00a0'}
 .reflink.main:before{content:'\21d1\00a0'}
