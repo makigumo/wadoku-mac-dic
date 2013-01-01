@@ -254,9 +254,7 @@
                         </span>
                     </xsl:when>
                     <xsl:when test="regex-group(5)">
-                        <span class="paren"><!-- parenthesis -->
-                            <xsl:value-of select="regex-group(5)"/>
-                        </span>
+                        <xsl:value-of select="replace(replace(.,'）','&lt;/span>'),'（','&lt;span class=&quot;paren&quot;>')" disable-output-escaping="yes"/>
                     </xsl:when>
                 </xsl:choose>
             </xsl:matching-substring>
