@@ -13,7 +13,7 @@
             method="xml"
             omit-xml-declaration="yes"
             encoding="UTF-8"
-            indent="no"/>
+            indent="yes"/>
 
     <!-- Parameter, der bestimmt, ob Untereinträge ihre eigenen Einträge erhalten,
          oder nur im Haupteintrag erscheinen, wenn = yes
@@ -240,7 +240,7 @@
     </xsl:template>
 
     <xsl:template name="enrich_midashigo">
-        <xsl:analyze-string select="." regex="△(.)|×(.)|〈(.*?)〉|｛(.*?)｝|（(.*?)）">
+        <xsl:analyze-string select="." regex="△(.)|×(.)|〈(.*?)〉|｛(.*?)｝|（([^（）]*?)）|（（([^（）]*?)）([^（）]*?)）">
             <xsl:matching-substring>
                 <xsl:choose>
                     <xsl:when test="regex-group(1)">
@@ -264,7 +264,17 @@
                         </span>
                     </xsl:when>
                     <xsl:when test="regex-group(5)">
-                        <xsl:value-of select="replace(replace(.,'）','&lt;/span>'),'（','&lt;span class=&quot;paren&quot;>')" disable-output-escaping="yes"/>
+                        <span class="paren">
+                            <xsl:value-of select="regex-group(5)"/>
+                        </span>
+                    </xsl:when>
+                    <xsl:when test="regex-group(6)">
+                        <span class="paren">
+                            <span class="paren">
+                                <xsl:value-of select="regex-group(6)"/>
+                            </span>
+                            <xsl:value-of select="regex-group(7)"/>
+                        </span>
                     </xsl:when>
                 </xsl:choose>
             </xsl:matching-substring>
