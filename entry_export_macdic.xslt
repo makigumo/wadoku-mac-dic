@@ -302,11 +302,24 @@
         <xsl:choose>
             <xsl:when test="./wd:form/wd:pron[@accent]">
                 <xsl:variable name="accent" select="number(./wd:form/wd:pron/@accent)"/>
-                <xsl:variable name="hiragana" select="$yomi"/>
+                <xsl:variable name="startsWithEllipsis" select="starts-with($yomi, '…')"/>
+                <xsl:variable name="hiragana">
+                    <xsl:choose>
+                        <xsl:when test="$startsWithEllipsis">
+                            <xsl:value-of select="substring($yomi, 2)"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:value-of select="$yomi"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:variable>
                 <!-- Symbole, die nicht als Mora gelten: werden nicht gezählt -->
                 <xsl:variable name="letters" select="'ゅゃょぁぃぅぇぉ・･·~’￨|…'"/>
                 <xsl:variable name="firstMora"
                               select="string-length(translate(substring($hiragana,2,1),$letters,''))=0"/>
+                <xsl:if test="$startsWithEllipsis">
+                    <xsl:text>…</xsl:text>
+                </xsl:if>
                 <xsl:choose>
                     <xsl:when test="$accent=0">
                         <xsl:choose>
