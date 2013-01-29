@@ -31,7 +31,7 @@
         <xsl:if test="$show_uid-yes = '1'">
             <xsl:element name="a">
                 <xsl:attribute name="class">uid</xsl:attribute>
-                <xsl:attribute name="href">http://www.wadoku.de/wadoku/entry/view/<xsl:value-of
+                <xsl:attribute name="href">http://www.wadoku.de/entry/view/<xsl:value-of
                         select="."/></xsl:attribute>
                 <xsl:value-of select="."/>
             </xsl:element>
