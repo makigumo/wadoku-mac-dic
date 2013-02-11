@@ -149,11 +149,13 @@
         <xsl:text>&#10;</xsl:text>
     </xsl:template>
 
+    <!-- Untereinträge -->
     <xsl:template name="entry_subs">
         <xsl:variable name="subs" select="key('refs',@id)"/>
         <xsl:if test="$subs">
-            <!-- Ableitungen -->
-            <xsl:variable name="hasei" select="$subs[wd:ref[
+            <div class="subentries">
+                <!-- Ableitungen -->
+                <xsl:variable name="hasei" select="$subs[wd:ref[
                     not(@subentrytype='head')
                     and not(@subentrytype='tail')
                     and not(@subentrytype='VwBsp')
@@ -162,65 +164,68 @@
                     and not(@subentrytype='ZSprW')
                     and not(@subentrytype='other')
                     ]]"/>
-            <xsl:if test="$hasei">
-                <span class="label" xml:lang="ja">
-                    <b>派生語</b>
-                </span>
-                <span class="label" xml:lang="de">
-                    <b>Ableitungen</b>
-                </span>
-                <xsl:apply-templates mode="subentry"
-                                     select="$hasei[wd:ref[@subentrytype='suru']]">
-                    <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
-                </xsl:apply-templates>
-                <xsl:apply-templates mode="subentry"
-                                     select="$hasei[wd:ref[@subentrytype='sa']]">
-                    <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
-                </xsl:apply-templates>
-                <xsl:apply-templates mode="subentry"
-                                     select="$hasei[wd:ref[not(@subentrytype='sa') and not(@subentrytype='suru')]]">
-                    <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
-                </xsl:apply-templates>
-            </xsl:if>
-            <!-- Komposita -->
-            <xsl:if test="$subs[wd:ref[@subentrytype='head' or @subentrytype='tail']]">
-                <span class="label" xml:lang="ja">
-                    <b>合成語</b>
-                </span>
-                <span class="label" xml:lang="de">
-                    <b>Zusammensetzungen</b>
-                </span>
-                <!-- Sichergehen, dass dieser Eintrag gemeint ist, bei evtl. Head- und tail-Kompositum -->
-                <xsl:variable name="id" select="@id"/>
-                <xsl:apply-templates mode="subentry"
-                                     select="$subs[wd:ref[@subentrytype='head' and @id=$id]]">
-                    <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
-                </xsl:apply-templates>
-                <xsl:apply-templates mode="subentry"
-                                     select="$subs[wd:ref[@subentrytype='tail' and @id=$id]]">
-                    <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
-                </xsl:apply-templates>
-            </xsl:if>
-            <!-- Rest -->
-            <xsl:if test="(count($subs) - count($hasei) - count($subs[wd:ref[@subentrytype='head' or @subentrytype='tail']])) > 0">
-                <xsl:apply-templates mode="subentry"
-                                     select="$subs[wd:ref[@subentrytype='VwBsp']]">
-                    <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
-                </xsl:apply-templates>
-                <xsl:apply-templates mode="subentry"
-                                     select="$subs[wd:ref[@subentrytype='XSatz']]">
-                    <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
-                </xsl:apply-templates>
-                <xsl:apply-templates mode="subentry"
-                                     select="$subs[wd:ref[
+                <xsl:if test="$hasei">
+                    <span class="label" xml:lang="ja">
+                        <b>派生語</b>
+                    </span>
+                    <span class="label" xml:lang="de">
+                        <b>Ableitungen</b>
+                    </span>
+                    <xsl:apply-templates mode="subentry"
+                                         select="$hasei[wd:ref[@subentrytype='suru']]">
+                        <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
+                    </xsl:apply-templates>
+                    <xsl:apply-templates mode="subentry"
+                                         select="$hasei[wd:ref[@subentrytype='sa']]">
+                        <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
+                    </xsl:apply-templates>
+                    <xsl:apply-templates mode="subentry"
+                                         select="$hasei[wd:ref[not(@subentrytype='sa') and not(@subentrytype='suru')]]">
+                        <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
+                    </xsl:apply-templates>
+                </xsl:if>
+                <!-- Komposita -->
+                <xsl:if test="$subs[wd:ref[@subentrytype='head' or @subentrytype='tail']]">
+                    <span class="label" xml:lang="ja">
+                        <b>合成語</b>
+                    </span>
+                    <span class="label" xml:lang="de">
+                        <b>Zusammensetzungen</b>
+                    </span>
+                    <!-- Sichergehen, dass dieser Eintrag gemeint ist, bei evtl. Head- und tail-Kompositum -->
+                    <xsl:variable name="id" select="@id"/>
+                    <xsl:apply-templates mode="subentry"
+                                         select="$subs[wd:ref[@subentrytype='head' and @id=$id]]">
+                        <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
+                    </xsl:apply-templates>
+                    <xsl:apply-templates mode="subentry"
+                                         select="$subs[wd:ref[@subentrytype='tail' and @id=$id]]">
+                        <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
+                    </xsl:apply-templates>
+                </xsl:if>
+                <!-- Rest -->
+                <xsl:if test="(count($subs) - count($hasei) - count($subs[wd:ref[@subentrytype='head' or @subentrytype='tail']])) > 0">
+                    <xsl:apply-templates mode="subentry"
+                                         select="$subs[wd:ref[@subentrytype='VwBsp']]">
+                        <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
+                    </xsl:apply-templates>
+                    <xsl:apply-templates mode="subentry"
+                                         select="$subs[wd:ref[@subentrytype='XSatz']]">
+                        <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
+                    </xsl:apply-templates>
+                    <xsl:apply-templates mode="subentry"
+                                         select="$subs[wd:ref[
                                          @subentrytype='WIdiom'
                                          or @subentrytype='ZSprW'
                                          or @subentrytype='other']]">
-                    <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
-                </xsl:apply-templates>
-            </xsl:if>
+                        <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
+                    </xsl:apply-templates>
+                </xsl:if>
+            </div>
         </xsl:if>
     </xsl:template>
+
+
     <xsl:template name="insert_divider">
         <!--
         ersetzt Pipe (|) durch span-Element mit divider class
@@ -721,6 +726,9 @@
                     </xsl:if>
                     <xsl:apply-templates mode="core" select="."/>
                 </span>
+                <xsl:if test="position()&lt;last()">
+                    <br/>
+                </xsl:if>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
@@ -881,6 +889,7 @@
             <xsl:value-of select="."/>
         </span>
         <span class="genus">
+            <xsl:text>&#160;</xsl:text>
             <xsl:if test="@article='false' or @noArticleNecessary='true'">(</xsl:if>
             <xsl:value-of select="./@genus"/>
             <xsl:value-of select="./@numerus"/>
@@ -1049,6 +1058,11 @@
         <xsl:if test="not(position()=last())">
             <xsl:text>; </xsl:text>
         </xsl:if>
+    </xsl:template>
+
+    <xsl:template match="wd:pos/wd:expl">
+        <xsl:text> </xsl:text>
+        <xsl:apply-templates/>
     </xsl:template>
 
     <xsl:template match="wd:text">

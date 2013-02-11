@@ -93,9 +93,8 @@ rt {
 }
 .genus,.foreign{
     font-style:italic;
-    color:gray
+    color:gray;
 }
-.genus:before{content:'\00a0'}
 .master > .indexnr:before{content: '['}
 .master > .indexnr:after{content: ']'}
 .indexnr:after{content:'.'}
@@ -104,7 +103,6 @@ rt {
     margin-left: 8px;
 }
 .sense{
-    display:block;
     margin: 4px 0;
 }
 .related:before {
@@ -114,6 +112,11 @@ rt {
 .descr:before {content: ' (';}
 .descr:after {content: ')';}
 .klammer:before,.klammer+.token:before,.klammer+.famn:before{content:'\0020'}
+.sense>.def:before {
+    content: 'Def.: ';
+    font-size: 80%;
+    color: gray;
+}
 .etym {color: gray;}
 .etym:before{content:'\00a0('}
 .etym:after{content:')'}
@@ -149,7 +152,6 @@ rt {
 }
 .hinshi:before {content: '('}
 .hinshi:after {content: ')'}
-.hinshi .transcr+.expl:before {content: ' '}
 .subheadword{
     font-size: 80%;
 }
