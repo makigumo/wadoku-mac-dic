@@ -670,6 +670,7 @@
                 <span class="indexnr">
                     <xsl:value-of select="position()"/>
                 </span>
+                <xsl:text>&#160;</xsl:text>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:apply-templates select="../wd:usg"/>
