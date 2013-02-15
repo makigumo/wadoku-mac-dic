@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet
         xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:d="http://www.apple.com/DTDs/DictionaryService-1.0.rng"
         xmlns:wd="http://www.wadoku.de/xml/entry"
-        exclude-result-prefixes="d"
+        exclude-result-prefixes="d xs"
         version="2.0">
     <xsl:import href="front_matter.xsl"/>
     <xsl:import href="image_appendix.xsl"/>
@@ -24,6 +25,9 @@
     <xsl:param name="orthdivider">
         <span class="divider">；</span>
     </xsl:param>
+
+    <!-- Kana/Symbole, die nicht als einzelne Mora gelten -->
+    <xsl:variable name="letters" select="'ゅゃょぁぃぅぇぉ・･·~’￨|…'"/>
 
     <!-- lookup key für einträge mit referenzen auf einen Haupteintrag -->
     <xsl:key name="refs" match="wd:entry[./wd:ref[@type='main']]" use="./wd:ref/@id"/>
@@ -225,6 +229,18 @@
         </xsl:if>
     </xsl:template>
 
+    <xsl:function name="wd:get_accented_part" as="xs:string">
+        <xsl:param name="str"/>
+        <xsl:param name="accent"/>
+        <xsl:choose>
+            <xsl:when test="string-length(translate($str, $letters, '')) > $accent">
+                <xsl:value-of select="wd:get_accented_part(substring($str, 1, string-length($str)-1), $accent)"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="substring($str, 1, string-length($str)-1)"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:function>
 
     <xsl:template name="insert_divider">
         <!--
@@ -318,8 +334,6 @@
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:variable>
-                <!-- Symbole, die nicht als Mora gelten: werden nicht gezählt -->
-                <xsl:variable name="letters" select="'ゅゃょぁぃぅぇぉ・･·~’￨|…'"/>
                 <xsl:variable name="firstMora"
                               select="string-length(translate(substring($hiragana,2,1),$letters,''))=0"/>
                 <xsl:if test="$startsWithEllipsis">
@@ -400,7 +414,7 @@
                                     </xsl:call-template>
                                 </span>
                                 <xsl:variable name="temp"
-                                              select="substring($hiragana,3,$accent - 1)"/>
+                                              select="wd:get_accented_part(substring($hiragana, 3, string-length($hiragana)), $accent)"/>
                                 <xsl:variable name="count"
                                               select="string-length($temp)-string-length(translate($temp,$letters,''))"/>
                                 <xsl:variable name="trail"
@@ -443,12 +457,13 @@
                                                         select="substring($hiragana,1,1)"/>
                                     </xsl:call-template>
                                 </span>
-                                <xsl:variable name="temp"
-                                              select="substring($hiragana,2,$accent - 1)"/>
+                                <xsl:variable name="str1"
+                                              select="substring($hiragana,2,string-length($hiragana))"/>
+                                <xsl:variable name="temp" select="wd:get_accented_part($str1, $accent)"/>
                                 <xsl:variable name="count"
                                               select="string-length($temp)-string-length(translate($temp,$letters,''))"/>
                                 <xsl:variable name="trail"
-                                              select="string-length(translate(substring($hiragana,2 + $count + $accent - 1,1),$letters,''))"/>
+                                              select="string-length(substring-after($str1, $temp))"/>
                                 <xsl:choose>
                                     <xsl:when test="$trail=0">
                                         <span class="t r">
