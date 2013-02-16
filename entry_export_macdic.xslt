@@ -681,11 +681,15 @@
             <xsl:text> </xsl:text>
         </xsl:if>
         <xsl:choose>
-            <xsl:when test="count(../wd:sense) > 1">
+            <xsl:when test="following-sibling::wd:sense[not(@related)] or preceding-sibling::wd:sense[not(@related)]">
                 <span class="indexnr">
-                    <xsl:value-of select="position()"/>
+                    <xsl:number count="wd:sense[not(@related)]"/>
                 </span>
                 <xsl:text>&#160;</xsl:text>
+            </xsl:when>
+            <xsl:when test="@related='true'">
+                <span class="related">
+                </span>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:apply-templates select="../wd:usg"/>
