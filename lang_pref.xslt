@@ -11,20 +11,20 @@
     <xsl:param name="show_genera-yes">1</xsl:param>
     <xsl:param name="show_ruby-yes">1</xsl:param>
 
-    <xsl:template match="*[@xml:lang='ja']">
-        <xsl:if test="$lang = '0'">
-            <xsl:copy>
-                <xsl:apply-templates select="@*|node()" />
-            </xsl:copy>
-        </xsl:if>
-    </xsl:template>
-
-    <xsl:template match="*[@xml:lang='de']">
-        <xsl:if test="$lang = '1'">
-            <xsl:copy>
-                <xsl:apply-templates select="@*|node()" />
-            </xsl:copy>
-        </xsl:if>
+    <xsl:template match="body">
+        <xsl:copy>
+            <xsl:attribute name="lang">
+                <xsl:choose>
+                    <xsl:when test="$lang = '0'">
+                        <xsl:text>ja</xsl:text>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:text>de</xsl:text>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:attribute>
+            <xsl:apply-templates select="@*|node()" />
+        </xsl:copy>
     </xsl:template>
 
     <xsl:template match="div[@class='uid']">

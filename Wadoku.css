@@ -158,6 +158,13 @@ rt {
 .subheadword{
     font-size: 80%;
 }
+.reg, .usage{
+    font-size: 80%;
+    display: block;
+}
+.sense .reg, .sense .usage {
+    display: inline-block;
+}
 .reg{font-style:italic;color:#483d8b}
 .usage{color:maroon;font-style:italic}
 .reg+.token:before,.usage+.token:before,.famn+.token:before{content:'\0020'}
@@ -185,6 +192,12 @@ rt {
 .title:before{content:'\201e'}
 .title:after{content:'\201f'}
 .klammer{color:gray}
+body[lang="ja"] *[lang="de"] {
+    display: none;
+}
+body[lang="de"] *[lang="ja"] {
+    display: none;
+}
 
 div.image_appendix_line {
 

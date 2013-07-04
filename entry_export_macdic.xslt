@@ -706,7 +706,8 @@
                 <xsl:text>&#160;</xsl:text>
             </xsl:when>
             <xsl:when test="@related='true'">
-                <span class="related">
+                <span class="rel">
+                    <xsl:copy-of select="$relationDivider"/>
                 </span>
             </xsl:when>
             <xsl:otherwise>
@@ -919,23 +920,143 @@
     </xsl:template>
 
     <xsl:template match="wd:token">
-        <xsl:if
-                test="position()>1 and string-length(.)>0 and not(preceding-sibling::wd:text)">
+        <xsl:if test="position()>1 and string-length(.)>0 and not(preceding-sibling::wd:text)">
+            <xsl:text> </xsl:text>
+        </xsl:if>
+        <xsl:if test="preceding-sibling::wd:iron">
             <xsl:text> </xsl:text>
         </xsl:if>
         <span class="token">
             <xsl:value-of select="."/>
+            <xsl:call-template name="genusTemplate">
+                <xsl:with-param name="lang">de</xsl:with-param>
+                <xsl:with-param name="genus">
+                    <xsl:if test="@genus">
+                        <xsl:call-template name="genusTemplate-de"/>
+                        <xsl:if test="@numerus">
+                            <xsl:text>, </xsl:text>
+                        </xsl:if>
+                    </xsl:if>
+                    <xsl:if test="@numerus">
+                        <xsl:call-template name="numerusTemplate-de"/>
+                    </xsl:if>
+                </xsl:with-param>
+            </xsl:call-template>
+            <xsl:call-template name="genusTemplate">
+                <xsl:with-param name="lang">ja</xsl:with-param>
+                <xsl:with-param name="genus">
+                    <xsl:if test="@genus">
+                        <xsl:call-template name="genusTemplate-ja"/>
+                        <xsl:if test="@numerus">
+                            <xsl:text>・</xsl:text>
+                        </xsl:if>
+                    </xsl:if>
+                    <xsl:if test="@numerus">
+                        <xsl:call-template name="numerusTemplate-ja"/>
+                    </xsl:if>
+                </xsl:with-param>
+            </xsl:call-template>
         </span>
-        <span class="genus">
+        <xsl:if test="following-sibling::wd:iron">
+            <xsl:text> </xsl:text>
+        </xsl:if>
+    </xsl:template>
+
+    <xsl:template name="genusTemplate">
+        <xsl:param name="genus"/>
+        <xsl:param name="lang"/>
+        <i class="genus" lang="{$lang}">
+            <xsl:if test="string-length($genus) > 0">
+                <xsl:attribute name="title">
+                    <xsl:value-of select="$genus"/>
+                </xsl:attribute>
+            </xsl:if>
             <xsl:text>&#160;</xsl:text>
             <xsl:if test="@article='false' or @noArticleNecessary='true'">(</xsl:if>
-            <xsl:value-of select="./@genus"/>
-            <xsl:value-of select="./@numerus"/>
+            <xsl:value-of select="@genus"/>
+            <xsl:value-of select="@numerus"/>
             <xsl:if test="not(@genus) and not(@numerus) and @article='false'">NAr</xsl:if>
             <xsl:if test="not(@genus) and not(@numerus) and @noArticleNecessary='true'">NArN</xsl:if>
             <xsl:if test="@article='false' or @noArticleNecessary='true'">)</xsl:if>
-        </span>
+        </i>
     </xsl:template>
+
+    <xsl:template name="numerusTemplate-de">
+        <xsl:choose>
+            <xsl:when test="@numerus='pl'">
+                <xsl:choose>
+                    <xsl:when test="@genus">
+                        <xsl:text>Plural</xsl:text>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:text>Pluraletantum</xsl:text>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:when>
+        </xsl:choose>
+    </xsl:template>
+
+    <xsl:template name="numerusTemplate-ja">
+        <xsl:choose>
+            <xsl:when test="@numerus='pl'">
+                <xsl:choose>
+                    <xsl:when test="@genus">
+                        <xsl:text>複数</xsl:text>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:text>絶対複数</xsl:text>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:when>
+        </xsl:choose>
+    </xsl:template>
+
+    <xsl:template name="genusTemplate-de">
+        <xsl:choose>
+            <xsl:when test="@genus='m'">
+                <xsl:text>männlich</xsl:text>
+            </xsl:when>
+            <xsl:when test="@genus='f'">
+                <xsl:text>weiblich</xsl:text>
+            </xsl:when>
+            <xsl:when test="@genus='n'">
+                <xsl:text>sächlich</xsl:text>
+            </xsl:when>
+            <xsl:when test="@genus='mn'">
+                <xsl:text>männlich oder sächlich</xsl:text>
+            </xsl:when>
+            <xsl:when test="@genus='mf'">
+                <xsl:text>männlich oder weiblich</xsl:text>
+            </xsl:when>
+            <xsl:when test="@genus='nf'">
+                <xsl:text>sächlich oder männlich</xsl:text>
+            </xsl:when>
+        </xsl:choose>
+    </xsl:template>
+
+    <xsl:template name="genusTemplate-ja">
+        <xsl:choose>
+            <xsl:when test="@genus='m'">
+                <xsl:text>男性</xsl:text>
+            </xsl:when>
+            <xsl:when test="@genus='f'">
+                <xsl:text>女性</xsl:text>
+            </xsl:when>
+            <xsl:when test="@genus='n'">
+                <xsl:text>中性</xsl:text>
+            </xsl:when>
+            <xsl:when test="@genus='mn'">
+                <xsl:text>男性／中性</xsl:text>
+            </xsl:when>
+            <xsl:when test="@genus='mf'">
+                <xsl:text>男性／女性</xsl:text>
+            </xsl:when>
+            <xsl:when test="@genus='nf'">
+                <xsl:text>中性／女性</xsl:text>
+            </xsl:when>
+        </xsl:choose>
+    </xsl:template>
+
 
     <xsl:template match="wd:tr">
         <xsl:apply-templates/>
