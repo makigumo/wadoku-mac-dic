@@ -95,22 +95,21 @@ rt {
     font-style:italic;
     color:gray;
 }
-.master > .indexnr:before{content: '['}
-.master > .indexnr:after{content: ']'}
-.indexnr:after{content:'.'}
-.indexnr{font-weight: bold}
-.master .sense {
-    margin-left: 8px;
+.genus{font-size: 80%;}
+.indexnr:before{content: '['}
+.indexnr:after{content: ']'}
+.master > .indexnr{color: #333300;}
+.indexnr{font-weight: bold;color: #000066}
+.master {display: block}
+.master > .sense {
+    padding-left: 1em;
 }
-.sense{
+.sense.master{
     margin: 4px 0;
-}
-.related:before {
-    content: ' // ';
 }
 .descr {color: gray;}
 .descr:before {content: ' (';}
-.descr:after {content: ')';}
+.descr:after {content: ') ';}
 .klammer:before,.klammer+.token:before,.klammer+.famn:before{content:'\0020'}
 .sense>.def:before {
     content: 'Def.: ';
@@ -127,6 +126,10 @@ rt {
 .r{border-right:1px dotted gray}
 .transcr{font-style: italic;}
 .jap + .transcr:before,.transcr + .jap:before{content:'\0020'}
+.rel {
+    padding-left: 1px;
+    padding-right: 2px;
+}
 .reflink {margin-left:4px;margin-right:4px;}
 .def > .reflink {margin-left: 0; margin-right: 0}
 .reflink.syn:before{content:'\21d2\00a0'}

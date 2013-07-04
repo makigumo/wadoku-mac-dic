@@ -14,7 +14,7 @@
             method="xml"
             omit-xml-declaration="yes"
             encoding="UTF-8"
-            indent="yes"/>
+            indent="no"/>
 
     <!-- Parameter, der bestimmt, ob Untereinträge ihre eigenen Einträge erhalten,
          oder nur im Haupteintrag erscheinen, wenn = yes
@@ -26,6 +26,11 @@
         <span class="divider">；</span>
     </xsl:param>
 
+    <!-- Trenner für Bedeutungen mit inhaltlicher Nähe -->
+    <xsl:variable name="relationDivider">
+        <xsl:text> ‖ </xsl:text>
+    </xsl:variable>
+
     <!-- Kana/Symbole, die nicht als einzelne Mora gelten -->
     <xsl:variable name="letters" select="'ゅゃょぁぃぅぇぉ・･·~’￨|…'"/>
 
@@ -35,7 +40,6 @@
     <xsl:template match="entries">
         <d:dictionary xmlns="http://www.w3.org/1999/xhtml"
                       xmlns:d="http://www.apple.com/DTDs/DictionaryService-1.0.rng">
-            <xsl:text>&#10;</xsl:text>
 
             <xsl:choose>
                 <xsl:when test="$strictSubHeadIndex = 'yes'">
@@ -147,7 +151,6 @@
                 <xsl:apply-templates mode="global" select="./wd:ref[@type='main']"/>
             </div>
         </d:entry>
-        <xsl:text>&#10;</xsl:text>
     </xsl:template>
 
     <xsl:template name="build_entry_index">
@@ -744,6 +747,9 @@
     <xsl:template match="wd:sense[empty(./wd:sense)]">
         <xsl:choose>
             <xsl:when test="@related='true'">
+                <span class="rel">
+                    <xsl:copy-of select="$relationDivider"/>
+                </span>
                 <span class="sense related">
                     <xsl:apply-templates mode="core" select="."/>
                 </span>
@@ -751,6 +757,7 @@
             <xsl:otherwise>
                 <xsl:if test="position()>1">
                     <xsl:text> </xsl:text>
+                    <br/>
                 </xsl:if>
                 <span class="sense">
                     <xsl:if test="following-sibling::wd:sense[not(@related)] or preceding-sibling::wd:sense[not(@related)]">
@@ -761,9 +768,6 @@
                     </xsl:if>
                     <xsl:apply-templates mode="core" select="."/>
                 </span>
-                <xsl:if test="position()&lt;last()">
-                    <br/>
-                </xsl:if>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
@@ -902,9 +906,8 @@
             <xsl:otherwise>
                 <span class="rel">
                     <xsl:choose>
-                        <xsl:when
-                                test="following-sibling::wd:trans[1]/wd:usg[@type='hint' and text()='rel.']">
-                            <xsl:text> || </xsl:text>
+                        <xsl:when test="following-sibling::wd:trans[1]/wd:usg[@type='hint' and text()='rel.']">
+                            <xsl:copy-of select="$relationDivider"/>
                         </xsl:when>
                         <xsl:otherwise>
                             <xsl:text>; </xsl:text>
