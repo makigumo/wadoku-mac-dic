@@ -1051,6 +1051,9 @@
                 <xsl:when test="@type='altread'">
                     <xsl:attribute name="class">reflink aread</xsl:attribute>
                 </xsl:when>
+                <xsl:when test="@type='alttranscr'">
+                    <xsl:attribute name="class">reflink atranscr</xsl:attribute>
+                </xsl:when>
                 <xsl:when test="@type='other'">
                     <xsl:attribute name="class">reflink</xsl:attribute>
                 </xsl:when>
