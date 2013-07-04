@@ -77,19 +77,16 @@
         </xsl:variable>
         <d:entry id="{@id}" d:title="{$title}">
             <!-- index -->
-            <!-- Lesung -->
-            <d:index d:title="{$title}" d:value="{$yomi}" d:yomi="{$yomi}"/>
-            <!-- Lesung mit … auch ohne … in den Suchindex -->
-            <xsl:if test="contains($yomi, '…')">
-                <d:index d:value="{translate($yomi, '…', '')}" d:title="{$title}" d:yomi="{$yomi}"/>
-            </xsl:if>
-            <!-- Schreibungen -->
-            <xsl:for-each select="./wd:form/wd:orth[not(@midashigo='true') and . != $yomi]">
-                <xsl:apply-templates mode="index"
-                                     select=".">
+            <xsl:variable name="idx">
+                <xsl:call-template name="build_entry_index">
                     <xsl:with-param name="title" select="$title"/>
                     <xsl:with-param name="yomi" select="$yomi"/>
-                </xsl:apply-templates>
+                </xsl:call-template>
+            </xsl:variable>
+            <!-- filter duplicate index entries -->
+            <xsl:for-each select="$idx">
+                <xsl:copy-of select="d:index[not(preceding-sibling::d:index/@d:value=./@d:value
+                 and preceding-sibling::d:index/@d:title=./@d:title and preceding-sibling::d:index/@d:yomi=./@d:yomi)]"/>
             </xsl:for-each>
             <!-- Index für Untereinträge -->
             <xsl:if test="$strictSubHeadIndex = 'yes'">
@@ -153,6 +150,24 @@
         <xsl:text>&#10;</xsl:text>
     </xsl:template>
 
+    <xsl:template name="build_entry_index">
+        <xsl:param name="title"/>
+        <xsl:param name="yomi"/>
+        <!-- Lesung -->
+        <d:index d:title="{$title}" d:value="{$yomi}" d:yomi="{$yomi}"/>
+        <!-- Lesung mit … auch ohne … in den Suchindex -->
+        <xsl:if test="contains($yomi, '…')">
+            <d:index d:value="{translate($yomi, '…', '')}" d:title="{$title}" d:yomi="{$yomi}"/>
+        </xsl:if>
+        <!-- Schreibungen -->
+        <xsl:for-each select="./wd:form/wd:orth[not(@midashigo='true') and . != $yomi]">
+            <xsl:apply-templates mode="index"
+                                 select=".">
+                <xsl:with-param name="title" select="$title"/>
+                <xsl:with-param name="yomi" select="$yomi"/>
+            </xsl:apply-templates>
+        </xsl:for-each>
+    </xsl:template>
     <!-- Untereinträge -->
     <xsl:template name="entry_subs">
         <xsl:variable name="subs" select="key('refs',@id)"/>
