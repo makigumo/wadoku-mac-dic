@@ -699,16 +699,16 @@
             <xsl:text> </xsl:text>
         </xsl:if>
         <xsl:choose>
+            <xsl:when test="@related='true'">
+                <span class="rel">
+                    <xsl:copy-of select="$relationDivider"/>
+                </span>
+            </xsl:when>
             <xsl:when test="following-sibling::wd:sense[not(@related)] or preceding-sibling::wd:sense[not(@related)]">
                 <span class="indexnr">
                     <xsl:number count="wd:sense[not(@related)]"/>
                 </span>
                 <xsl:text>&#160;</xsl:text>
-            </xsl:when>
-            <xsl:when test="@related='true'">
-                <span class="rel">
-                    <xsl:copy-of select="$relationDivider"/>
-                </span>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:apply-templates select="../wd:usg"/>
