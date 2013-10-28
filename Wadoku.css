@@ -162,7 +162,7 @@ rt {
     font-size: 80%;
     display: block;
 }
-.sense .reg, .sense .usage {
+.sense .reg, .sense .usage, .subheadword .reg, .subheadword .usage {
     display: inline-block;
 }
 .reg{font-style:italic;color:#483d8b}

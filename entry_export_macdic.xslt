@@ -14,7 +14,7 @@
             method="xml"
             omit-xml-declaration="yes"
             encoding="UTF-8"
-            indent="no"/>
+            indent="yes"/>
 
     <!-- Parameter, der bestimmt, ob Untereinträge ihre eigenen Einträge erhalten,
          oder nur im Haupteintrag erscheinen, wenn = yes
@@ -1228,13 +1228,15 @@
     </xsl:template>
 
     <xsl:template match="wd:text">
-        <xsl:if test="@hasPrecedingSpace='true'">
-            <xsl:text> </xsl:text>
-        </xsl:if>
-        <xsl:apply-templates/>
-        <xsl:if test="@hasFollowingSpace='true'">
-            <xsl:text> </xsl:text>
-        </xsl:if>
+        <span class="text">
+            <xsl:if test="@hasPrecedingSpace='true'">
+                <xsl:text> </xsl:text>
+            </xsl:if>
+            <xsl:apply-templates/>
+            <xsl:if test="@hasFollowingSpace='true'">
+                <xsl:text> </xsl:text>
+            </xsl:if>
+        </span>
     </xsl:template>
 
     <xsl:template match="wd:bracket">
