@@ -1082,33 +1082,33 @@
     <xsl:template match="wd:usg">
         <xsl:choose>
             <xsl:when test="@type='dom'">
-                <span class="dom">
-                    <xsl:apply-templates/>
-                    <xsl:if test="following-sibling::wd:usg[@type='dom']">
-                        <xsl:text>, </xsl:text>
-                    </xsl:if>
-                    <xsl:if test="not(following-sibling::wd:usg[@type='dom'])">&#160;</xsl:if>
+                <span class="dom" >
+                    <xsl:apply-templates />
+                    <xsl:call-template name="usg_after"/>
                 </span>
             </xsl:when>
             <xsl:when test="@type='time'">
                 <span class="reg">
                     <xsl:value-of select="."/>
-                    <xsl:text> </xsl:text>
+                    <xsl:call-template name="usg_after"/>
                 </span>
             </xsl:when>
             <xsl:when test="@reg='lit'">
                 <span class="reg">
-                    <xsl:text>schriftspr. </xsl:text>
+                    <xsl:text>schriftspr.</xsl:text>
+                    <xsl:call-template name="usg_after"/>
                 </span>
             </xsl:when>
             <xsl:when test="@reg='coll'">
                 <span class="reg">
-                    <xsl:text>ugs. </xsl:text>
+                    <xsl:text>ugs.</xsl:text>
+                    <xsl:call-template name="usg_after"/>
                 </span>
             </xsl:when>
             <xsl:when test="@reg='vulg'">
                 <span class="reg">
-                    <xsl:text>vulg. </xsl:text>
+                    <xsl:text>vulg.</xsl:text>
+                    <xsl:call-template name="usg_after"/>
                 </span>
             </xsl:when>
             <xsl:when test="@type='hint'">
@@ -1117,9 +1117,7 @@
                     <xsl:otherwise>
                         <span class="usage">
                             <xsl:apply-templates/>
-                            <xsl:if test="not(parent::wd:bracket) and position()=last()">
-                                <xsl:text> </xsl:text>
-                            </xsl:if>
+                            <xsl:call-template name="usg_after"/>
                         </span>
                     </xsl:otherwise>
                 </xsl:choose>
@@ -1129,7 +1127,8 @@
                     <xsl:when test="@reg">
                         <span class="reg">
                             <xsl:value-of select="@reg"/>
-                            <xsl:text>.</xsl:text>
+                            <xsl:if test="lower-case(@reg)=@reg and not(ends-with(@reg,'.'))"><xsl:text>.</xsl:text></xsl:if>
+                            <xsl:call-template name="usg_after"/>
                         </span>
                     </xsl:when>
                     <xsl:otherwise>
@@ -1141,6 +1140,18 @@
                 <xsl:if test="not(parent::wd:bracket) and position()=last()">
                     <xsl:text> </xsl:text>
                 </xsl:if>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
+    <!-- Einfügen von Leerzeichen bzw. Komma, wenn gleiches usg-Element folgt. -->
+    <xsl:template name="usg_after">
+        <xsl:choose>
+            <xsl:when test="empty(following-sibling::wd:usg[@type=./@type or @reg and ./@reg])">
+                <xsl:text>&#160;</xsl:text>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:text>, </xsl:text>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
