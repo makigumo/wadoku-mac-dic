@@ -79,11 +79,11 @@
             <h2 xml:lang="ja">リソース</h2>
             <p xml:lang="de">
                 XML-Dump: <a href="http://www.wadoku.de/wiki/display/WAD/Downloads+und+Links">http://www.wadoku.de/wiki/display/WAD/Downloads+und+Links</a>
-                Transformations-Skript, CSS usw.: <a href="https://gist.github.com/813338">https://gist.github.com/813338</a>
+                Transformations-Skript, CSS usw.: <a href="https://github.com/makigumo/wadoku-mac-dic">https://github.com/makigumo/wadoku-mac-dic</a>
             </p>
             <p xml:lang="ja">
                 XMLデータ:<a href="http://www.wadoku.de/wiki/display/WAD/Downloads+und+Links">http://www.wadoku.de/wiki/display/WAD/Downloads+und+Links</a>
-                変換スクリプトやCSSスタイルシートなど: <a href="https://gist.github.com/813338">https://gist.github.com/813338</a>
+                変換スクリプトやCSSスタイルシートなど: <a href="https://github.com/makigumo/wadoku-mac-dic">https://github.com/makigumo/wadoku-mac-dic</a>
             </p>
         </d:entry>
     </xsl:template>
