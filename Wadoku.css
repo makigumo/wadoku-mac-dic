@@ -124,6 +124,20 @@ rt {
 .t{border-top:1px dotted gray}
 .l{border-left:1px dotted gray}
 .r{border-right:1px dotted gray}
+.accents{padding-left: 3px; padding-right: 3px;}
+.accents .accent, .senseaccent{
+    font-family: sans-serif;
+    padding: 3px 3px 2px;
+    padding-right: 4px;
+    font-size: 40%;
+    border-radius: 3px;
+    color: white;
+    background-color: lightgray;
+    margin-left: 1px;
+    margin-right: 1px;
+}
+.accents .accent.active{background-color: #2971A7}
+.hidden{display:none}
 .transcr{font-style: italic;}
 .jap + .transcr:before,.transcr + .jap:before{content:'\0020'}
 .rel {

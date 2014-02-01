@@ -34,6 +34,9 @@
     <!-- Kana/Symbole, die nicht als einzelne Mora gelten -->
     <xsl:variable name="letters" select="'ゅゃょぁぃぅぇぉ・･·~’￨|…'"/>
 
+    <!-- kennzeichnet den Beginn eine Akzentverlaufs -->
+    <xsl:variable name="accent_change_marker" select="'—'"/>
+
     <!-- lookup key für einträge mit referenzen auf einen Haupteintrag -->
     <xsl:key name="refs" match="wd:entry[./wd:ref[@type='main']]" use="./wd:ref/@id"/>
 
@@ -77,7 +80,7 @@
             </xsl:choose>
         </xsl:variable>
         <xsl:variable name="yomi">
-            <xsl:value-of select="replace(./wd:form/wd:pron[not(@type)],'う゛','ゔ')"/>
+            <xsl:value-of select="replace(./wd:form/wd:reading/wd:hira,'う゛','ゔ')"/>
         </xsl:variable>
         <d:entry id="{@id}" d:title="{$title}">
             <!-- index -->
@@ -105,10 +108,28 @@
                             <xsl:call-template name="reading_from_extended_yomi"/>
                         </rb>
                         <rt>
-                            <xsl:value-of select="./wd:form/wd:pron[@type='romaji']"/>
+                            <xsl:value-of select="./wd:form/wd:reading/wd:romaji"/>
                         </rt>
                     </ruby>
                 </span>
+                <xsl:if test="./wd:form/wd:reading/wd:accent">
+                    <span class="accents">
+                        <xsl:for-each select="./wd:form/wd:reading/wd:accent">
+                            <xsl:choose>
+                                <xsl:when test="position() = 1">
+                                    <small class="accent active" data-accent-id="{position()}">
+                                        <xsl:value-of select="."/>
+                                    </small>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <small class="accent" data-accent-id="{position()}">
+                                        <xsl:value-of select="."/>
+                                    </small>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </xsl:for-each>
+                    </span>
+                </xsl:if>
                 <span class="hyouki">
                     <xsl:choose>
                         <xsl:when test="./wd:form/wd:orth[@midashigo]">
@@ -137,9 +158,9 @@
             <div class="uid"><xsl:value-of select="@id"/></div>
             <!-- meaning -->
             <div class="meaning">
-                <xsl:if test="./wd:gramGrp/wd:pos">
+                <xsl:if test="./wd:gramGrp">
                     <div class="hinshi">
-                        <xsl:apply-templates select="./wd:gramGrp/wd:pos"/>
+                        <xsl:apply-templates select="./wd:gramGrp"/>
                     </div>
                 </xsl:if>
                 <!-- if only one sense, handle usg in sense template -->
@@ -171,6 +192,7 @@
             </xsl:apply-templates>
         </xsl:for-each>
     </xsl:template>
+
     <!-- Untereinträge -->
     <xsl:template name="entry_subs">
         <xsl:variable name="subs" select="key('refs',@id)"/>
@@ -195,15 +217,15 @@
                     </span>
                     <xsl:apply-templates mode="subentry"
                                          select="$hasei[wd:ref[@subentrytype='suru']]">
-                        <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
+                        <xsl:sort select="./wd:form/wd:reading/wd:hira/text()"/>
                     </xsl:apply-templates>
                     <xsl:apply-templates mode="subentry"
                                          select="$hasei[wd:ref[@subentrytype='sa']]">
-                        <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
+                        <xsl:sort select="./wd:form/wd:reading/wd:hira/text()"/>
                     </xsl:apply-templates>
                     <xsl:apply-templates mode="subentry"
                                          select="$hasei[wd:ref[not(@subentrytype='sa') and not(@subentrytype='suru')]]">
-                        <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
+                        <xsl:sort select="./wd:form/wd:reading/wd:hira/text()"/>
                     </xsl:apply-templates>
                 </xsl:if>
                 <!-- Komposita -->
@@ -218,29 +240,29 @@
                     <xsl:variable name="id" select="@id"/>
                     <xsl:apply-templates mode="subentry"
                                          select="$subs[wd:ref[@subentrytype='head' and @id=$id]]">
-                        <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
+                        <xsl:sort select="./wd:form/wd:reading/wd:hira/text()"/>
                     </xsl:apply-templates>
                     <xsl:apply-templates mode="subentry"
                                          select="$subs[wd:ref[@subentrytype='tail' and @id=$id]]">
-                        <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
+                        <xsl:sort select="./wd:form/wd:reading/wd:hira/text()"/>
                     </xsl:apply-templates>
                 </xsl:if>
                 <!-- Rest -->
                 <xsl:if test="(count($subs) - count($hasei) - count($subs[wd:ref[@subentrytype='head' or @subentrytype='tail']])) > 0">
                     <xsl:apply-templates mode="subentry"
                                          select="$subs[wd:ref[@subentrytype='VwBsp']]">
-                        <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
+                        <xsl:sort select="./wd:form/wd:reading/wd:hira/text()"/>
                     </xsl:apply-templates>
                     <xsl:apply-templates mode="subentry"
                                          select="$subs[wd:ref[@subentrytype='XSatz']]">
-                        <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
+                        <xsl:sort select="./wd:form/wd:reading/wd:hira/text()"/>
                     </xsl:apply-templates>
                     <xsl:apply-templates mode="subentry"
                                          select="$subs[wd:ref[
                                          @subentrytype='WIdiom'
                                          or @subentrytype='ZSprW'
                                          or @subentrytype='other']]">
-                        <xsl:sort select="./wd:form/wd:pron[not(@type)]/wd:text/text()"/>
+                        <xsl:sort select="./wd:form/wd:reading/wd:hira/text()"/>
                     </xsl:apply-templates>
                 </xsl:if>
             </div>
@@ -326,83 +348,211 @@
     <xsl:template name="reading_from_extended_yomi">
         <xsl:variable name="yomi">
             <!--
-              * entferne störende Symbole
-              * typographische Korrekturen/Vereinheitlichung
-            -->
+                  * entferne störende Symbole
+                  * typographische Korrekturen/Vereinheitlichung
+                  * behalte fullwidth space für differenzierte $accent_change_marker Konversion
+                -->
             <xsl:value-of select="
-                            replace(
-                            translate(
-                            translate(./wd:form/wd:pron[@type='hatsuon'],'&lt;>/[]1234567890:　 GrJoDevN_＿',''),
-                            &quot;・･'’&quot;, '··￨￨'),
-                            'う゛','ゔ')
-                        "/>
+                                    replace(
+                                    translate(
+                                    translate(
+                                    replace(
+                                    replace(./wd:form/wd:reading/wd:hatsuon,'\[Akz\]',$accent_change_marker),
+                                    'DinSP','･'),
+                                    '&lt;>/[]1234567890: GrJoDevNinSsuPWap_＿',''),
+                                    &quot;・·'’&quot;, '･･￨￨'),
+                                    'う゛','ゔ')
+                                "/>
         </xsl:variable>
 
         <xsl:choose>
-            <xsl:when test="./wd:form/wd:pron[@accent]">
-                <xsl:variable name="accent" select="number(./wd:form/wd:pron/@accent)"/>
-                <xsl:variable name="startsWithEllipsis" select="starts-with($yomi, '…')"/>
-                <xsl:variable name="hiragana">
+            <xsl:when test="./wd:form/wd:reading/wd:accent">
+                <xsl:for-each select="./wd:form/wd:reading/wd:accent">
                     <xsl:choose>
-                        <xsl:when test="$startsWithEllipsis">
-                            <xsl:value-of select="substring($yomi, 2)"/>
+                        <xsl:when test="position() = 1">
+                            <span class="pron accent" data-accent-id="{position()}">
+                                <xsl:call-template name="call_mark_accent">
+                                    <xsl:with-param name="yomi" select="$yomi"/>
+                                </xsl:call-template>
+                            </span>
                         </xsl:when>
                         <xsl:otherwise>
-                            <xsl:value-of select="$yomi"/>
+                            <span class="pron accent hidden" data-accent-id="{position()}">
+                                <xsl:call-template name="call_mark_accent">
+                                    <xsl:with-param name="yomi" select="$yomi"/>
+                                </xsl:call-template>
+                            </span>
                         </xsl:otherwise>
                     </xsl:choose>
-                </xsl:variable>
-                <xsl:variable name="firstMora"
-                              select="string-length(translate(substring($hiragana,2,1),$letters,''))=0"/>
-                <xsl:if test="$startsWithEllipsis">
-                    <xsl:text>…</xsl:text>
-                </xsl:if>
+                </xsl:for-each>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:call-template name="insert_divider">
+                    <!-- entferne nicht benötigtes full-width space -->
+                    <xsl:with-param name="t"
+                                    select="translate($yomi, '　', '')"/>
+                </xsl:call-template>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
+    <xsl:template name="call_mark_accent">
+        <xsl:param name="yomi"/>
+        <xsl:choose>
+            <!-- Akzentangabe mit mehrfachem Akzentwechsel -->
+            <xsl:when test="contains(., '—')">
+                <!-- Auftrennen der Lesung am accent_change_marker -->
+                <xsl:variable name="y" select="tokenize($yomi,$accent_change_marker)"/>
+                <!--
+                    Auftrennen Akzentangaben am 'em dash' und markiere den Akzent für
+                    den korrespondierenden Lesungsteil.
+                -->
+                <xsl:for-each select="tokenize(.,'—')">
+                    <xsl:variable name="pos" select="position()"/>
+                    <xsl:variable name="yomi_part">
+                        <xsl:value-of select="$y[$pos]"/>
+                        <!-- middle dot nur für leerzeichenlose Teile -->
+                        <xsl:if test="position() &lt; last() and not(ends-with($y[$pos], '　'))">
+                            <xsl:text>･</xsl:text>
+                        </xsl:if>
+                    </xsl:variable>
+                    <xsl:call-template name="mark_accent">
+                        <xsl:with-param name="accent"
+                                        select="number(.)"/>
+                        <!-- entferne nicht mehr benötigtes full-width space -->
+                        <xsl:with-param name="yomi"
+                                        select="translate($yomi_part, '　', '')"/>
+                    </xsl:call-template>
+                </xsl:for-each>
+            </xsl:when>
+            <xsl:otherwise>
+                <!-- Akzentangabe mit einfachem Akzentwechsel -->
+                <xsl:call-template name="mark_accent">
+                    <xsl:with-param name="accent"
+                                    select="number(.)"/>
+                    <!-- konvertiere accent_change_marker in einfachen halfwidth middle dot -->
+                    <!-- entferne nicht mehr benötigtes full-width space -->
+                    <xsl:with-param name="yomi"
+                                    select="translate(
+                                    translate($yomi, $accent_change_marker,'･'),
+                                    '　', '')"/>
+                </xsl:call-template>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
+    <xsl:template name="mark_accent">
+        <xsl:param name="accent"/>
+        <xsl:param name="yomi"/>
+        <xsl:variable name="startsWithEllipsis" select="starts-with($yomi, '…')"/>
+        <xsl:variable name="hiragana">
+            <xsl:choose>
+                <xsl:when test="$startsWithEllipsis">
+                    <xsl:value-of select="substring($yomi, 2)"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="$yomi"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <!-- erste More aus zwei Kana, z.B. しゃ -->
+        <xsl:variable name="firstMora"
+                      select="string-length(translate(substring($hiragana,2,1),$letters,''))=0"/>
+        <xsl:if test="$startsWithEllipsis">
+            <xsl:text>…</xsl:text>
+        </xsl:if>
+        <xsl:choose>
+            <xsl:when test="$accent=0">
                 <xsl:choose>
-                    <xsl:when test="$accent=0">
-                        <xsl:choose>
-                            <xsl:when test="$firstMora">
-                                <span class="b">
-                                    <xsl:call-template name="insert_divider">
-                                        <xsl:with-param name="t"
-                                                        select="substring($hiragana,1,2)"/>
-                                    </xsl:call-template>
-                                </span>
-                                <span class="t l">
-                                    <xsl:call-template name="insert_divider">
-                                        <xsl:with-param name="t"
-                                                        select="substring($hiragana,3)"/>
-                                    </xsl:call-template>
-                                </span>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <span class="b">
-                                    <xsl:call-template name="insert_divider">
-                                        <xsl:with-param name="t"
-                                                        select="substring($hiragana,1,1)"/>
-                                    </xsl:call-template>
-                                </span>
-                                <span class="t l">
-                                    <xsl:call-template name="insert_divider">
-                                        <xsl:with-param name="t"
-                                                        select="substring($hiragana,2)"/>
-                                    </xsl:call-template>
-                                </span>
-                            </xsl:otherwise>
-                        </xsl:choose>
+                    <xsl:when test="$firstMora">
+                        <span class="b">
+                            <xsl:call-template name="insert_divider">
+                                <xsl:with-param name="t"
+                                                select="substring($hiragana,1,2)"/>
+                            </xsl:call-template>
+                        </span>
+                        <span class="t l">
+                            <xsl:call-template name="insert_divider">
+                                <xsl:with-param name="t"
+                                                select="substring($hiragana,3)"/>
+                            </xsl:call-template>
+                        </span>
                     </xsl:when>
-                    <xsl:when test="$accent=1">
+                    <xsl:otherwise>
+                        <span class="b">
+                            <xsl:call-template name="insert_divider">
+                                <xsl:with-param name="t"
+                                                select="substring($hiragana,1,1)"/>
+                            </xsl:call-template>
+                        </span>
+                        <span class="t l">
+                            <xsl:call-template name="insert_divider">
+                                <xsl:with-param name="t"
+                                                select="substring($hiragana,2)"/>
+                            </xsl:call-template>
+                        </span>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:when>
+            <xsl:when test="$accent=1">
+                <xsl:choose>
+                    <xsl:when test="$firstMora">
+                        <span class="t r">
+                            <xsl:call-template name="insert_divider">
+                                <xsl:with-param name="t"
+                                                select="substring($hiragana,1,2)"/>
+                            </xsl:call-template>
+                        </span>
+                        <span class="b">
+                            <xsl:call-template name="insert_divider">
+                                <xsl:with-param name="t"
+                                                select="substring($hiragana,3)"/>
+                            </xsl:call-template>
+                        </span>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <span class="t r">
+                            <xsl:call-template name="insert_divider">
+                                <xsl:with-param name="t"
+                                                select="substring($hiragana,1,1)"/>
+                            </xsl:call-template>
+                        </span>
+                        <span class="b">
+                            <xsl:call-template name="insert_divider">
+                                <xsl:with-param name="t"
+                                                select="substring($hiragana,2)"/>
+                            </xsl:call-template>
+                        </span>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:choose>
+                    <xsl:when test="$firstMora">
+                        <span class="b r">
+                            <xsl:call-template name="insert_divider">
+                                <xsl:with-param name="t"
+                                                select="substring($hiragana,1,2)"/>
+                            </xsl:call-template>
+                        </span>
+                        <xsl:variable name="temp"
+                                      select="wd:get_accented_part(substring($hiragana, 3, string-length($hiragana)), $accent)"/>
+                        <xsl:variable name="count"
+                                      select="string-length($temp)-string-length(translate($temp,$letters,''))"/>
+                        <xsl:variable name="trail"
+                                      select="string-length(translate(substring($hiragana,3 + $count + $accent - 1,1),$letters,''))"/>
                         <xsl:choose>
-                            <xsl:when test="$firstMora">
+                            <xsl:when test="$trail=0">
                                 <span class="t r">
                                     <xsl:call-template name="insert_divider">
                                         <xsl:with-param name="t"
-                                                        select="substring($hiragana,1,2)"/>
+                                                        select="substring($hiragana,3,$count + $accent)"/>
                                     </xsl:call-template>
                                 </span>
                                 <span class="b">
                                     <xsl:call-template name="insert_divider">
                                         <xsl:with-param name="t"
-                                                        select="substring($hiragana,3)"/>
+                                                        select="substring($hiragana,3 + $count + $accent)"/>
                                     </xsl:call-template>
                                 </span>
                             </xsl:when>
@@ -410,121 +560,85 @@
                                 <span class="t r">
                                     <xsl:call-template name="insert_divider">
                                         <xsl:with-param name="t"
-                                                        select="substring($hiragana,1,1)"/>
+                                                        select="substring($hiragana,3,$count + $accent - 1)"/>
                                     </xsl:call-template>
                                 </span>
                                 <span class="b">
                                     <xsl:call-template name="insert_divider">
                                         <xsl:with-param name="t"
-                                                        select="substring($hiragana,2)"/>
+                                                        select="substring($hiragana,3 + $count + $accent - 1)"/>
                                     </xsl:call-template>
                                 </span>
                             </xsl:otherwise>
                         </xsl:choose>
                     </xsl:when>
                     <xsl:otherwise>
+                        <span class="b r">
+                            <xsl:call-template name="insert_divider">
+                                <xsl:with-param name="t"
+                                                select="substring($hiragana,1,1)"/>
+                            </xsl:call-template>
+                        </span>
+                        <!-- String nach erstem Kana ohne Nicht-Kana-Zeichen bis Akzent - 1, da bei zweitem Kana beginnend-->
+                        <xsl:variable name="str1"
+                                      select="substring($hiragana,2,string-length($hiragana))"/>
+                        <!-- String nach erstem Kana bis Akzent -->
+                        <xsl:variable name="temp" select="wd:get_accented_part($str1, $accent)"/>
+                        <!-- Anzahl der nicht als Mora zählenden Zeichen -->
+                        <xsl:variable name="count"
+                                      select="string-length($temp)-string-length(translate($temp,$letters,''))"/>
+                        <!-- Länge des Strings nach der Akzentuierung -->
+                        <xsl:variable name="trail"
+                                      select="string-length(substring-after($str1, $temp))"/>
                         <xsl:choose>
-                            <xsl:when test="$firstMora">
-                                <span class="b r">
+                            <xsl:when test="$trail=0">
+                                <span class="t r">
                                     <xsl:call-template name="insert_divider">
                                         <xsl:with-param name="t"
-                                                        select="substring($hiragana,1,2)"/>
+                                                        select="substring($hiragana, 2, $count + $accent)"/>
                                     </xsl:call-template>
                                 </span>
-                                <xsl:variable name="temp"
-                                              select="wd:get_accented_part(substring($hiragana, 3, string-length($hiragana)), $accent)"/>
-                                <xsl:variable name="count"
-                                              select="string-length($temp)-string-length(translate($temp,$letters,''))"/>
-                                <xsl:variable name="trail"
-                                              select="string-length(translate(substring($hiragana,3 + $count + $accent - 1,1),$letters,''))"/>
-                                <xsl:choose>
-                                    <xsl:when test="$trail=0">
-                                        <span class="t r">
-                                            <xsl:call-template name="insert_divider">
-                                                <xsl:with-param name="t"
-                                                                select="substring($hiragana,3,$count + $accent)"/>
-                                            </xsl:call-template>
-                                        </span>
-                                        <span class="b">
-                                            <xsl:call-template name="insert_divider">
-                                                <xsl:with-param name="t"
-                                                                select="substring($hiragana,3 + $count + $accent)"/>
-                                            </xsl:call-template>
-                                        </span>
-                                    </xsl:when>
-                                    <xsl:otherwise>
-                                        <span class="t r">
-                                            <xsl:call-template name="insert_divider">
-                                                <xsl:with-param name="t"
-                                                                select="substring($hiragana,3,$count + $accent - 1)"/>
-                                            </xsl:call-template>
-                                        </span>
-                                        <span class="b">
-                                            <xsl:call-template name="insert_divider">
-                                                <xsl:with-param name="t"
-                                                                select="substring($hiragana,3 + $count + $accent - 1)"/>
-                                            </xsl:call-template>
-                                        </span>
-                                    </xsl:otherwise>
-                                </xsl:choose>
+                                <span class="b">
+                                    <xsl:call-template name="insert_divider">
+                                        <xsl:with-param name="t"
+                                                        select="substring($hiragana, 2 + $count + $accent)"/>
+                                    </xsl:call-template>
+                                </span>
                             </xsl:when>
                             <xsl:otherwise>
-                                <span class="b r">
+                                <span class="t r">
                                     <xsl:call-template name="insert_divider">
                                         <xsl:with-param name="t"
-                                                        select="substring($hiragana,1,1)"/>
+                                                        select="substring($hiragana, 2, $count + $accent - 1)"/>
                                     </xsl:call-template>
                                 </span>
-                                <xsl:variable name="str1"
-                                              select="substring($hiragana,2,string-length($hiragana))"/>
-                                <xsl:variable name="temp" select="wd:get_accented_part($str1, $accent)"/>
-                                <xsl:variable name="count"
-                                              select="string-length($temp)-string-length(translate($temp,$letters,''))"/>
-                                <xsl:variable name="trail"
-                                              select="string-length(substring-after($str1, $temp))"/>
-                                <xsl:choose>
-                                    <xsl:when test="$trail=0">
-                                        <span class="t r">
-                                            <xsl:call-template name="insert_divider">
-                                                <xsl:with-param name="t"
-                                                                select="substring($hiragana,2,$count + $accent)"/>
-                                            </xsl:call-template>
-                                        </span>
-                                        <span class="b">
-                                            <xsl:call-template name="insert_divider">
-                                                <xsl:with-param name="t"
-                                                                select="substring($hiragana,2 + $count + $accent)"/>
-                                            </xsl:call-template>
-                                        </span>
-                                    </xsl:when>
-                                    <xsl:otherwise>
-                                        <span class="t r">
-                                            <xsl:call-template name="insert_divider">
-                                                <xsl:with-param name="t"
-                                                                select="substring($hiragana,2,$count + $accent - 1)"/>
-                                            </xsl:call-template>
-                                        </span>
-                                        <span class="b">
-                                            <xsl:call-template name="insert_divider">
-                                                <xsl:with-param name="t"
-                                                                select="substring($hiragana,2 + $count + $accent - 1)"/>
-                                            </xsl:call-template>
-                                        </span>
-                                    </xsl:otherwise>
-                                </xsl:choose>
+                                <span class="b">
+                                    <xsl:call-template name="insert_divider">
+                                        <xsl:with-param name="t"
+                                                        select="substring($hiragana, 2 + $count + $accent - 1)"/>
+                                    </xsl:call-template>
+                                </span>
                             </xsl:otherwise>
                         </xsl:choose>
                     </xsl:otherwise>
                 </xsl:choose>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:call-template name="insert_divider">
-                    <xsl:with-param name="t"
-                                    select="$yomi"/>
-                </xsl:call-template>
             </xsl:otherwise>
         </xsl:choose>
+    </xsl:template>
 
+    <xsl:template match="wd:sense/wd:accent">
+        <!-- Akzent nur verarbeiten durch explizites Aufrufen von sense_accent -->
+    </xsl:template>
+
+    <xsl:template name="sense_accent">
+        <xsl:if test="./wd:accent">
+            <xsl:for-each select="./wd:accent">
+                <span class="senseaccent" title="Akzent/アクセント">
+                    <xsl:value-of select="."/>
+                </span>
+            </xsl:for-each>
+            <xsl:text> </xsl:text>
+        </xsl:if>
     </xsl:template>
 
     <!-- subentry -->
@@ -628,7 +742,7 @@
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
-        <xsl:variable name="yomi" select="./wd:form/wd:pron[not(@type)]"/>
+        <xsl:variable name="yomi" select="./wd:form/wd:reading/wd:hira"/>
         <xsl:variable name="id" select="./@id"/>
 
         <d:index d:value="{$yomi}" d:title="{$title}" d:yomi="{$yomi}"/>
@@ -741,6 +855,7 @@
                 <xsl:number format="A" value="position()"/>
             </span>
             <xsl:text>&#160;</xsl:text>
+            <xsl:call-template name="sense_accent"/>
             <xsl:apply-templates/>
         </span>
     </xsl:template>
@@ -766,6 +881,7 @@
                             <xsl:number count="wd:sense[not(@related)]"/>
                         </span>
                         <xsl:text>&#160;</xsl:text>
+                        <xsl:call-template name="sense_accent"/>
                     </xsl:if>
                     <xsl:apply-templates mode="core" select="."/>
                 </span>
@@ -1213,29 +1329,252 @@
         </a>
     </xsl:template>
 
-    <xsl:template match="wd:pos">
+    <xsl:template match="wd:gramGrp">
+        <xsl:for-each select="*">
+            <xsl:apply-templates select="."/>
+            <xsl:if test="position() != last()">
+                <xsl:text>; </xsl:text>
+            </xsl:if>
+        </xsl:for-each>
+    </xsl:template>
+
+    <xsl:template match="wd:meishi">
+        <xsl:text>N.</xsl:text>
+        <xsl:call-template name="meishi_fukushi_suru"/>
+    </xsl:template>
+
+    <xsl:template name="meishi_fukushi_suru">
+        <xsl:if test="@suru">
+            <xsl:text>, mit </xsl:text>
+            <span class="transcr">suru</span>
+            <xsl:choose>
+                <xsl:when test="@suru='trans'">
+                    <xsl:text> trans. V.</xsl:text>
+                </xsl:when>
+                <xsl:when test="@suru='intrans'">
+                    <xsl:text> intrans. V.</xsl:text>
+                </xsl:when>
+                <xsl:when test="@suru='both'">
+                    <xsl:text> intrans. od. trans. V.</xsl:text>
+                </xsl:when>
+            </xsl:choose>
+        </xsl:if>
+    </xsl:template>
+
+    <xsl:template match="wd:doushi[@level='kuru']">
+        <xsl:text>unregelm. intrans. V. auf </xsl:text>
+        <span class="transcr">ka</span>
+    </xsl:template>
+
+    <xsl:template match="wd:doushi[@level='suru']">
         <xsl:choose>
-            <xsl:when test="string-length(.)>0">
-                <xsl:apply-templates/>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:value-of select="@type"/>
-                <xsl:if test="not(contains(substring(@type, string-length(@type), 1), '.'))">
-                    <xsl:if
-                            test="@type!='Redensart' and @type!='Kanji' and @type!='BspSatz' and @type!='Sonderzeichen' and @type!='Sonderform'">
-                        <xsl:text>.</xsl:text>
-                    </xsl:if>
-                </xsl:if>
-            </xsl:otherwise>
+            <xsl:when test="@transitivity='trans'">trans. V.</xsl:when>
+            <xsl:when test="@transitivity='intrans'">intrans. V.</xsl:when>
+            <xsl:when test="@transitivity='both'">intrans. od. trans. V.</xsl:when>
         </xsl:choose>
-        <xsl:if test="not(position()=last())">
+        <xsl:text> auf </xsl:text>
+        <span class="transcr">‑suru</span>
+    </xsl:template>
+
+    <xsl:template match="wd:doushi[@level='ra']">
+        <xsl:choose>
+            <xsl:when test="@transitivity='trans'">trans. V.</xsl:when>
+            <xsl:when test="@transitivity='intrans'">intrans. V.</xsl:when>
+            <xsl:when test="@transitivity='both'">intrans. od. trans. V.</xsl:when>
+        </xsl:choose>
+        <xsl:text> auf &lt;Transcr.: ‑ra&gt;</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="wd:doushi">
+        <!-- <doushi level="5" transitivity="intrans" godanrow="ra" onbin="true"/> -->
+        <xsl:choose>
+            <xsl:when test="@level='1e' or @level='1i'">1</xsl:when>
+            <xsl:when test="@level='2e' or @level='2i'">2</xsl:when>
+            <xsl:when test="@level='4'">4</xsl:when>
+            <xsl:when test="@level='4'">4</xsl:when>
+            <xsl:when test="@level='5'">5</xsl:when>
+        </xsl:choose>
+        <xsl:text>‑st. </xsl:text>
+        <xsl:choose>
+            <xsl:when test="@transitivity='trans'">trans. V.</xsl:when>
+            <xsl:when test="@transitivity='intrans'">intrans. V.</xsl:when>
+            <xsl:when test="@transitivity='both'">intrans. od. trans. V.</xsl:when>
+        </xsl:choose>
+        <xsl:choose>
+            <xsl:when test="@level='1i'">
+                <xsl:text> auf </xsl:text>
+                <span class="transcr">‑i</span>
+            </xsl:when>
+            <xsl:when test="@level='1e'">
+                <xsl:text> auf </xsl:text>
+                <span class="transcr">‑e</span>
+            </xsl:when>
+            <xsl:when test="@level='2i'">
+                <xsl:text> auf </xsl:text>
+                <span class="transcr">‑i</span>
+                <xsl:text> bzw. </xsl:text>
+                <span class="transcr">‑u</span>
+            </xsl:when>
+            <xsl:when test="@level='2e'">
+                <xsl:text> auf </xsl:text>
+                <span class="transcr">‑e</span>
+                <xsl:text> bzw. </xsl:text>
+                <span class="transcr">‑u</span>
+            </xsl:when>
+            <xsl:when test="@level='5'">
+                <xsl:text> auf </xsl:text>
+                <span class="transcr">‑<xsl:choose>
+                    <xsl:when test="@godanrow='ra_i'">ra</xsl:when>
+                    <xsl:otherwise><xsl:value-of select="@godanrow"/></xsl:otherwise>
+                </xsl:choose></span>
+                <xsl:choose>
+                    <xsl:when test="@onbin='true'">
+                        <xsl:choose>
+                            <xsl:when test="@godanrow='na' or @godanrow='ba' or @godanrow='ma'">
+                                <span class="expl"> mit regelm. Nasal-Onbin = <span class="transcr">‑nde></span></span>
+                            </xsl:when>
+                            <xsl:when test="@godanrow='ka'">
+                                <span class="expl"> mit i-Onbin = <span class="transcr">‑ite></span></span>
+                            </xsl:when>
+                            <xsl:when test="@godanrow='ka_i_yu'">
+                                <span class="expl"> mit Geminaten-Onbin = <span class="transcr">‑tte></span></span>
+                            </xsl:when>
+                            <xsl:when test="@godanrow='ga'">
+                                <span class="expl"> mit regelm. i-Onbin = <span class="transcr">‑ide></span></span>
+                            </xsl:when>
+                            <xsl:when test="@godanrow='wa'">
+                                <span class="expl"> mit Geminaten-Onbin = <span class="transcr">‑tte></span></span>
+                            </xsl:when>
+                            <xsl:when test="@godanrow='wa_o'">
+                                <span class="expl"> mit u-Onbin = <span class="transcr">‑ō/ūte></span></span>
+                            </xsl:when>
+                            <xsl:when test="@godanrow='ra' or @godanrow='ta'">
+                                <span class="expl"> mit regelm. Geminaten-Onbin = <span class="transcr">‑tte></span></span>
+                            </xsl:when>
+                            <xsl:when test="@godanrow='ra_i'">
+                                <xsl:text>, Sonderform mit Renyō·kei </xsl:text>
+                                <span class="transcr">‑i</span>
+                            </xsl:when>
+                        </xsl:choose>
+                    </xsl:when>
+                </xsl:choose>
+            </xsl:when>
+        </xsl:choose>
+        <xsl:if test="following-sibling::wd:doushi">
             <xsl:text>; </xsl:text>
         </xsl:if>
     </xsl:template>
 
-    <xsl:template match="wd:pos/wd:expl">
-        <xsl:text> </xsl:text>
-        <xsl:apply-templates/>
+    <xsl:template match="wd:keiyoudoushi">
+        <!-- Na.‑Adj. mit <Transcr.: na> bzw. präd. mit <Transcr.: da> etc. -->
+        <!-- Na.‑Adj. mit <Transcr.: na> od. <Transcr.: no> -->
+        <xsl:text>Na.‑Adj. mit </xsl:text>
+        <xsl:choose>
+            <xsl:when test="@nari and @nari='true'">
+                <span class="transcr">nari</span>
+            </xsl:when>
+            <xsl:otherwise>
+                <span class="transcr">na</span>
+                <xsl:if test="@no and @no='true'">
+                    <xsl:text> od. </xsl:text>
+                    <span class="transcr">no</span>
+                </xsl:if>
+                <xsl:text> bzw. präd. mit </xsl:text>
+                <span class="transcr">da</span>
+                <xsl:text> etc.</xsl:text>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
+    <xsl:template match="wd:keiyoushi">
+        <xsl:text>Adj.</xsl:text>
+        <xsl:if test="@ku and @ku='true'">
+            <xsl:text> auf </xsl:text>
+            <span class="transcr">‑ku</span>
+        </xsl:if>
+    </xsl:template>
+
+    <xsl:template match="wd:specialcharacter">
+        <xsl:text>Sonderzeichen</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="wd:suffix">
+        <xsl:text>Suff.</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="wd:prefix">
+        <xsl:text>Präf.</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="wd:jodoushi">
+        <xsl:text>Hilfsv.</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="wd:kandoushi">
+        <xsl:text>Interj.</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="wd:kanji">
+        <xsl:text>Kanji</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="wd:setsuzokushi">
+        <xsl:text>Konj.</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="wd:kakarijoshi">
+        <xsl:text>Themenpart.</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="wd:wordcomponent">
+        <xsl:text>Wortkomp.</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="wd:joshi">
+        <xsl:text>Part.</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="wd:daimeishi">
+        <xsl:text>Pron.</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="wd:shuujoshi">
+        <xsl:text>satzbeendende Part.</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="wd:fukujoshi">
+        <xsl:text>adv. Part.</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="wd:rengo">
+        <xsl:text>Zus.</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="wd:rentaishi">
+        <xsl:text>Adn.</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="wd:fukushi">
+        <xsl:text>Adv.</xsl:text>
+        <xsl:choose>
+            <xsl:when test="@ni and @ni='true'">
+                <xsl:text> mit </xsl:text>
+                <span class="transcr">ni</span>
+                <xsl:text> und Adn. mit </xsl:text>
+                <span class="transcr">naru</span>
+            </xsl:when>
+            <xsl:when test="@taru and @taru='true'">
+                <xsl:text> mit </xsl:text>
+                <span class="transcr">to</span>
+                <xsl:text> und Adn. mit </xsl:text>
+                <span class="transcr">taru</span>
+            </xsl:when>
+            <xsl:when test="@to and @to='true'">
+                <xsl:text> mit </xsl:text>
+                <span class="transcr">to</span>
+            </xsl:when>
+        </xsl:choose>
+        <xsl:call-template name="meishi_fukushi_suru"/>
     </xsl:template>
 
     <xsl:template match="wd:text">
