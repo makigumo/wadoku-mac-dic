@@ -203,8 +203,9 @@ rt {
     border-width:2px 4px 2px 4px;
     margin-right: 0.5em;
 }
-.title:before{content:'\201e'}
-.title:after{content:'\201f'}
+.title {quotes: '„' '“' '‚' '‘';}
+.title:before{content: open-quote}
+.title:after{content: close-quote}
 .klammer{color:gray}
 body[lang="ja"] *[lang="de"] {
     display: none;
@@ -263,6 +264,12 @@ span.paren:after {
     content: '）';
     color: gray;
 }
+
+.iron, .literal, .topic, .transl, .specchar {quotes: '»' '«' '›' '‹';}
+.iron:before, .literal:before, .topic:before, .transl:before, .specchar:before {content: open-quote;}
+.iron:after, .literal:after, .topic:after, .transl:after, .specchar:after {content: close-quote;}
+
+
 
 /* für Lion Dictionary popup */
 
