@@ -1644,11 +1644,32 @@
         </div>
     </xsl:template>
 
-    <xsl:template match="wd:link[lower-case(@type)='url']">
+    <xsl:template match="wd:link[@type='url']">
         <div class="url">
-            <a href="{.}"><xsl:value-of select="."/></a>
+            <xsl:choose>
+                <!-- current standard case
+                <link type="url" url="http://www.foo.bar/"/>
+                 -->
+                <xsl:when test="@url">
+                    <a href="{@url}">
+                        <xsl:value-of select='@url'/>
+                    </a>
+                </xsl:when>
+                <!-- legacy support
+                 <link type="url">http://www.hoge.piyo/</link><
+                -->
+                <xsl:when test="string-length(.) > 0">
+                    <a href="{.}">
+                        <xsl:value-of select='.'/>
+                    </a>
+                </xsl:when>
+                <xsl:otherwise>
+                    <!-- safe guard -->
+                </xsl:otherwise>
+            </xsl:choose>
         </div>
     </xsl:template>
+
 
     <xsl:template match="wd:impli">
         <span class="impli">
