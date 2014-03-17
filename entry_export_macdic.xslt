@@ -1425,6 +1425,8 @@
                 <xsl:text> auf </xsl:text>
                 <span class="transcr">‑<xsl:choose>
                     <xsl:when test="@godanrow='ra_i'">ra</xsl:when>
+                    <xsl:when test="@godanrow='ka_i_yu'">ka</xsl:when>
+                    <xsl:when test="@godanrow='wa' or @godanrow='wa_o'">[w]a</xsl:when>
                     <xsl:otherwise><xsl:value-of select="@godanrow"/></xsl:otherwise>
                 </xsl:choose></span>
                 <xsl:choose>
