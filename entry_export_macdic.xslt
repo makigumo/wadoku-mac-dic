@@ -1421,7 +1421,7 @@
                 <xsl:text> bzw. </xsl:text>
                 <span class="transcr">‑u</span>
             </xsl:when>
-            <xsl:when test="@level='5'">
+            <xsl:when test="@level='5' and @godanrow">
                 <xsl:text> auf </xsl:text>
                 <span class="transcr">‑<xsl:choose>
                     <xsl:when test="@godanrow='ra_i'">ra</xsl:when>
