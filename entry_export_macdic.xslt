@@ -943,46 +943,47 @@
     <xsl:template name="season">
         <xsl:choose>
             <xsl:when test="./@season='spring'">
-                <span class="season spring" xml:lang="ja" title="季語">
-                    <xsl:text>春</xsl:text>
-                </span>
-                <span class="season spring" xml:lang="de" title="Jahreszeitenwort">
-                    <xsl:text>Frühling</xsl:text>
-                </span>
+                <xsl:call-template name="season-template">
+                    <xsl:with-param name="ja">春</xsl:with-param>
+                    <xsl:with-param name="de">Frühling</xsl:with-param>
+                </xsl:call-template>
             </xsl:when>
             <xsl:when test="./@season='summer'">
-                <span class="season summer" xml:lang="ja" title="季語">
-                    <xsl:text>夏</xsl:text>
-                </span>
-                <span class="season summer" xml:lang="de" title="Jahreszeitenwort">
-                    <xsl:text>Sommer</xsl:text>
-                </span>
+                <xsl:call-template name="season-template">
+                    <xsl:with-param name="ja">夏</xsl:with-param>
+                    <xsl:with-param name="de">Sommer</xsl:with-param>
+                </xsl:call-template>
             </xsl:when>
             <xsl:when test="./@season='autumn'">
-                <span class="season autumn" xml:lang="ja" title="季語">
-                    <xsl:text>秋</xsl:text>
-                </span>
-                <span class="season autumn" xml:lang="de" title="Jahreszeitenwort">
-                    <xsl:text>Herbst</xsl:text>
-                </span>
+                <xsl:call-template name="season-template">
+                    <xsl:with-param name="ja">秋</xsl:with-param>
+                    <xsl:with-param name="de">Herbst</xsl:with-param>
+                </xsl:call-template>
             </xsl:when>
             <xsl:when test="./@season='winter'">
-                <span class="season winter" xml:lang="ja" title="季語">
-                    <xsl:text>冬</xsl:text>
-                </span>
-                <span class="season winter" xml:lang="de" title="Jahreszeitenwort">
-                    <xsl:text>Winter</xsl:text>
-                </span>
+                <xsl:call-template name="season-template">
+                    <xsl:with-param name="ja">冬</xsl:with-param>
+                    <xsl:with-param name="de">Winter</xsl:with-param>
+                </xsl:call-template>
             </xsl:when>
             <xsl:when test="./@season='newyear'">
-                <span class="season newyear" xml:lang="ja" title="季語">
-                    <xsl:text>新年</xsl:text>
-                </span>
-                <span class="season newyear" xml:lang="de" title="Jahreszeitenwort">
-                    <xsl:text>Neujahr</xsl:text>
-                </span>
+                <xsl:call-template name="season-template">
+                    <xsl:with-param name="ja">新年</xsl:with-param>
+                    <xsl:with-param name="de">Neujahr</xsl:with-param>
+                </xsl:call-template>
             </xsl:when>
         </xsl:choose>
+    </xsl:template>
+
+    <xsl:template name="season-template">
+        <xsl:param name="ja"/>
+        <xsl:param name="de"/>
+        <span class="season {@season}" xml:lang="ja" title="季語">
+            <xsl:value-of select="$ja"/>
+        </span>
+        <span class="season {@season}" xml:lang="de" title="Jahreszeitenwort">
+            <xsl:value-of select="$de"/>
+        </span>
     </xsl:template>
 
     <xsl:template match="wd:trans">
