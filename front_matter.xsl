@@ -13,40 +13,40 @@
 
     <xsl:template name="front">
         <d:entry id="wadoku_front_matter" d:title="Wadoku Info">
-            <h1 xml:lang="de">WaDoku - Japanisch-Deutsches Wörterbuch für Mac</h1>
+            <h1 xml:lang="de">Wadoku - Japanisch-Deutsches Wörterbuch für Mac</h1>
             <h1 xml:lang="ja">Mac用和独辞典</h1>
-            <h2 xml:lang="de">Über</h2>
-            <h2 xml:lang="ja">本辞典について</h2>
+            <h3 xml:lang="de">Über</h3>
+            <h3 xml:lang="ja">本辞典について</h3>
             <p xml:lang="de">
                 Dieses Wörterbuch wurde aus dem XML-Datensatz
-                <xsl:if test="count(entries/@date) > 0">
+                <xsl:if test="/entries[@date]">
                     <xsl:text>(vom </xsl:text>
-                    <xsl:value-of select="entries/@date"/>
+                    <xsl:value-of select="format-dateTime(/entries/@date, '[D1o] [MNn] [Y0001]','de','AD','DE')"/>
                     <xsl:text>)</xsl:text>
                 </xsl:if>
-                des <a href="http://www.wadoku.de/">WaDoku-Online-Wörterbuches</a>
+                des <a href="http://www.wadoku.de/">Wadoku-Online-Wörterbuches</a>
                 erstellt.
             </p>
             <p xml:lang="ja">
                 本辞典は<a href="http://www.wadoku.de/">オンライン和独辞典</a>のXMLデータ
-                <xsl:if test="count(entries/@date) > 0">
+                <xsl:if test="/entries[@date]">
                     <xsl:text>(</xsl:text>
-                    <xsl:value-of select="entries/@date"/>
+                    <xsl:value-of select="format-dateTime(/entries/@date, '[Y0001]年[M01]月[D01]日')"/>
                     <xsl:text>より)</xsl:text>
                 </xsl:if>
                 を変換したものです。
             </p>
-            <h2 xml:lang="de">Anhang</h2>
-            <h2 xml:lang="ja">付録</h2>
+            <h3 xml:lang="de">Anhang</h3>
+            <h3 xml:lang="ja">付録</h3>
             <ol>
                 <li xml:lang="de"><a href="x-dictionary:r:wadoku_appendix_image">Illustrationen</a></li>
                 <li xml:lang="ja"><a href="x-dictionary:r:wadoku_appendix_image">イラストレーション</a></li>
                 <li xml:lang="de"><a href="x-dictionary:r:wadoku_appendix_seasonwords">Jahreszeitenwörter</a></li>
                 <li xml:lang="ja"><a href="x-dictionary:r:wadoku_appendix_seasonwords">季語</a></li>
             </ol>
-            <h2 xml:lang="de">Statistik</h2>
-            <h2 xml:lang="ja">統計</h2>
-            <table>
+            <h3 xml:lang="de">Statistik</h3>
+            <h3 xml:lang="ja">統計</h3>
+            <table style="width: 100%">
                 <tbody>
                     <tr>
                         <th xml:lang="de">Datensätze</th>
@@ -70,21 +70,21 @@
                     </tr>
                 </tbody>
             </table>
-            <h2 xml:lang="de">Lizenz</h2>
-            <h2 xml:lang="ja">ライセンス</h2>
+            <h3 xml:lang="de">Lizenz</h3>
+            <h3 xml:lang="ja">ライセンス</h3>
             <p>
                 <a href="http://www.wadoku.de/wiki/x/ZQE">http://www.wadoku.de/wiki/x/ZQE</a>
             </p>
-            <h2 xml:lang="de">Ressourcen</h2>
-            <h2 xml:lang="ja">リソース</h2>
-            <p xml:lang="de">
-                XML-Dump: <a href="http://www.wadoku.de/wiki/display/WAD/Downloads+und+Links">http://www.wadoku.de/wiki/display/WAD/Downloads+und+Links</a>
-                Transformations-Skript, CSS usw.: <a href="https://github.com/makigumo/wadoku-mac-dic">https://github.com/makigumo/wadoku-mac-dic</a>
-            </p>
-            <p xml:lang="ja">
-                XMLデータ:<a href="http://www.wadoku.de/wiki/display/WAD/Downloads+und+Links">http://www.wadoku.de/wiki/display/WAD/Downloads+und+Links</a>
-                変換スクリプトやCSSスタイルシートなど: <a href="https://github.com/makigumo/wadoku-mac-dic">https://github.com/makigumo/wadoku-mac-dic</a>
-            </p>
+            <h3 xml:lang="de">Ressourcen</h3>
+            <h3 xml:lang="ja">資源</h3>
+            <dl>
+                <dt xml:lang="de">XML-Dump</dt>
+                <dt xml:lang="ja">XMLデータ</dt>
+                <dd><a href="http://www.wadoku.de/wiki/display/WAD/Downloads+und+Links">http://www.wadoku.de/wiki/display/WAD/Downloads+und+Links</a></dd>
+                <dt xml:lang="de">Transformations-Skript, CSS usw.</dt>
+                <dt xml:lang="ja">変換スクリプトやCSSスタイルシートなど</dt>
+                <dd><a href="https://github.com/makigumo/wadoku-mac-dic">https://github.com/makigumo/wadoku-mac-dic</a></dd>
+            </dl>
         </d:entry>
     </xsl:template>
 
