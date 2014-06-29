@@ -34,7 +34,7 @@
     <!-- Kana/Symbole, die nicht als einzelne Mora gelten -->
     <xsl:variable name="letters" select="'ゅゃょぁぃぅぇぉ・･·~’￨|…'"/>
 
-    <!-- kennzeichnet den Beginn eine Akzentverlaufs -->
+    <!-- kennzeichnet den Beginn eines Akzentverlaufs -->
     <xsl:variable name="accent_change_marker" select="'—'"/>
 
     <!-- lookup key für einträge mit referenzen auf einen Haupteintrag -->
@@ -165,7 +165,33 @@
                 </xsl:if>
                 <!-- if only one sense, handle usg in sense template -->
                 <xsl:apply-templates select="wd:usg"/>
-                <xsl:apply-templates select="wd:sense"/>
+                <xsl:choose>
+                    <xsl:when test="./wd:sense/wd:sense">
+                        <ol class="master">
+                            <xsl:for-each select="./wd:sense">
+                                <xsl:apply-templates select="."/>
+                            </xsl:for-each>
+                        </ol>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:choose>
+                            <xsl:when test="count(./wd:sense[not(@related='true')])>1">
+                                <ol class="senses">
+                                    <xsl:for-each select="./wd:sense">
+                                        <xsl:apply-templates select="."/>
+                                    </xsl:for-each>
+                                </ol>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <ol class="senses single">
+                                    <xsl:for-each select="./wd:sense">
+                                        <xsl:apply-templates select="."/>
+                                    </xsl:for-each>
+                                </ol>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:otherwise>
+                </xsl:choose>
                 <xsl:apply-templates select="wd:ref[not(@type='main')]"/>
                 <xsl:apply-templates select="wd:link"/>
                 <xsl:call-template name="entry_subs"/>
@@ -667,8 +693,34 @@
                 </rt>
             </ruby>
             <xsl:text>｜</xsl:text>
-            <xsl:apply-templates mode="compact"
-                                 select="wd:sense"/>
+            <xsl:choose>
+                <xsl:when test="./wd:sense/wd:sense">
+                    <ol class="master">
+                        <xsl:for-each select="./wd:sense">
+                            <xsl:apply-templates mode="compact" select="."/>
+                        </xsl:for-each>
+                    </ol>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:choose>
+                        <xsl:when test="count(./wd:sense[not(@related='true')])>1">
+                            <ol class="senses">
+                                <xsl:for-each select="./wd:sense">
+                                    <xsl:apply-templates mode="compact" select="."/>
+                                </xsl:for-each>
+                            </ol>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <ol class="senses single">
+                                <xsl:for-each select="./wd:sense">
+                                    <xsl:apply-templates mode="compact" select="."/>
+                                </xsl:for-each>
+                            </ol>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:otherwise>
+            </xsl:choose>
+
         </div>
     </xsl:template>
 
@@ -809,26 +861,65 @@
     </xsl:template>
 
     <xsl:template match="wd:sense" mode="compact">
-        <xsl:if test="position()>1">
-            <xsl:text> </xsl:text>
-        </xsl:if>
         <xsl:choose>
-            <xsl:when test="@related='true'">
-                <span class="rel">
-                    <xsl:copy-of select="$relationDivider"/>
-                </span>
-            </xsl:when>
-            <xsl:when test="following-sibling::wd:sense[not(@related)] or preceding-sibling::wd:sense[not(@related)]">
-                <span class="indexnr">
-                    <xsl:number count="wd:sense[not(@related)]"/>
-                </span>
-                <xsl:text>&#160;</xsl:text>
+            <xsl:when test="./wd:sense">
+                <li class="master sense">
+                    <xsl:call-template name="sense_accent"/>
+                    <xsl:apply-templates select="./wd:descr"/>
+                    <xsl:choose>
+                        <xsl:when test="count(./wd:sense[not(@related)])>1">
+                            <ol class="senses">
+                                <xsl:for-each select="./wd:sense">
+                                    <xsl:apply-templates mode="compact" select="."/>
+                                </xsl:for-each>
+                            </ol>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <ol class="senses single">
+                                <xsl:apply-templates mode="compact" select="./wd:sense"/>
+                            </ol>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </li>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:apply-templates select="../wd:usg"/>
             </xsl:otherwise>
         </xsl:choose>
 
+        <xsl:call-template name="sense_content"/>
+    </xsl:template>
+
+    <xsl:template mode="compact" match="wd:sense[empty(./wd:sense) and not(@related)]">
+        <xsl:call-template name="sense_accent"/>
+        <xsl:choose>
+            <xsl:when test="following-sibling::wd:sense[1][@related]">
+                <li>
+                    <xsl:variable name="this_sense" select="."/>
+                    <ul class="related">
+                        <li class="sense">
+                            <xsl:call-template name="sense_content"/>
+                        </li>
+                        <xsl:for-each select="following-sibling::wd:sense[@related and preceding-sibling::wd:sense=$this_sense]">
+                            <li class="sense related">
+                                <xsl:call-template name="sense_content"/>
+                            </li>
+                        </xsl:for-each>
+                    </ul>
+                </li>
+            </xsl:when>
+            <xsl:otherwise>
+                <li class="sense">
+                    <xsl:call-template name="sense_content"/>
+                </li>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
+
+    <xsl:template mode="compact" match="wd:sense[empty(./wd:sense) and @related]"/>
+
+    <xsl:template name="sense_content">
         <xsl:apply-templates select="wd:usg"/>
         <xsl:apply-templates select="wd:trans"/>
         <!--<xsl:apply-templates select = ".//wd:def"  />
@@ -846,48 +937,58 @@
         </xsl:if>
     </xsl:template>
 
-    <xsl:template match="wd:sense[not(empty(./wd:sense))]">
-        <xsl:if test="position()>1">
-            <xsl:text> </xsl:text>
-        </xsl:if>
-        <span class="master sense">
-            <span class="indexnr" >
-                <xsl:number format="A" value="position()"/>
-            </span>
-            <xsl:text>&#160;</xsl:text>
+    <!-- Mastersense -->
+    <xsl:template match="wd:sense[./wd:sense]">
+        <li class="master sense">
             <xsl:call-template name="sense_accent"/>
-            <xsl:apply-templates/>
-        </span>
+            <xsl:apply-templates select="./wd:descr"/>
+            <xsl:choose>
+                <xsl:when test="count(./wd:sense[not(@related)])>1">
+                    <ol class="senses">
+                        <xsl:for-each select="./wd:sense">
+                            <xsl:apply-templates select="."/>
+                        </xsl:for-each>
+                    </ol>
+                </xsl:when>
+                <xsl:otherwise>
+                    <ol class="senses single">
+                        <xsl:apply-templates select="./wd:sense"/>
+                    </ol>
+                </xsl:otherwise>
+            </xsl:choose>
+        </li>
     </xsl:template>
 
-    <xsl:template match="wd:sense[empty(./wd:sense)]">
+    <!--
+    Senses ohne Mastersense und nicht @related
+    -->
+    <xsl:template match="wd:sense[empty(./wd:sense) and not(@related)]">
+        <xsl:call-template name="sense_accent"/>
         <xsl:choose>
-            <xsl:when test="@related='true'">
-                <span class="rel">
-                    <xsl:copy-of select="$relationDivider"/>
-                </span>
-                <span class="sense related">
-                    <xsl:apply-templates mode="core" select="."/>
-                </span>
+            <xsl:when test="following-sibling::wd:sense[1][@related]">
+                <li>
+                    <xsl:variable name="this_sense" select="."/>
+                    <ul class="related">
+                        <li class="sense">
+                            <xsl:apply-templates mode="core" select="."/>
+                        </li>
+                        <xsl:for-each select="following-sibling::wd:sense[@related and preceding-sibling::wd:sense=$this_sense]">
+                            <li class="sense related">
+                                <xsl:apply-templates mode="core" select="."/>
+                            </li>
+                        </xsl:for-each>
+                    </ul>
+                </li>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:if test="position()>1">
-                    <xsl:text> </xsl:text>
-                    <br/>
-                </xsl:if>
-                <span class="sense">
-                    <xsl:if test="following-sibling::wd:sense[not(@related)] or preceding-sibling::wd:sense[not(@related)]">
-                        <span class="indexnr">
-                            <xsl:number count="wd:sense[not(@related)]"/>
-                        </span>
-                        <xsl:text>&#160;</xsl:text>
-                        <xsl:call-template name="sense_accent"/>
-                    </xsl:if>
+                <li class="sense">
                     <xsl:apply-templates mode="core" select="."/>
-                </span>
+                </li>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+
+    <xsl:template match="wd:sense[empty(./wd:sense) and @related]"/>
 
     <xsl:template match="wd:sense" mode="core">
         <xsl:if test="position()>1">
@@ -938,6 +1039,7 @@
                 </xsl:if>
             </xsl:otherwise>
         </xsl:choose>
+        <xsl:apply-templates select="./wd:link[@type='picture']"/>
     </xsl:template>
 
     <xsl:template name="season">

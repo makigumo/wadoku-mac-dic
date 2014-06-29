@@ -96,17 +96,58 @@ rt {
     color:gray;
 }
 .genus{font-size: 80%;}
-.indexnr:before{content: '['}
-.indexnr:after{content: ']'}
-.master > .indexnr{color: #333300;}
-.indexnr{font-weight: bold;color: #000066}
+ol, ul {
+    padding: 0;
+    margin: 0;
+}
+ol.master {
+    counter-reset: master;
+    margin-left: 0;
+    padding-left: 0;
+}
+ol.master > li:before {
+    color: #333300;
+    font-weight: bold;
+    content: '[' counter(master, upper-alpha) '] ';
+    counter-increment: master;
+}
+ol > li {
+    list-style: none;
+}
+ol.senses > li {
+    position: relative;
+    margin: 0 0 .2em 1em;
+    padding-left: .2em;
+}
+ol.senses {
+    counter-reset: senses;
+    /*padding-left:0; /* Remove the default left padding */
+}
+ol.senses > li:before {
+    color: #000066;
+    font-weight: bold;
+    content: '[' counter(senses, decimal) '] ';
+    counter-increment: senses;
+}
+ol.senses.single > li:before {
+    content: '';
+}
+.subentries ol {
+    display: inline;
+}
+.subentries ol > li {
+    display: inline;
+    margin-left: .2em;
+    padding-left: .2em;
+}
+.subentries ol + ol {
+    padding-left: .2em;
+}
+.subentries ul {display: inline;}
+ul.related {display: inline;}
+ul.related > li {list-style: none; display: inline;}
+ul.related > li.related:before { content: ' ‖ '}
 .master {display: block}
-.master > .sense {
-    padding-left: 1em;
-}
-.sense.master{
-    margin: 4px 0;
-}
 .descr {color: gray;}
 .descr:before {content: ' (';}
 .descr:after {content: ') ';}
