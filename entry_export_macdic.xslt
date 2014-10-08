@@ -158,9 +158,15 @@
             <div class="uid"><xsl:value-of select="@id"/></div>
             <!-- meaning -->
             <div class="meaning">
-                <xsl:if test="./wd:gramGrp">
-                    <div class="hinshi">
-                        <xsl:apply-templates select="./wd:gramGrp"/>
+                <!-- grammar group and global etymology-->
+                <xsl:if test="./wd:gramGrp or ./wd:etym">
+                    <div class="global">
+                        <xsl:if test="./wd:gramGrp">
+                            <span class="hinshi">
+                                <xsl:apply-templates select="./wd:gramGrp"/>
+                            </span>
+                        </xsl:if>
+                        <xsl:apply-templates select="./wd:etym"/>
                     </div>
                 </xsl:if>
                 <!-- if only one sense, handle usg in sense template -->

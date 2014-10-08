@@ -160,6 +160,12 @@ ul.related > li.related:before { content: ' ‖ '}
 .etym {color: gray;}
 .etym:before{content:'\00a0('}
 .etym:after{content:')'}
+.global .etym:before {
+    content: '〔';
+}
+.global .etym::after {
+    content: '〕';
+}
 .famn{font-weight:bold}
 .b{border-bottom:1px dotted gray}
 .t{border-top:1px dotted gray}
@@ -198,7 +204,7 @@ ul.related > li.related:before { content: ' ‖ '}
     font-style:italic;
     font-variant:small-caps
 }
-.hinshi{
+.global{
     font-family: 'Baskerville';
     font-size:80%;
     vertical-align:8%;
@@ -208,8 +214,7 @@ ul.related > li.related:before { content: ' ‖ '}
     display: block;
     padding: 0 2px;
 }
-.hinshi:before {content: '('}
-.hinshi:after {content: ')'}
+.hinshi:after {content: ' '}
 .subheadword{
     font-size: 80%;
 }
