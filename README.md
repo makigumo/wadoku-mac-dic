@@ -29,6 +29,12 @@ Seither ist es im Extra-Paket
 
 Transformationsskript zur Umwandlung der XML-Daten in das XML-Format
 des Mac Dictionary Development Kit.
+Verwendet werden ebenfalls folgende Dateien:
+
+* front_matter.xsl
+* image_appendix.xsl
+* seasonword_appendix.xsl
+* gramgrp.xsl
 
 ### Wadoku.css
 
