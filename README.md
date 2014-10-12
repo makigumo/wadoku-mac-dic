@@ -4,18 +4,23 @@ Kleines Howto zur Erzeugung des Mac-Wörterbuches.
 
 ## Vorbemerkungen
 
-Das erzeugte Wörterbuch ist kompatibel mit OS X 10.5 (Leopard).
-Folgende Option erzeugt ein mit OS X 10.6 kompatibles Wörterbuch,
-dieses ist im Allgemeinen stärker komprimiert und nimmt damit
-weniger Platz auf der Festplatte ein.
+Die Umwandlung geschieht in zwei Schritten.
+
+* Transformation der Wadoku.de-XML-Daten in das Xml-Format des Mac-Wörterbuches.
+* Erzeugung des Mac-Wörterbuches aus den transformierten Daten.
+
+Das erzeugte Wörterbuch ist kompatibel mit OS X ab 10.5 (Leopard).
+Mit der folgenden Option lässt sich ein mit OS X 10.6 (und aufwärts)
+kompatibles Wörterbuch erzeugen, dieses ist im Allgemeinen stärker
+komprimiert und nimmt damit weniger Platz auf der Festplatte ein.
 Im Makefile:
 ```
 DICT_BUILD_OPTS = -v 10.6
 ```
 
-Es wird das Dictionary Development Kit benötigt:, welches bei installiertem Xcode
-in ``/Developer/Extras/Dictionary Development Kit`` liegt.
-Beim App-Store-Download von Xcode 4.3 ist es im Extra-Paket
+Es wird das *Dictionary Development Kit* benötigt, welches vor Xcode 4.3
+in ``/Developer/Extras/Dictionary Development Kit`` lag.
+Seither ist es im Extra-Paket
 ``Auxiliary Tools for Xcode``[1](https://developer.apple.com/downloads/index.action).
 
 ## Dateien
@@ -29,19 +34,20 @@ des Mac Dictionary Development Kit.
 
 CSS-Datei zur Formatierung der Einträge im Wörterbuch.
 
-* Pfad muss im Makefile angegeben werden.
+* Pfad muss als ``CSS_SRC_PATH`` bzw. ``CSS_PATH`` im Makefile angegeben werden.
 
 ### lang_pref.xslt
 
 Transformationsskript zur Umsetzung der Voreinstellungen.
 
-* Muss in OtherResources liegen.
+* Muss im Verzeichnis ``OtherResources`` liegen.
+* Pfad muss als ``PREF_XSLT_SRC_PATH`` im Makefile angegeben werden.
 
 ### Resources
 
 Verzeichnis mit HTML-Dateien für die Voreinstellungselemente.
 
-* Verzeichnis muss in OtherResources liegen.
+* Muss im Verzeichnis ``OtherResources`` liegen.
 
 ## plist-Einträge
 
