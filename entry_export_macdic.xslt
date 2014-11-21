@@ -697,7 +697,9 @@
                     </xsl:choose>
                 </rb>
                 <rt>
-                    <xsl:call-template name="reading_from_extended_yomi"/>
+                    <xsl:call-template name="reading_from_extended_yomi">
+                        <xsl:with-param name="kana" select="./wd:form/wd:reading/wd:hatsuon"/>
+                    </xsl:call-template>
                 </rt>
             </ruby>
             <xsl:text>｜</xsl:text>
@@ -971,17 +973,18 @@
     Senses ohne Mastersense und nicht @related
     -->
     <xsl:template match="wd:sense[empty(./wd:sense) and not(@related)]">
-        <xsl:call-template name="sense_accent"/>
         <xsl:choose>
             <xsl:when test="following-sibling::wd:sense[1][@related]">
                 <li>
                     <xsl:variable name="this_sense" select="."/>
                     <ul class="related">
                         <li class="sense">
+                            <xsl:call-template name="sense_accent"/>
                             <xsl:apply-templates mode="core" select="."/>
                         </li>
                         <xsl:for-each select="following-sibling::wd:sense[@related and preceding-sibling::wd:sense=$this_sense]">
                             <li class="sense related">
+                                <xsl:call-template name="sense_accent"/>
                                 <xsl:apply-templates mode="core" select="."/>
                             </li>
                         </xsl:for-each>
@@ -990,6 +993,7 @@
             </xsl:when>
             <xsl:otherwise>
                 <li class="sense">
+                    <xsl:call-template name="sense_accent"/>
                     <xsl:apply-templates mode="core" select="."/>
                 </li>
             </xsl:otherwise>
