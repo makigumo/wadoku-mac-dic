@@ -697,9 +697,7 @@
                     </xsl:choose>
                 </rb>
                 <rt>
-                    <xsl:call-template name="reading_from_extended_yomi">
-                        <xsl:with-param name="kana" select="./wd:form/wd:reading/wd:hatsuon"/>
-                    </xsl:call-template>
+	            <xsl:call-template name="reading_from_extended_yomi"/>
                 </rt>
             </ruby>
             <xsl:text>｜</xsl:text>
