@@ -978,11 +978,13 @@
                     <ul class="related">
                         <li class="sense">
                             <xsl:call-template name="sense_accent"/>
+                            <xsl:apply-templates select="./wd:descr"/>
                             <xsl:apply-templates mode="core" select="."/>
                         </li>
                         <xsl:for-each select="following-sibling::wd:sense[@related and preceding-sibling::wd:sense=$this_sense]">
                             <li class="sense related">
                                 <xsl:call-template name="sense_accent"/>
+                                <xsl:apply-templates select="./wd:descr"/>
                                 <xsl:apply-templates mode="core" select="."/>
                             </li>
                         </xsl:for-each>
