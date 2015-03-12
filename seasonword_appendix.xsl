@@ -13,12 +13,12 @@
 
     <xsl:template name="seasonword_appendix">
         <d:entry id="wadoku_appendix_seasonwords" d:title="Anhang: Jahreszeitenwörter">
-            <h1 xml:lang="de">Jahreszeitenwörter (<xsl:value-of select="count(wd:entry[.//wd:sense/@season])"/>)</h1>
-            <h1 xml:lang="ja">季語 (<xsl:value-of select="count(wd:entry[.//wd:sense/@season])"/>)</h1>
+            <h1 xml:lang="de">Jahreszeitenwörter (<xsl:value-of select="count(wd:entry[.//wd:sense/wd:seasonword])"/>)</h1>
+            <h1 xml:lang="ja">季語 (<xsl:value-of select="count(wd:entry[.//wd:sense/wd:seasonword])"/>)</h1>
             <dl>
-                <dt xml:lang="de">Neujahr (<xsl:value-of select="count(wd:entry[.//wd:sense/@season='newyear'])"/>)</dt>
-                <dt xml:lang="ja">新年 (<xsl:value-of select="count(wd:entry[.//wd:sense/@season='newyear'])"/>)</dt>
-                <xsl:for-each select="wd:entry[.//wd:sense/@season='newyear']">
+                <dt xml:lang="de">Neujahr (<xsl:value-of select="count(wd:entry[.//wd:sense/wd:seasonword/@type='newyear'])"/>)</dt>
+                <dt xml:lang="ja">新年 (<xsl:value-of select="count(wd:entry[.//wd:sense/wd:seasonword/@type='newyear'])"/>)</dt>
+                <xsl:for-each select="wd:entry[.//wd:sense/wd:seasonword/@type='newyear']">
                     <!-- sortiere nach Aussprache -->
                     <xsl:sort select=".//wd:pron[not(@type)]/wd:text/text()"/>
                     <dd>
@@ -30,9 +30,9 @@
                     </dd>
                 </xsl:for-each>
 
-                <dt xml:lang="de">Frühling (<xsl:value-of select="count(wd:entry[.//wd:sense/@season='spring'])"/>)</dt>
-                <dt xml:lang="ja">春 (<xsl:value-of select="count(wd:entry[.//wd:sense/@season='spring'])"/>)</dt>
-                <xsl:for-each select="wd:entry[.//wd:sense/@season='spring']">
+                <dt xml:lang="de">Frühling (<xsl:value-of select="count(wd:entry[.//wd:sense/wd:seasonword/@type='spring'])"/>)</dt>
+                <dt xml:lang="ja">春 (<xsl:value-of select="count(wd:entry[.//wd:sense/wd:seasonword/@type='spring'])"/>)</dt>
+                <xsl:for-each select="wd:entry[.//wd:sense/wd:seasonword/@type='spring']">
                     <!-- sortiere nach Aussprache -->
                     <xsl:sort select=".//wd:pron[not(@type)]/wd:text/text()"/>
                     <dd>
@@ -44,9 +44,9 @@
                     </dd>
                 </xsl:for-each>
 
-                <dt xml:lang="de">Sommer (<xsl:value-of select="count(wd:entry[.//wd:sense/@season='summer'])"/>)</dt>
-                <dt xml:lang="ja">夏 (<xsl:value-of select="count(wd:entry[.//wd:sense/@season='summer'])"/>)</dt>
-                <xsl:for-each select="wd:entry[.//wd:sense/@season='summer']">
+                <dt xml:lang="de">Sommer (<xsl:value-of select="count(wd:entry[.//wd:sense/wd:seasonword/@type='summer'])"/>)</dt>
+                <dt xml:lang="ja">夏 (<xsl:value-of select="count(wd:entry[.//wd:sense/wd:seasonword/@type='summer'])"/>)</dt>
+                <xsl:for-each select="wd:entry[.//wd:sense/wd:seasonword/@type='summer']">
                     <!-- sortiere nach Aussprache -->
                     <xsl:sort select=".//wd:pron[not(@type)]/wd:text/text()"/>
                     <dd>
@@ -58,9 +58,9 @@
                     </dd>
                 </xsl:for-each>
 
-                <dt xml:lang="de">Herbst (<xsl:value-of select="count(wd:entry[.//wd:sense/@season='autumn'])"/>)</dt>
-                <dt xml:lang="ja">秋 (<xsl:value-of select="count(wd:entry[.//wd:sense/@season='autumn'])"/>)</dt>
-                <xsl:for-each select="wd:entry[.//wd:sense/@season='autumn']">
+                <dt xml:lang="de">Herbst (<xsl:value-of select="count(wd:entry[.//wd:sense/wd:seasonword/@type='autumn'])"/>)</dt>
+                <dt xml:lang="ja">秋 (<xsl:value-of select="count(wd:entry[.//wd:sense/wd:seasonword/@type='autumn'])"/>)</dt>
+                <xsl:for-each select="wd:entry[.//wd:sense/wd:seasonword/@type='autumn']">
                     <!-- sortiere nach Aussprache -->
                     <xsl:sort select=".//wd:pron[not(@type)]/wd:text/text()"/>
                     <dd>
@@ -72,9 +72,9 @@
                     </dd>
                 </xsl:for-each>
 
-                <dt xml:lang="de">Winter (<xsl:value-of select="count(wd:entry[.//wd:sense/@season='winter'])"/>)</dt>
-                <dt xml:lang="ja">冬 (<xsl:value-of select="count(wd:entry[.//wd:sense/@season='winter'])"/>)</dt>
-                <xsl:for-each select="wd:entry[.//wd:sense/@season='winter']">
+                <dt xml:lang="de">Winter (<xsl:value-of select="count(wd:entry[.//wd:sense/wd:seasonword/@type='winter'])"/>)</dt>
+                <dt xml:lang="ja">冬 (<xsl:value-of select="count(wd:entry[.//wd:sense/wd:seasonword/@type='winter'])"/>)</dt>
+                <xsl:for-each select="wd:entry[.//wd:sense/wd:seasonword/@type='winter']">
                     <!-- sortiere nach Aussprache -->
                     <xsl:sort select=".//wd:pron[not(@type)]/wd:text/text()"/>
                     <dd>

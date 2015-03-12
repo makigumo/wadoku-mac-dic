@@ -930,9 +930,7 @@
     <xsl:template name="sense_content">
         <xsl:apply-templates select="wd:usg"/>
         <xsl:apply-templates select="wd:trans"/>
-        <!--<xsl:apply-templates select = ".//wd:def"  />
-   <xsl:apply-templates select = ".//def"  /-->
-        <xsl:if test="./@season">
+        <xsl:if test="./wd:seasonword">
             <xsl:call-template name="season"/>
         </xsl:if>
         <xsl:if test="./wd:etym">
@@ -1036,10 +1034,8 @@
             <xsl:otherwise>
                 <xsl:apply-templates select="wd:usg" />
                 <xsl:apply-templates select="wd:trans" />
-                <!--<xsl:apply-templates select = ".//wd:def"  />
-               <xsl:apply-templates select = ".//def"  /-->
-                <xsl:if test="@season">
-                    <xsl:call-template name="season"/>
+                <xsl:if test="wd:seasonword">
+                    <xsl:apply-templates select="wd:seasonword"/>
                 </xsl:if>
                 <xsl:if test="wd:etym">
                     <xsl:text> </xsl:text>
@@ -1054,33 +1050,33 @@
         <xsl:apply-templates select="./wd:link[@type='picture']"/>
     </xsl:template>
 
-    <xsl:template name="season">
+    <xsl:template name="wd:seasonword">
         <xsl:choose>
-            <xsl:when test="./@season='spring'">
+            <xsl:when test="@type='spring'">
                 <xsl:call-template name="season-template">
                     <xsl:with-param name="ja">春</xsl:with-param>
                     <xsl:with-param name="de">Frühling</xsl:with-param>
                 </xsl:call-template>
             </xsl:when>
-            <xsl:when test="./@season='summer'">
+            <xsl:when test="@type='summer'">
                 <xsl:call-template name="season-template">
                     <xsl:with-param name="ja">夏</xsl:with-param>
                     <xsl:with-param name="de">Sommer</xsl:with-param>
                 </xsl:call-template>
             </xsl:when>
-            <xsl:when test="./@season='autumn'">
+            <xsl:when test="@type='autumn'">
                 <xsl:call-template name="season-template">
                     <xsl:with-param name="ja">秋</xsl:with-param>
                     <xsl:with-param name="de">Herbst</xsl:with-param>
                 </xsl:call-template>
             </xsl:when>
-            <xsl:when test="./@season='winter'">
+            <xsl:when test="@type='winter'">
                 <xsl:call-template name="season-template">
                     <xsl:with-param name="ja">冬</xsl:with-param>
                     <xsl:with-param name="de">Winter</xsl:with-param>
                 </xsl:call-template>
             </xsl:when>
-            <xsl:when test="./@season='newyear'">
+            <xsl:when test="@type='newyear'">
                 <xsl:call-template name="season-template">
                     <xsl:with-param name="ja">新年</xsl:with-param>
                     <xsl:with-param name="de">Neujahr</xsl:with-param>
@@ -1092,10 +1088,22 @@
     <xsl:template name="season-template">
         <xsl:param name="ja"/>
         <xsl:param name="de"/>
-        <span class="season {@season}" xml:lang="ja" title="季語">
+        <span class="season {@type}" xml:lang="ja" title="季語">
+            <xsl:if test="@part">
+                <xsl:choose>
+                    <xsl:when test="@part='flower'"><xsl:text>花 </xsl:text></xsl:when>
+                    <xsl:when test="@part='fruit'"><xsl:text>実 </xsl:text></xsl:when>
+                </xsl:choose>
+            </xsl:if>
             <xsl:value-of select="$ja"/>
         </span>
-        <span class="season {@season}" xml:lang="de" title="Jahreszeitenwort">
+        <span class="season {@type}" xml:lang="de" title="Jahreszeitenwort">
+            <xsl:if test="@part">
+                <xsl:choose>
+                    <xsl:when test="@part='flower'"><xsl:text>Blüte </xsl:text></xsl:when>
+                    <xsl:when test="@part='fruit'"><xsl:text>Frucht </xsl:text></xsl:when>
+                </xsl:choose>
+            </xsl:if>
             <xsl:value-of select="$de"/>
         </span>
     </xsl:template>
