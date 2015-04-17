@@ -61,7 +61,8 @@
             <xsl:when test="@transitivity='intrans'">intrans. V.</xsl:when>
             <xsl:when test="@transitivity='both'">intrans. od. trans. V.</xsl:when>
         </xsl:choose>
-        <xsl:text> auf &lt;Transcr.: ‑ra&gt;</xsl:text>
+        <xsl:text> auf </xsl:text>
+        <span class="transcr">‑ra</span>
     </xsl:template>
 
     <xsl:template match="wd:doushi">
