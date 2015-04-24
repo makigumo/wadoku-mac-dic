@@ -931,7 +931,7 @@
         <xsl:apply-templates select="wd:usg"/>
         <xsl:apply-templates select="wd:trans"/>
         <xsl:if test="./wd:seasonword">
-            <xsl:call-template name="season"/>
+            <xsl:apply-templates select="./wd:seasonword"/>
         </xsl:if>
         <xsl:if test="./wd:etym">
             <xsl:text> </xsl:text>
@@ -1050,7 +1050,7 @@
         <xsl:apply-templates select="./wd:link[@type='picture']"/>
     </xsl:template>
 
-    <xsl:template name="wd:seasonword">
+    <xsl:template match="wd:seasonword">
         <xsl:choose>
             <xsl:when test="@type='spring'">
                 <xsl:call-template name="season-template">
