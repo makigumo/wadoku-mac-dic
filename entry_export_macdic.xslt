@@ -157,7 +157,9 @@
                     </xsl:choose>
                 </span>
             </h1>
-            <div class="uid"><xsl:value-of select="@id"/></div>
+            <div class="uid">
+                <xsl:value-of select="@id"/>
+            </div>
             <!-- meaning -->
             <div class="meaning">
                 <!-- grammar group and global etymology-->
@@ -697,7 +699,7 @@
                     </xsl:choose>
                 </rb>
                 <rt>
-	            <xsl:call-template name="reading_from_extended_yomi"/>
+                    <xsl:call-template name="reading_from_extended_yomi"/>
                 </rt>
             </ruby>
             <xsl:text>｜</xsl:text>
@@ -728,7 +730,6 @@
                     </xsl:choose>
                 </xsl:otherwise>
             </xsl:choose>
-
         </div>
     </xsl:template>
 
@@ -750,19 +751,28 @@
     <xsl:template name="get_subentry_type">
         <xsl:choose>
             <xsl:when test="wd:ref[@subentrytype='head']">
-                <xsl:if test="position()=1"><div>►</div></xsl:if>
+                <xsl:if test="position()=1">
+                    <div>►</div>
+                </xsl:if>
                 <xsl:text>　</xsl:text>
             </xsl:when>
             <xsl:when test="wd:ref[@subentrytype='tail']">
-                <xsl:if test="position()=1"><div>◀</div></xsl:if>
+                <xsl:if test="position()=1">
+                    <div>◀</div>
+                </xsl:if>
                 <xsl:text>　</xsl:text>
             </xsl:when>
             <xsl:when test="wd:ref[@subentrytype='VwBsp']">
-                <xsl:if test="position()=1"><div>◇</div></xsl:if>
+                <xsl:if test="position()=1">
+                    <div>◇</div>
+                </xsl:if>
                 <xsl:text>　</xsl:text>
             </xsl:when>
-            <xsl:when test="wd:ref[@subentrytype='WIdiom' or @subentrytype='ZSprW' or @subentrytype='other' or @subentrytype='XSatz']">
-                <xsl:if test="position()=1"><div>&#160;</div></xsl:if>
+            <xsl:when
+                    test="wd:ref[@subentrytype='WIdiom' or @subentrytype='ZSprW' or @subentrytype='other' or @subentrytype='XSatz']">
+                <xsl:if test="position()=1">
+                    <div>&#160;</div>
+                </xsl:if>
             </xsl:when>
         </xsl:choose>
     </xsl:template>
@@ -900,6 +910,7 @@
 
     <xsl:template mode="compact" match="wd:sense[empty(./wd:sense) and not(@related)]">
         <xsl:call-template name="sense_accent"/>
+        <xsl:apply-templates select="./wd:descr"/>
         <xsl:choose>
             <xsl:when test="following-sibling::wd:sense[1][@related]">
                 <li>
@@ -994,6 +1005,7 @@
             <xsl:otherwise>
                 <li class="sense">
                     <xsl:call-template name="sense_accent"/>
+                    <xsl:apply-templates select="./wd:descr"/>
                     <xsl:apply-templates mode="core" select="."/>
                 </li>
             </xsl:otherwise>
@@ -1027,7 +1039,9 @@
                         <xsl:text>(</xsl:text>
                         <xsl:for-each select="wd:trans[last()]/following-sibling::*[not(self::wd:trans)]">
                             <xsl:apply-templates select="."/>
-                            <xsl:if test="position()&lt;last()">; </xsl:if>
+                            <xsl:if test="position()&lt;last()">
+                                <xsl:text>; </xsl:text>
+                            </xsl:if>
                         </xsl:for-each>
                         <xsl:text>)</xsl:text>
                     </span>
@@ -1313,8 +1327,8 @@
     <xsl:template match="wd:usg">
         <xsl:choose>
             <xsl:when test="@type='dom'">
-                <span class="dom" >
-                    <xsl:apply-templates />
+                <span class="dom">
+                    <xsl:apply-templates/>
                     <xsl:call-template name="usg_after"/>
                 </span>
             </xsl:when>
@@ -1358,7 +1372,9 @@
                     <xsl:when test="@reg">
                         <span class="reg">
                             <xsl:value-of select="@reg"/>
-                            <xsl:if test="lower-case(@reg)=@reg and not(ends-with(@reg,'.'))"><xsl:text>.</xsl:text></xsl:if>
+                            <xsl:if test="lower-case(@reg)=@reg and not(ends-with(@reg,'.'))">
+                                <xsl:text>.</xsl:text>
+                            </xsl:if>
                             <xsl:call-template name="usg_after"/>
                         </span>
                     </xsl:when>
@@ -1507,7 +1523,9 @@
     <xsl:template match="wd:link[@type='picture']">
         <div class="image">
             <img alt="{text()}" src="Images/{@url}.jpg"/>
-            <div class="caption"><xsl:value-of select="text()"/></div>
+            <div class="caption">
+                <xsl:value-of select="text()"/>
+            </div>
         </div>
     </xsl:template>
 
