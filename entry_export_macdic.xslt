@@ -337,7 +337,8 @@
     </xsl:template>
 
     <xsl:template name="enrich_midashigo">
-        <xsl:analyze-string select="." regex="△(.)|×(.)|〈(.*?)〉|｛(.*?)｝|（([^（）]*?)）|（（([^（）]*?)）([^（）]*?)）">
+        <xsl:analyze-string select="." 
+                            regex="△(.)|/([×△].)|×(.)|〈(.*?)〉|｛(.*?)｝|（([^（）]*?)）|（（([^（）]*?)）([^（）]*?)）">
             <xsl:matching-substring>
                 <xsl:choose>
                     <xsl:when test="regex-group(1)">
@@ -346,31 +347,35 @@
                         </span>
                     </xsl:when>
                     <xsl:when test="regex-group(2)">
-                        <span class="njk"><!-- non joyo kanji -->
-                            <xsl:value-of select="regex-group(2)"/>
-                        </span>
+                        <!-- pass through ×△ when escaped by slash -->
+                        <xsl:value-of select="regex-group(2)"/>
                     </xsl:when>
                     <xsl:when test="regex-group(3)">
-                        <span class="jjk"><!-- jukujikun joyo kanji -->
+                        <span class="njk"><!-- non joyo kanji -->
                             <xsl:value-of select="regex-group(3)"/>
                         </span>
                     </xsl:when>
                     <xsl:when test="regex-group(4)">
-                        <span class="fjjk"><!-- fuhyo jukujikun joyo kanji -->
+                        <span class="jjk"><!-- jukujikun joyo kanji -->
                             <xsl:value-of select="regex-group(4)"/>
                         </span>
                     </xsl:when>
                     <xsl:when test="regex-group(5)">
-                        <span class="paren">
+                        <span class="fjjk"><!-- fuhyo jukujikun joyo kanji -->
                             <xsl:value-of select="regex-group(5)"/>
                         </span>
                     </xsl:when>
                     <xsl:when test="regex-group(6)">
                         <span class="paren">
+                            <xsl:value-of select="regex-group(6)"/>
+                        </span>
+                    </xsl:when>
+                    <xsl:when test="regex-group(7)">
+                        <span class="paren">
                             <span class="paren">
-                                <xsl:value-of select="regex-group(6)"/>
+                                <xsl:value-of select="regex-group(7)"/>
                             </span>
-                            <xsl:value-of select="regex-group(7)"/>
+                            <xsl:value-of select="regex-group(8)"/>
                         </span>
                     </xsl:when>
                 </xsl:choose>
