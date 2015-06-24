@@ -103,7 +103,7 @@ index 369d708..c354215 100755
 
 ### Löschen der Einstellungen und Neustart der Dictionary.app
 
-Für ```de.wadoku.dictionary.mac``` ist der Wert des ```CFBundleIdentifier``` aus der ```Info.plist``` zu verwendent
+Für ```de.wadoku.dictionary.mac``` ist der Wert des ```CFBundleIdentifier``` aus der ```Info.plist``` zu verwenden.
 ```
 /usr/libexec/PlistBuddy -c "Delete :com.apple.DictionaryServices:DCSDictionaryPrefs:de.wadoku.dictionary.mac" ~/Library/Preferences/.GlobalPreferences.plist
 ```
