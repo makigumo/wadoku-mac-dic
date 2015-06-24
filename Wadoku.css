@@ -316,7 +316,10 @@ span.paren:after {
 .iron:before, .literal:before, .topic:before, .transl:before, .specchar:before {content: open-quote;}
 .iron:after, .literal:after, .topic:after, .transl:after, .specchar:after {content: close-quote;}
 
-
+.debug {
+    font-family: monospace;
+    font-size: small;
+}
 
 /* für Lion Dictionary popup */
 

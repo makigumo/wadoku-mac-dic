@@ -6,17 +6,19 @@
 <div id="copyright"></div>
 <hr />
 <div class="query">
-    <input type="hidden" name="version" value="1" />
+    <input type="hidden" name="version" value="2" />
 </div>
 <div class="query">
     表示言語:<br />
-    <label><input type="radio" name="lang" value="0"/>日本語</label><br />
-    <label><input type="radio" name="lang" value="1"/>ドイツ語</label><br />
+    <label><input type="radio" name="lang" value="ja"/>日本語</label><br />
+    <label><input type="radio" name="lang" value="de"/>ドイツ語</label><br />
 </div>
 <div class="query">
-    <label><input type="checkbox" name="show_genera" value="yes"/>名詞の性・数を表示</label><br />
-    <label><input type="checkbox" name="show_ruby" value="yes"/>ふりがな表示</label><br />
-    <label><input type="checkbox" name="show_uid" value="yes"/>オンライン版へのリンク表示</label><br />
+    表示オプション:<br />
+    <label><input type="checkbox" name="display" value="genera"/>名詞の性・数を</label><br />
+    <label><input type="checkbox" name="display" value="ruby"/>ふりがな</label><br />
+    <label><input type="checkbox" name="display" value="uid"/>オンライン版へのリンク</label><br />
+    <label><input type="checkbox" name="display" value="short">要素の省略</input></label>
 </div>
 </body>
 </html>

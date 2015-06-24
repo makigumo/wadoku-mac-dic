@@ -337,8 +337,8 @@
     </xsl:template>
 
     <xsl:template name="enrich_midashigo">
-        <xsl:analyze-string select="." 
-                            regex="△(.)|/([×△].)|×(.)|〈(.*?)〉|｛(.*?)｝|（([^（）]*?)）|（（([^（）]*?)）([^（）]*?)）">
+        <xsl:analyze-string select="."
+                            regex="△(.)|/([×△])|×(.)|〈(.*?)〉|｛(.*?)｝|（([^（）]*?)）|（（([^（）]*?)）([^（）]*?)）">
             <xsl:matching-substring>
                 <xsl:choose>
                     <xsl:when test="regex-group(1)">
@@ -689,8 +689,28 @@
         </xsl:variable>
         <div class="subheadword" id="{@id}">
             <xsl:call-template name="get_subentry_type"/>
+            <xsl:variable name="isHaseigo">
+                <xsl:choose>
+                    <xsl:when test="count(wd:ref[
+                    not(@subentrytype='head')
+                    and not(@subentrytype='tail')
+                    and not(@subentrytype='VwBsp')
+                    and not(@subentrytype='WIdiom')
+                    and not(@subentrytype='XSatz')
+                    and not(@subentrytype='ZSprW')
+                    and not(@subentrytype='other')
+                    ]) > 0">
+                        <xsl:call-template name="get_short_hasei">
+                            <xsl:with-param name="type" select="wd:ref/@subentrytype"/>
+                        </xsl:call-template>
+                    </xsl:when>
+                </xsl:choose>
+            </xsl:variable>
             <!-- Untereintrag hat Untereinträge? dann als Link -->
             <ruby>
+                <xsl:if test="string-length($isHaseigo) > 0">
+                    <xsl:attribute name="class" select="'long'"/> 
+                </xsl:if>
                 <rb>
                     <xsl:choose>
                         <xsl:when test="key('refs', @id)">
@@ -707,6 +727,22 @@
                     <xsl:call-template name="reading_from_extended_yomi"/>
                 </rt>
             </ruby>
+            <xsl:if test="string-length($isHaseigo) > 0">
+                <ruby class="short">
+                    <rb>
+                        <xsl:choose>
+                            <xsl:when test="key('refs', @id)">
+                                <a href="x-dictionary:r:{@id}">
+                                    <xsl:value-of select="concat('〜', $isHaseigo)"/>
+                                </a>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="concat('〜', $isHaseigo)"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </rb>
+                </ruby>
+            </xsl:if>
             <xsl:text>｜</xsl:text>
             <xsl:choose>
                 <xsl:when test="./wd:sense/wd:sense">
@@ -750,6 +786,66 @@
                                          select="./wd:form/wd:orth[not(@irr) and not(@midashigo)][1]"/>
                 </xsl:if>
             </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    
+    <xsl:template name="get_short_hasei">
+        <xsl:param name="type"/>
+        <xsl:choose>
+            <xsl:when test="$type='sa'">
+                <xsl:text>さ</xsl:text>
+            </xsl:when>
+            <xsl:when test="$type='suru'">
+                <xsl:text>する</xsl:text>
+            </xsl:when>
+            <xsl:when test="$type='na'">
+                <xsl:text>な</xsl:text>
+            </xsl:when>
+            <xsl:when test="$type='ni'">
+                <xsl:text>に</xsl:text>
+            </xsl:when>
+            <xsl:when test="$type='no'">
+                <xsl:text>の</xsl:text>
+            </xsl:when>
+            <xsl:when test="$type='da'">
+                <xsl:text>だ</xsl:text>
+            </xsl:when>
+            <xsl:when test="$type='de'">
+                <xsl:text>で</xsl:text>
+            </xsl:when>
+            <xsl:when test="$type='kara'">
+                <xsl:text>から</xsl:text>
+            </xsl:when>
+            <xsl:when test="$type='e'">
+                <xsl:text>へ</xsl:text>
+            </xsl:when>
+            <xsl:when test="$type='shite'">
+                <xsl:text>して</xsl:text>
+            </xsl:when>
+            <xsl:when test="$type='shita'">
+                <xsl:text>した</xsl:text>
+            </xsl:when>
+            <xsl:when test="$type='teki'">
+                <xsl:text>的</xsl:text>
+            </xsl:when>
+            <xsl:when test="$type='to'">
+                <xsl:text>と</xsl:text>
+            </xsl:when>
+            <xsl:when test="$type='taru'">
+                <xsl:text>たる</xsl:text>
+            </xsl:when>
+            <xsl:when test="$type='garu'">
+                <xsl:text>がる</xsl:text>
+            </xsl:when>
+            <xsl:when test="$type='ge'">
+                <xsl:text>げ</xsl:text>
+            </xsl:when>
+            <xsl:when test="$type='ku'">
+                <xsl:text>く</xsl:text>
+            </xsl:when>
+            <xsl:when test="$type='mi'">
+                <xsl:text>み</xsl:text>
+            </xsl:when>
         </xsl:choose>
     </xsl:template>
 
@@ -924,7 +1020,8 @@
                         <li class="sense">
                             <xsl:call-template name="sense_content"/>
                         </li>
-                        <xsl:for-each select="following-sibling::wd:sense[@related and preceding-sibling::wd:sense=$this_sense]">
+                        <xsl:for-each
+                                select="following-sibling::wd:sense[@related and preceding-sibling::wd:sense=$this_sense]">
                             <li class="sense related">
                                 <xsl:call-template name="sense_content"/>
                             </li>
@@ -995,7 +1092,8 @@
                             <xsl:apply-templates select="./wd:descr"/>
                             <xsl:apply-templates mode="core" select="."/>
                         </li>
-                        <xsl:for-each select="following-sibling::wd:sense[@related and preceding-sibling::wd:sense=$this_sense]">
+                        <xsl:for-each
+                                select="following-sibling::wd:sense[@related and preceding-sibling::wd:sense=$this_sense]">
                             <li class="sense related">
                                 <xsl:call-template name="sense_accent"/>
                                 <xsl:apply-templates select="./wd:descr"/>

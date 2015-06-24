@@ -6,17 +6,19 @@
 <div id="copyright"></div>
 <hr />
 <div class="query">
-    <input type="hidden" name="version" value="1" />
+    <input type="hidden" name="version" value="2" />
 </div>
 <div class="query">
     Anzeigesprache:<br />
-    <label><input type="radio" name="lang" value="0"/>Japanisch</label><br />
-    <label><input type="radio" name="lang" value="1"/>Deutsch</label><br />
+    <label><input type="radio" name="lang" value="ja"/>Japanisch</label><br />
+    <label><input type="radio" name="lang" value="de"/>Deutsch</label><br />
 </div>
 <div class="query">
-    <label><input type="checkbox" name="show_genera" value="yes"/>Genus-Anzeige</label><br />
-    <label><input type="checkbox" name="show_ruby" value="yes"/>Furigana-Anzeige</label><br />
-    <label><input type="checkbox" name="show_uid" value="yes"/>Online-Link</label><br />
+    Anzeigeoptionen:
+    <label><input type="checkbox" name="display" value="genera"/>Genera</label><br />
+    <label><input type="checkbox" name="display" value="ruby"/>Furigana</label><br />
+    <label><input type="checkbox" name="display" value="uid"/>Online-Link</label><br />
+    <label><input type="checkbox" name="display" value="short">teilweise verkürzte Anzeige</input></label>
 </div>
 </body>
 </html>

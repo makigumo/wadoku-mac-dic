@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet
         version="1.0"
         xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -5,58 +6,99 @@
 
     <xsl:output method="xml" encoding="UTF-8" indent="no"
                 doctype-public="-//W3C//DTD XHTML 1.1//EN"
-                doctype-system="http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd" />
-    <xsl:param name="lang">0</xsl:param>
-    <xsl:param name="show_uid-yes">0</xsl:param>
-    <xsl:param name="show_genera-yes">1</xsl:param>
-    <xsl:param name="show_ruby-yes">1</xsl:param>
+                doctype-system="http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"/>
+    <xsl:param name="display-debug">false</xsl:param>
+    <xsl:param name="display-lang">ja</xsl:param>
+    <xsl:param name="display-uid">0</xsl:param>
+    <xsl:param name="display-genera">1</xsl:param>
+    <xsl:param name="display-ruby">0</xsl:param>
+    <xsl:param name="display-short">1</xsl:param>
 
     <xsl:template match="body">
         <xsl:copy>
             <xsl:attribute name="lang">
-                <xsl:choose>
-                    <xsl:when test="$lang = '0'">
-                        <xsl:text>ja</xsl:text>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <xsl:text>de</xsl:text>
-                    </xsl:otherwise>
-                </xsl:choose>
+                <xsl:value-of select="$display-lang"/>
             </xsl:attribute>
-            <xsl:apply-templates select="@*|node()" />
+            <xsl:if test="$display-debug = 'true'">
+                <div class="debug">
+                    <div>
+                        display-short:
+                        <xsl:value-of select="$display-short"/>
+                    </div>
+                    <div>
+                        display-uid:
+                        <xsl:value-of select="$display-uid"/>
+                    </div>
+                    <div>
+                        display-ruby:
+                        <xsl:value-of select="$display-ruby"/>
+                    </div>
+                    <div>
+                        display-genera:
+                        <xsl:value-of select="$display-genera"/>
+                    </div>
+                    <div>
+                        display-lang:
+                        <xsl:value-of select="$display-lang"/>
+                    </div>
+                </div>
+            </xsl:if>
+            <xsl:apply-templates select="@*|node()"/>
         </xsl:copy>
     </xsl:template>
 
     <xsl:template match="div[@class='uid']">
-        <xsl:if test="$show_uid-yes = '1'">
+        <xsl:if test="$display-uid = '1'">
             <xsl:element name="a">
                 <xsl:attribute name="class">uid</xsl:attribute>
-                <xsl:attribute name="href">http://www.wadoku.de/entry/view/<xsl:value-of
-                        select="."/></xsl:attribute>
+                <xsl:attribute name="href">http://www.wadoku.de/entry/view/<xsl:value-of select="."/>
+                </xsl:attribute>
                 <xsl:value-of select="."/>
             </xsl:element>
         </xsl:if>
     </xsl:template>
 
     <xsl:template match="span[@class='genus']">
-        <xsl:if test="$show_genera-yes = '1'">
+        <xsl:if test="$display-genera = '1'">
             <xsl:copy>
-                <xsl:apply-templates select="@*|node()" />
+                <xsl:apply-templates select="@*|node()"/>
             </xsl:copy>
         </xsl:if>
     </xsl:template>
 
     <xsl:template match="rt">
-        <xsl:if test="$show_ruby-yes = '1'">
+        <xsl:if test="$display-ruby = '1'">
             <xsl:copy>
-                <xsl:apply-templates select="@*|node()" />
+                <xsl:apply-templates select="@*|node()"/>
+            </xsl:copy>
+        </xsl:if>
+    </xsl:template>
+
+    <xsl:template match="ruby[not(@class)]">
+        <xsl:copy>
+            <xsl:apply-templates select="@*|node()"/>
+        </xsl:copy>
+    </xsl:template>
+
+    <xsl:template match="ruby[@class='short']">
+        <xsl:if test="$display-short = '1'">
+            <xsl:copy>
+                <xsl:apply-templates select="@*|node()"/>
+            </xsl:copy>
+        </xsl:if>
+    </xsl:template>
+
+    <xsl:template match="ruby[@class='long']">
+        <xsl:if test="$display-short = '0'">
+            <xsl:copy>
+                <xsl:apply-templates select="@*|node()"/>
             </xsl:copy>
         </xsl:if>
     </xsl:template>
 
     <xsl:template match="@*|node()">
         <xsl:copy>
-            <xsl:apply-templates select="@*|node()" />
+            <xsl:apply-templates select="@*|node()"/>
         </xsl:copy>
     </xsl:template>
 

@@ -60,21 +60,25 @@ Verzeichnis mit HTML-Dateien für die Voreinstellungselemente.
 ```xml
     <key>DCSDictionaryFrontMatterReferenceID</key>
     <string>wadoku_front_matter</string>
-	<key>DCSDictionaryDefaultPrefs</key>
-	<dict>
-	    <key>lang</key>
-        <string>0</string>
+    <key>DCSDictionaryDefaultPrefs</key>
+    <dict>
+        <key>display-lang</key>
+        <string>ja</string>
         <key>version</key>
         <string>1</string>
-        <key>show_uid</key>
-        <string/>
-        <key>show_genera</key>
+        <key>display-uid</key>
+        <string>0</string>
+        <key>display-genera</key>
+        <string>1</string>
+        <key>display-ruby</key>
+        <string>0</string>
+        <key>display-short</key>
         <string>1</string>
     </dict>
-	<key>DCSDictionaryPrefsHTML</key>
-	<string>prefs.xhtml</string>
-	<key>DCSDictionaryXSL</key>
-	<string>lang_pref.xslt</string>
+    <key>DCSDictionaryPrefsHTML</key>
+    <string>prefs.xhtml</string>
+    <key>DCSDictionaryXSL</key>
+    <string>lang_pref.xslt</string>
 ```
 
 ## Änderungen in build_dict.sh
