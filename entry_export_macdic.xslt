@@ -206,6 +206,7 @@
                 <xsl:apply-templates select="wd:link"/>
                 <xsl:call-template name="entry_subs"/>
                 <xsl:apply-templates mode="global" select="./wd:ref[@type='main']"/>
+                <xsl:apply-templates select="./wd:ruigos"/>
             </div>
         </d:entry>
     </xsl:template>
@@ -685,7 +686,9 @@
     <!-- subentry -->
     <xsl:template mode="subentry" match="wd:entry">
         <xsl:variable name="title">
-            <xsl:call-template name="get_subentry_title"/>
+            <xsl:call-template name="get_subentry_title">
+                <xsl:with-param name="entry" select="."/>
+            </xsl:call-template>
         </xsl:variable>
         <div class="subheadword" id="{@id}">
             <xsl:call-template name="get_subentry_type"/>
@@ -709,7 +712,7 @@
             <!-- Untereintrag hat Untereinträge? dann als Link -->
             <ruby>
                 <xsl:if test="string-length($isHaseigo) > 0">
-                    <xsl:attribute name="class" select="'long'"/> 
+                    <xsl:attribute name="class" select="'long'"/>
                 </xsl:if>
                 <rb>
                     <xsl:choose>
@@ -775,20 +778,20 @@
     </xsl:template>
 
     <xsl:template name="get_subentry_title">
+        <xsl:param name="entry"/>
         <xsl:choose>
-            <xsl:when test="./wd:form/wd:orth[@midashigo]">
-                <xsl:apply-templates mode="simple"
-                                     select="./wd:form/wd:orth[@midashigo][1]"/>
+            <xsl:when test="$entry/wd:form/wd:orth[@midashigo]">
+                <xsl:apply-templates mode="simple" select="$entry/wd:form/wd:orth[@midashigo][1]"/>
+            </xsl:when>
+            <xsl:when test="$entry/wd:form/wd:orth[not(@irr)]">
+                <xsl:apply-templates mode="simple" select="$entry/wd:form/wd:orth[not(@irr) and not(@midashigo)][1]"/>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:if test="./wd:form/wd:orth[not(@irr)]">
-                    <xsl:apply-templates mode="simple"
-                                         select="./wd:form/wd:orth[not(@irr) and not(@midashigo)][1]"/>
-                </xsl:if>
+                <xsl:apply-templates mode="simple" select="$entry/wd:form/wd:orth[1]"/>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-    
+
     <xsl:template name="get_short_hasei">
         <xsl:param name="type"/>
         <xsl:choose>
@@ -1681,6 +1684,30 @@
         </span>
         <xsl:if test="position() != last()">
             <xsl:text>; </xsl:text>
+        </xsl:if>
+    </xsl:template>
+
+    <xsl:template match="wd:ruigos">
+        <div class="ruigos">
+            <span class="label" xml:lang="ja">
+                <b>類語</b>
+            </span>
+            <span class="label" xml:lang="de">
+                <b>Synonyme</b>
+            </span>
+            <xsl:apply-templates/>
+        </div>
+    </xsl:template>
+
+    <xsl:template match="wd:ruigo">
+        <a class="ruigo" href="x-dictionary:r:{./@id}">
+            <xsl:variable name="id" select="./@id"/>
+            <xsl:call-template name="get_subentry_title">
+                <xsl:with-param name="entry" select="//wd:entry[@id eq $id]"/>
+            </xsl:call-template>
+        </a>
+        <xsl:if test="position() lt last()">
+            <xsl:text>・</xsl:text>
         </xsl:if>
     </xsl:template>
 

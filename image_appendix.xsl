@@ -25,7 +25,9 @@
                     <xsl:for-each select="current-group()">
                         <dd>
                             <a href="x-dictionary:r:{@id}">
-                                <xsl:call-template name="get_subentry_title"/>
+                                <xsl:call-template name="get_subentry_title">
+                                    <xsl:with-param name="entry" select="."/>
+                                </xsl:call-template>
                             </a>
                             <xsl:text> | </xsl:text>
                             <xsl:apply-templates mode="compact" select="./wd:sense"/>

@@ -21,13 +21,7 @@
                 <xsl:for-each select="wd:entry[.//wd:seasonword/@type='newyear']">
                     <!-- sortiere nach Aussprache -->
                     <xsl:sort select=".//wd:pron[not(@type)]/wd:text/text()"/>
-                    <dd>
-                        <a href="x-dictionary:r:{@id}">
-                            <xsl:call-template name="get_subentry_title"/>
-                        </a>
-                        <xsl:text> | </xsl:text>
-                        <xsl:apply-templates mode="compact" select="./wd:sense"/>
-                    </dd>
+                    <xsl:call-template name="prepare_content"/>
                 </xsl:for-each>
 
                 <dt xml:lang="de">Frühling (<xsl:value-of select="count(wd:entry[.//wd:seasonword/@type='spring'])"/>)</dt>
@@ -35,13 +29,7 @@
                 <xsl:for-each select="wd:entry[.//wd:seasonword/@type='spring']">
                     <!-- sortiere nach Aussprache -->
                     <xsl:sort select=".//wd:pron[not(@type)]/wd:text/text()"/>
-                    <dd>
-                        <a href="x-dictionary:r:{@id}">
-                            <xsl:call-template name="get_subentry_title"/>
-                        </a>
-                        <xsl:text> | </xsl:text>
-                        <xsl:apply-templates mode="compact" select="./wd:sense"/>
-                    </dd>
+                    <xsl:call-template name="prepare_content"/>
                 </xsl:for-each>
 
                 <dt xml:lang="de">Sommer (<xsl:value-of select="count(wd:entry[.//wd:seasonword/@type='summer'])"/>)</dt>
@@ -49,13 +37,7 @@
                 <xsl:for-each select="wd:entry[.//wd:seasonword/@type='summer']">
                     <!-- sortiere nach Aussprache -->
                     <xsl:sort select=".//wd:pron[not(@type)]/wd:text/text()"/>
-                    <dd>
-                        <a href="x-dictionary:r:{@id}">
-                            <xsl:call-template name="get_subentry_title"/>
-                        </a>
-                        <xsl:text> | </xsl:text>
-                        <xsl:apply-templates mode="compact" select="./wd:sense"/>
-                    </dd>
+                    <xsl:call-template name="prepare_content"/>
                 </xsl:for-each>
 
                 <dt xml:lang="de">Herbst (<xsl:value-of select="count(wd:entry[.//wd:sense/wd:seasonword/@type='autumn'])"/>)</dt>
@@ -63,13 +45,7 @@
                 <xsl:for-each select="wd:entry[.//wd:seasonword/@type='autumn']">
                     <!-- sortiere nach Aussprache -->
                     <xsl:sort select=".//wd:pron[not(@type)]/wd:text/text()"/>
-                    <dd>
-                        <a href="x-dictionary:r:{@id}">
-                            <xsl:call-template name="get_subentry_title"/>
-                        </a>
-                        <xsl:text> | </xsl:text>
-                        <xsl:apply-templates mode="compact" select="./wd:sense"/>
-                    </dd>
+                    <xsl:call-template name="prepare_content"/>
                 </xsl:for-each>
 
                 <dt xml:lang="de">Winter (<xsl:value-of select="count(wd:entry[.//wd:seasonword/@type='winter'])"/>)</dt>
@@ -77,16 +53,21 @@
                 <xsl:for-each select="wd:entry[.//wd:seasonword/@type='winter']">
                     <!-- sortiere nach Aussprache -->
                     <xsl:sort select=".//wd:pron[not(@type)]/wd:text/text()"/>
-                    <dd>
-                        <a href="x-dictionary:r:{@id}">
-                            <xsl:call-template name="get_subentry_title"/>
-                        </a>
-                        <xsl:text> | </xsl:text>
-                        <xsl:apply-templates mode="compact" select="./wd:sense"/>
-                    </dd>
+                    <xsl:call-template name="prepare_content"/>
                 </xsl:for-each>
             </dl>
         </d:entry>
     </xsl:template>
 
+    <xsl:template name="prepare_content">
+        <dd>
+            <a href="x-dictionary:r:{@id}">
+                <xsl:call-template name="get_subentry_title">
+                    <xsl:with-param name="entry" select="."/>
+                </xsl:call-template>
+            </a>
+            <xsl:text> | </xsl:text>
+            <xsl:apply-templates mode="compact" select="./wd:sense"/>
+        </dd>
+    </xsl:template>
 </xsl:stylesheet>

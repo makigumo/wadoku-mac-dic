@@ -216,7 +216,7 @@ ul.related > li.related:before { content: ' ‖ '}
     padding: 0 2px;
 }
 .hinshi:after {content: ' '}
-.subheadword{
+.subheadword, .ruigo{
     font-size: 80%;
 }
 .reg, .usage{
