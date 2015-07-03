@@ -31,8 +31,8 @@ body{
     font-weight:normal;
     line-height:1.33em;
     margin-right: 1em;
-    margin-top: 0.4em;
-    margin-bottom: 0.4px;
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
 }
 
 h1 {
@@ -198,7 +198,19 @@ ul.related > li.related:before { content: ' ‖ '}
 .reflink.main:before{content:'\21d1\00a0'}
 .reflink.aread:before{content:'\2192\00a0'}
 .reflink.atranscr:before{content:'\261e\00a0'}
-.reflink.parent:before{content:'\21e7\00a0'}
+/*.reflink.parent:before{content:'\21e7\00a0'}*/
+.parentheadword {
+    padding-top: 2px;
+    font-size: 80%;
+    background-color: #f2f2f2;
+}
+.parentheadword a {
+    color: #606060;
+}
+.parentheadword:before{
+    content: '\00a0≫\00a0';
+    font-weight: bold;
+}
 .dom{
     font-family:sans-serif;
     color:darkgreen;
