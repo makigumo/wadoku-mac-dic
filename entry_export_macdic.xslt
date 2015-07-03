@@ -205,7 +205,11 @@
                 <xsl:apply-templates select="wd:ref[not(@type='main')]"/>
                 <xsl:apply-templates select="wd:link"/>
                 <xsl:call-template name="entry_subs"/>
-                <xsl:apply-templates mode="global" select="./wd:ref[@type='main']"/>
+                <xsl:if test="./wd:ref[@type='main']">
+                    <div class="parentheadword">
+                        <xsl:apply-templates mode="parent" select="./wd:ref[@type='main']"/>
+                    </div>
+                </xsl:if>
                 <xsl:apply-templates select="./wd:ruigos"/>
             </div>
         </d:entry>
@@ -1525,7 +1529,7 @@
         </xsl:choose>
     </xsl:template>
 
-    <xsl:template match="wd:ref" mode="global">
+    <xsl:template match="wd:ref" mode="parent">
         <xsl:variable name="id" select="@id"/>
         <xsl:variable name="entry" select="/entries/wd:entry[@id=$id]"/>
         <xsl:variable name="title">
@@ -1545,11 +1549,12 @@
             </xsl:choose>
         </xsl:variable>
 
-        <div class="parentheadword">
-            <a href="x-dictionary:r:{@id}" class="reflink parent">
-                <xsl:copy-of select="$title"/>
-            </a>
-        </div>
+        <a href="x-dictionary:r:{@id}" class="reflink parent">
+            <xsl:copy-of select="$title"/>
+        </a>
+        <xsl:if test="position() lt last()">
+            <xsl:text>・</xsl:text>
+        </xsl:if>
     </xsl:template>
 
     <xsl:template match="wd:ref">
