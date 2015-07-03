@@ -9,19 +9,24 @@ Die Umwandlung geschieht in zwei Schritten.
 * Transformation der Wadoku.de-XML-Daten in das Xml-Format des Mac-Wörterbuches.
 * Erzeugung des Mac-Wörterbuches aus den transformierten Daten.
 
+Für den ersten Schritt wird ein XSLT-Prozessor, der XSLT 2.0 beherrscht, gebraucht.
+
+Für den zweiten Schritt wird das *Dictionary Development Kit* benötigt,
+welches im Paket ``Auxiliary Tools for Xcode``[1](https://developer.apple.com/downloads/index.action)
+enthalten ist, das gesamte Xcode-Paket wird hierfür nicht benötigt.
+Vor Xcode 4.3 lag es im Verzeichnis ``/Developer/Extras/Dictionary Development Kit``.
+
 Das erzeugte Wörterbuch ist kompatibel mit OS X ab 10.5 (Leopard).
-Mit der folgenden Option lässt sich ein mit OS X 10.6 (und aufwärts)
-kompatibles Wörterbuch erzeugen, dieses ist im Allgemeinen stärker
-komprimiert und nimmt damit weniger Platz auf der Festplatte ein.
+Mit einer der folgenden Optionen lässt sich ein mit OS X 10.6 bzw. 10.11
+(und aufwärts) kompatibles Wörterbuch erzeugen.
+Dieses ist im Allgemeinen stärker komprimiert und nimmt damit weniger Platz 
+auf der Festplatte ein.
+
 Im Makefile:
 ```
 DICT_BUILD_OPTS = -v 10.6
+DICT_BUILD_OPTS = -v 10.11
 ```
-
-Es wird das *Dictionary Development Kit* benötigt, welches vor Xcode 4.3
-in ``/Developer/Extras/Dictionary Development Kit`` lag.
-Seither ist es im Extra-Paket
-``Auxiliary Tools for Xcode``[1](https://developer.apple.com/downloads/index.action).
 
 ## Dateien
 
