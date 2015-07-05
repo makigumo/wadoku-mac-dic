@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:d="http://www.apple.com/DTDs/DictionaryService-1.0.rng"
                 xmlns:wd="http://www.wadoku.de/xml/entry"
                 xmlns="http://www.w3.org/1999/xhtml"
@@ -15,11 +16,11 @@
         <d:entry id="wadoku_front_matter" d:title="Wadoku Info">
             <h1 xml:lang="de">Wadoku - Japanisch-Deutsches Wörterbuch für Mac</h1>
             <h1 xml:lang="ja">Mac用和独辞典</h1>
-            <h3 xml:lang="de">Über</h3>
+            <h3 xml:lang="de">Über diese Wörterbuch</h3>
             <h3 xml:lang="ja">本辞典について</h3>
             <p xml:lang="de">
                 Dieses Wörterbuch wurde aus dem XML-Datensatz
-                <xsl:if test="/entries[@date]">
+                <xsl:if test="/entries[@date] and string(@date) castable as xs:date">
                     <xsl:text>(vom </xsl:text>
                     <xsl:value-of select="format-dateTime(/entries/@date, '[D1o] [MNn] [Y0001]','de','AD','DE')"/>
                     <xsl:text>)</xsl:text>
@@ -29,7 +30,7 @@
             </p>
             <p xml:lang="ja">
                 本辞典は<a href="http://www.wadoku.de/">オンライン和独辞典</a>のXMLデータ
-                <xsl:if test="/entries[@date]">
+                <xsl:if test="/entries[@date] and string(@date) castable as xs:date">
                     <xsl:text>(</xsl:text>
                     <xsl:value-of select="format-dateTime(/entries/@date, '[Y0001]年[M01]月[D01]日')"/>
                     <xsl:text>より)</xsl:text>
