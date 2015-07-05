@@ -198,7 +198,10 @@ ul.related > li.related:before { content: ' ‖ '}
 .reflink.main:before{content:'\21d1\00a0'}
 .reflink.aread:before{content:'\2192\00a0'}
 .reflink.atranscr:before{content:'\261e\00a0'}
-/*.reflink.parent:before{content:'\21e7\00a0'}*/
+.parents + .parent:before{
+    content: '\00a0≫\00a0';
+    font-weight: bold;
+}
 .parentheadword {
     padding-top: 2px;
     font-size: 80%;

@@ -81,9 +81,11 @@
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
+        
         <xsl:variable name="yomi">
             <xsl:value-of select="replace(./wd:form/wd:reading/wd:hira,'う゛','ゔ')"/>
         </xsl:variable>
+        
         <d:entry id="{@id}" d:title="{$title}">
             <!-- index -->
             <xsl:variable name="idx">
@@ -92,18 +94,27 @@
                     <xsl:with-param name="yomi" select="$yomi"/>
                 </xsl:call-template>
             </xsl:variable>
-            <!-- filter duplicate index entries -->
+            <!-- filter index duplicates -->
             <xsl:for-each select="$idx">
                 <xsl:copy-of select="d:index[not(preceding-sibling::d:index/@d:value=./@d:value
                  and preceding-sibling::d:index/@d:title=./@d:title and preceding-sibling::d:index/@d:yomi=./@d:yomi)]"/>
             </xsl:for-each>
-            <!-- Index für Untereinträge -->
+            <!-- index for subentries -->
             <xsl:if test="$strictSubHeadIndex = 'yes'">
                 <xsl:apply-templates mode="subheadindex" select="key('refs',@id)"/>
             </xsl:if>
 
+            <xsl:if test="$strictSubHeadIndex != 'yes'">
+                <!-- breadcrumb links to parent(s) -->
+                <xsl:if test="./wd:ref[@type='main']">
+                    <div class="parentheadword">
+                        <xsl:apply-templates mode="parent" select="./wd:ref[@type='main']"/>
+                    </div>
+                </xsl:if>
+            </xsl:if>
             <!-- header -->
             <h1>
+                <!-- reading -->
                 <span class="headword">
                     <ruby>
                         <rb>
@@ -114,6 +125,7 @@
                         </rt>
                     </ruby>
                 </span>
+                <!-- accent -->
                 <xsl:if test="./wd:form/wd:reading/wd:accent">
                     <span class="accents">
                         <xsl:for-each select="./wd:form/wd:reading/wd:accent">
@@ -132,6 +144,7 @@
                         </xsl:for-each>
                     </span>
                 </xsl:if>
+                <!-- writing -->
                 <span class="hyouki">
                     <xsl:choose>
                         <xsl:when test="./wd:form/wd:orth[@midashigo]">
@@ -202,14 +215,13 @@
                         </xsl:choose>
                     </xsl:otherwise>
                 </xsl:choose>
+                <!-- synonyms, antonyms, alternate readings, alternate transcriptions -->
                 <xsl:apply-templates select="wd:ref[not(@type='main')]"/>
+                <!-- URLs, image links -->
                 <xsl:apply-templates select="wd:link"/>
+                <!-- subentries -->
                 <xsl:call-template name="entry_subs"/>
-                <xsl:if test="./wd:ref[@type='main']">
-                    <div class="parentheadword">
-                        <xsl:apply-templates mode="parent" select="./wd:ref[@type='main']"/>
-                    </div>
-                </xsl:if>
+                <!-- general synonyms -->
                 <xsl:apply-templates select="./wd:ruigos"/>
             </div>
         </d:entry>
@@ -1529,9 +1541,11 @@
         </xsl:choose>
     </xsl:template>
 
+    
+    <!-- breadcrumps to parent(s) -->
     <xsl:template match="wd:ref" mode="parent">
         <xsl:variable name="id" select="@id"/>
-        <xsl:variable name="entry" select="/entries/wd:entry[@id=$id]"/>
+        <xsl:variable name="entry" select="/entries/wd:entry[@id = $id]"/>
         <xsl:variable name="title">
             <xsl:choose>
                 <xsl:when test="$entry/wd:form/wd:orth[@midashigo]">
@@ -1549,6 +1563,19 @@
             </xsl:choose>
         </xsl:variable>
 
+        <!-- if parent has parent, log self reference -->
+        <xsl:if test="$entry/wd:ref[@type='main' and $id = @id]">
+            <xsl:message>
+                <xsl:text>self-reference: </xsl:text>
+                <xsl:value-of select="$id"/>
+            </xsl:message>
+        </xsl:if>
+        <xsl:if test="$entry/wd:ref[@type='main' and $id != @id]">
+            <span class="parents parent">
+                <xsl:apply-templates mode="parent" select="$entry/wd:ref[@type='main']"/>
+            </span>
+        </xsl:if>
+
         <a href="x-dictionary:r:{@id}" class="reflink parent">
             <xsl:copy-of select="$title"/>
         </a>
@@ -1557,6 +1584,8 @@
         </xsl:if>
     </xsl:template>
 
+    
+    <!-- reference links -->
     <xsl:template match="wd:ref">
         <xsl:if test="position()>1">
             <xsl:text> </xsl:text>
