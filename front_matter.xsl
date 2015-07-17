@@ -16,7 +16,7 @@
         <d:entry id="wadoku_front_matter" d:title="Wadoku Info">
             <h1 xml:lang="de">Wadoku - Japanisch-Deutsches Wörterbuch für Mac</h1>
             <h1 xml:lang="ja">Mac用和独辞典</h1>
-            <h3 xml:lang="de">Über diese Wörterbuch</h3>
+            <h3 xml:lang="de">Über dieses Wörterbuch</h3>
             <h3 xml:lang="ja">本辞典について</h3>
             <p xml:lang="de">
                 Dieses Wörterbuch wurde aus dem XML-Datensatz
