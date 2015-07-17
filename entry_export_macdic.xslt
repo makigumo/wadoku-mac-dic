@@ -22,6 +22,10 @@
          oder nur im Haupteintrag erscheinen, wenn = yes
     -->
     <xsl:param name="strictSubHeadIndex">no</xsl:param>
+    
+    <xsl:param name="skipAppendix">no</xsl:param>
+    
+    <xsl:param name="debug">no</xsl:param>
 
     <!-- Trenner für Schreibungen/Stichworte -->
     <xsl:param name="orthdivider">
@@ -43,6 +47,11 @@
     <xsl:key name="refs" match="wd:entry[./wd:ref[@type='main']]" use="./wd:ref/@id"/>
 
     <xsl:template match="entries">
+        <xsl:if test="$debug = 'yes'">
+            <xsl:processing-instruction name="xml-stylesheet">
+                <xsl:text>type="text/css" href="813338/Wadoku.css"</xsl:text>
+            </xsl:processing-instruction>
+        </xsl:if>
         <d:dictionary xmlns="http://www.w3.org/1999/xhtml"
                       xmlns:d="http://www.apple.com/DTDs/DictionaryService-1.0.rng">
 
@@ -58,9 +67,13 @@
                     <xsl:apply-templates/>
                 </xsl:otherwise>
             </xsl:choose>
-            <xsl:call-template name="front"/>
-            <xsl:call-template name="image_appendix"/>
-            <xsl:call-template name="seasonword_appendix"/>
+
+            <xsl:if test="$skipAppendix ne 'yes'">
+                <xsl:call-template name="front"/>
+                <xsl:call-template name="image_appendix"/>
+                <xsl:call-template name="seasonword_appendix"/>
+            </xsl:if>
+
         </d:dictionary>
     </xsl:template>
 
@@ -1036,11 +1049,19 @@
                 <li>
                     <xsl:variable name="this_sense" select="."/>
                     <ul class="related">
+                        <!-- this sense -->
                         <li class="sense">
                             <xsl:call-template name="sense_content"/>
                         </li>
+                        <!-- all following @related senses, in particular
+                        * directly following sense
+                        * related sense with a directly preceding related sense
+                        -->
                         <xsl:for-each
-                                select="following-sibling::wd:sense[@related and preceding-sibling::wd:sense=$this_sense]">
+                                select="following-sibling::wd:sense[
+                                @related and (
+                                preceding-sibling::wd:sense[1]=$this_sense or preceding-sibling::wd:sense[1][@related])
+                                ]">
                             <li class="sense related">
                                 <xsl:call-template name="sense_content"/>
                             </li>
@@ -1075,13 +1096,19 @@
         </xsl:if>
     </xsl:template>
 
+    <!--
+         general sense handling
+    
+    -->
+    
+    
     <!-- Mastersense -->
     <xsl:template match="wd:sense[./wd:sense]">
         <li class="master sense">
             <xsl:call-template name="sense_accent"/>
             <xsl:apply-templates select="./wd:descr"/>
             <xsl:choose>
-                <xsl:when test="count(./wd:sense[not(@related)])>1">
+                <xsl:when test="./wd:sense[not(@related)]">
                     <ol class="senses">
                         <xsl:for-each select="./wd:sense">
                             <xsl:apply-templates select="."/>
@@ -1106,13 +1133,21 @@
                 <li>
                     <xsl:variable name="this_sense" select="."/>
                     <ul class="related">
+                        <!-- this sense -->
                         <li class="sense">
                             <xsl:call-template name="sense_accent"/>
                             <xsl:apply-templates select="./wd:descr"/>
                             <xsl:apply-templates mode="core" select="."/>
                         </li>
+                        <!-- all following @related senses, in particular
+                        * directly following sense
+                        * related sense with a directly preceding related sense
+                        -->
                         <xsl:for-each
-                                select="following-sibling::wd:sense[@related and preceding-sibling::wd:sense=$this_sense]">
+                                select="following-sibling::wd:sense[
+                                @related and (
+                                preceding-sibling::wd:sense[1]=$this_sense or preceding-sibling::wd:sense[1][@related])
+                                ]">
                             <li class="sense related">
                                 <xsl:call-template name="sense_accent"/>
                                 <xsl:apply-templates select="./wd:descr"/>
