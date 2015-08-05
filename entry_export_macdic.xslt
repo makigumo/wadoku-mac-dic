@@ -1268,6 +1268,9 @@
                     <xsl:when test="@part='fruit'">
                         <xsl:text>実 </xsl:text>
                     </xsl:when>
+                    <xsl:when test="@part='leaf'">
+                        <xsl:text>葉 </xsl:text>
+                    </xsl:when>
                 </xsl:choose>
             </xsl:if>
             <xsl:value-of select="$ja"/>
@@ -1280,6 +1283,9 @@
                     </xsl:when>
                     <xsl:when test="@part='fruit'">
                         <xsl:text>Frucht </xsl:text>
+                    </xsl:when>
+                    <xsl:when test="@part='leaf'">
+                        <xsl:text>Blatt </xsl:text>
                     </xsl:when>
                 </xsl:choose>
             </xsl:if>
