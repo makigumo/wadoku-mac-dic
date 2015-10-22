@@ -170,10 +170,16 @@
 
     <xsl:template match="wd:keiyoushi">
         <xsl:text>Adj.</xsl:text>
-        <xsl:if test="@ku and @ku='true'">
-            <xsl:text> auf </xsl:text>
-            <span class="transcr">‑ku</span>
-        </xsl:if>
+        <xsl:choose>
+            <xsl:when test="@ku and @ku='true'">
+                <xsl:text> auf </xsl:text>
+                <span class="transcr">‑ku</span>
+            </xsl:when>
+            <xsl:when test="@shiku and @shiku='true'">
+                <xsl:text> auf </xsl:text>
+                <span class="transcr">‑shiku</span>
+            </xsl:when>
+        </xsl:choose>
     </xsl:template>
 
     <xsl:template match="wd:specialcharacter">
