@@ -1262,6 +1262,9 @@
         <span class="season {@type}" xml:lang="ja" title="季語">
             <xsl:if test="@part">
                 <xsl:choose>
+                    <xsl:when test="@part='bud'">
+                        <xsl:text>芽 </xsl:text>
+                    </xsl:when>
                     <xsl:when test="@part='flower'">
                         <xsl:text>花 </xsl:text>
                     </xsl:when>
@@ -1278,6 +1281,9 @@
         <span class="season {@type}" xml:lang="de" title="Jahreszeitenwort">
             <xsl:if test="@part">
                 <xsl:choose>
+                    <xsl:when test="@part='bud'">
+                        <xsl:text>Knospe </xsl:text>
+                    </xsl:when>
                     <xsl:when test="@part='flower'">
                         <xsl:text>Blüte </xsl:text>
                     </xsl:when>
