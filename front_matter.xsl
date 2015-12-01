@@ -69,6 +69,11 @@
                         <th xml:lang="ja">翻訳項目数</th>
                         <td><xsl:value-of select="count(wd:entry//wd:trans)"/></td>
                     </tr>
+                    <tr>
+                        <th xml:lang="de">Sinn- und sachverwandte Verknüpfungen</th>
+                        <th xml:lang="ja">類義語関係数</th>
+                        <td><xsl:value-of select="count(//wd:ruigo)"/></td>
+                    </tr>
                 </tbody>
             </table>
             <h3 xml:lang="de">Lizenz</h3>
