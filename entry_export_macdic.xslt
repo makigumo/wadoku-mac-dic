@@ -16,7 +16,7 @@
             method="xml"
             omit-xml-declaration="yes"
             encoding="UTF-8"
-            indent="yes"/>
+            indent="no"/>
 
     <!-- Parameter, der bestimmt, ob Untereinträge ihre eigenen Einträge erhalten,
          oder nur im Haupteintrag erscheinen, wenn = yes
@@ -46,7 +46,7 @@
     <!-- lookup key für einträge mit referenzen auf einen Haupteintrag -->
     <xsl:key name="refs" match="wd:entry[./wd:ref[@type='main']]" use="./wd:ref/@id"/>
 
-    <xsl:template match="entries">
+    <xsl:template match="wd:entries|entries">
         <xsl:if test="$debug = 'yes'">
             <xsl:processing-instruction name="xml-stylesheet">
                 <xsl:text>type="text/css" href="813338/Wadoku.css"</xsl:text>
@@ -1602,7 +1602,7 @@
     <!-- breadcrumps to parent(s) -->
     <xsl:template match="wd:ref" mode="parent">
         <xsl:variable name="id" select="@id"/>
-        <xsl:variable name="entry" select="/entries/wd:entry[@id = $id]"/>
+        <xsl:variable name="entry" select="//wd:entry[@id = $id]"/>
         <xsl:variable name="title">
             <xsl:choose>
                 <xsl:when test="$entry/wd:form/wd:orth[@midashigo]">
