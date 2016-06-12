@@ -390,8 +390,3 @@ html.apple_client-panel span.subheadword
     padding-left: 1em;
     text-indent: -1em;
 }
-
-html.apple_client-panel span.divider
-{
-    display: none;
-}
