@@ -22,9 +22,9 @@
          oder nur im Haupteintrag erscheinen, wenn = yes
     -->
     <xsl:param name="strictSubHeadIndex">no</xsl:param>
-    
+
     <xsl:param name="skipAppendix">no</xsl:param>
-    
+
     <xsl:param name="debug">no</xsl:param>
 
     <!-- Trenner für Schreibungen/Stichworte -->
@@ -94,11 +94,11 @@
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
-        
+
         <xsl:variable name="yomi">
             <xsl:value-of select="replace(./wd:form/wd:reading/wd:hira,'う゛','ゔ')"/>
         </xsl:variable>
-        
+
         <d:entry id="{@id}" d:title="{$title}">
             <!-- index -->
             <xsl:variable name="idx">
@@ -228,6 +228,30 @@
                         </xsl:choose>
                     </xsl:otherwise>
                 </xsl:choose>
+                <!-- note about typical spelling mistakes -->
+                <xsl:if test="./wd:form/wd:orth[@type='mistake']">
+                    <div class="note">
+                        <div class="label">
+                            <span xml:lang="ja">注意</span>
+                            <span xml:lang="de">Hinweis</span>
+                        </div>
+                        <div class="content">
+                            <xsl:text>「</xsl:text>
+                            <xsl:apply-templates mode="mistake_note" select="./wd:form/wd:orth[@type='mistake']" />
+                            <xsl:text>」</xsl:text>
+                            <span xml:lang="ja">はあやまり。</span>
+                            <xsl:choose>
+                                <xsl:when test="count(./wd:form/wd:orth[@type='mistake']) > 1">
+                                    <span xml:lang="de">sind Falschschreibungen。</span>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <span xml:lang="de">ist eine Falschschreibung。</span>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                            
+                        </div>
+                    </div>
+                </xsl:if>
                 <!-- synonyms, antonyms, alternate readings, alternate transcriptions -->
                 <xsl:apply-templates select="wd:ref[not(@type='main')]"/>
                 <!-- URLs, image links -->
@@ -238,6 +262,13 @@
                 <xsl:apply-templates select="./wd:ruigos"/>
             </div>
         </d:entry>
+    </xsl:template>
+    
+    <xsl:template mode="mistake_note" match="wd:orth[@type='mistake']">
+        <xsl:value-of select="."/>
+        <xsl:if test="position() lt last()">
+            <xsl:text>・</xsl:text>
+        </xsl:if>
     </xsl:template>
 
     <xsl:template name="build_entry_index">
@@ -1110,8 +1141,8 @@
          general sense handling
     
     -->
-    
-    
+
+
     <!-- Mastersense -->
     <xsl:template match="wd:sense[./wd:sense]">
         <li class="master sense">
@@ -1598,7 +1629,7 @@
         </xsl:choose>
     </xsl:template>
 
-    
+
     <!-- breadcrumps to parent(s) -->
     <xsl:template match="wd:ref" mode="parent">
         <xsl:variable name="id" select="@id"/>
@@ -1641,7 +1672,7 @@
         </xsl:if>
     </xsl:template>
 
-    
+
     <!-- reference links -->
     <xsl:template match="wd:ref">
         <xsl:if test="position()>1">

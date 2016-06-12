@@ -269,6 +269,21 @@ ul.related > li.related:before { content: ' ‖ '}
 .title:before{content: open-quote}
 .title:after{content: close-quote}
 .klammer{color:gray}
+.note .label{
+    display: inline-block;
+    font-weight:normal;
+    color: #db7093;
+    Background: #ffffff;
+    border-color: #db7093;
+    border-width:1px 2px 1px 2px;
+    border-radius: 3px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+.note .content{
+    display: inline-block;
+}
+
 body[lang="ja"] *[lang="de"] {
     display: none;
 }
