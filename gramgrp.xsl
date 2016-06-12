@@ -41,8 +41,14 @@
     </xsl:template>
 
     <xsl:template match="wd:doushi[@level='kuru']">
-        <xsl:text>unregelm. intrans. V. auf </xsl:text>
-        <span class="transcr">ka</span>
+        <xsl:text>unregelm. </xsl:text>
+        <xsl:choose>
+            <xsl:when test="@transitivity='trans'">trans.</xsl:when>
+            <xsl:when test="@transitivity='intrans'">intrans.</xsl:when>
+            <xsl:when test="@transitivity='both'">intrans. od. trans.</xsl:when>
+        </xsl:choose>
+        <xsl:text> V. auf </xsl:text>
+        <x:span class="transcr">ka</x:span>
     </xsl:template>
 
     <xsl:template match="wd:doushi[@level='suru']">
