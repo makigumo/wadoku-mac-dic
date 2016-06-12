@@ -40,33 +40,29 @@
         </xsl:if>
     </xsl:template>
 
-    <xsl:template match="wd:doushi[@level='kuru']">
-        <xsl:text>unregelm. </xsl:text>
-        <xsl:choose>
-            <xsl:when test="@transitivity='trans'">trans.</xsl:when>
-            <xsl:when test="@transitivity='intrans'">intrans.</xsl:when>
-            <xsl:when test="@transitivity='both'">intrans. od. trans.</xsl:when>
-        </xsl:choose>
-        <xsl:text> V. auf </xsl:text>
-        <x:span class="transcr">ka</x:span>
-    </xsl:template>
-
-    <xsl:template match="wd:doushi[@level='suru']">
+    <xsl:template name="get_transitivity_text">
         <xsl:choose>
             <xsl:when test="@transitivity='trans'">trans. V.</xsl:when>
             <xsl:when test="@transitivity='intrans'">intrans. V.</xsl:when>
             <xsl:when test="@transitivity='both'">intrans. od. trans. V.</xsl:when>
         </xsl:choose>
+    </xsl:template>
+
+    <xsl:template match="wd:doushi[@level='kuru']">
+        <xsl:text>unregelm. </xsl:text>
+        <xsl:call-template name="get_transitivity_text"/>
+        <xsl:text> auf </xsl:text>
+        <span class="transcr">ka</span>
+    </xsl:template>
+
+    <xsl:template match="wd:doushi[@level='suru']">
+        <xsl:call-template name="get_transitivity_text"/>
         <xsl:text> auf </xsl:text>
         <span class="transcr">‑suru</span>
     </xsl:template>
 
     <xsl:template match="wd:doushi[@level='ra']">
-        <xsl:choose>
-            <xsl:when test="@transitivity='trans'">trans. V.</xsl:when>
-            <xsl:when test="@transitivity='intrans'">intrans. V.</xsl:when>
-            <xsl:when test="@transitivity='both'">intrans. od. trans. V.</xsl:when>
-        </xsl:choose>
+        <xsl:call-template name="get_transitivity_text"/>
         <xsl:text> auf </xsl:text>
         <span class="transcr">‑ra</span>
     </xsl:template>
@@ -81,11 +77,7 @@
             <xsl:when test="@level='5'">5</xsl:when>
         </xsl:choose>
         <xsl:text>‑st. </xsl:text>
-        <xsl:choose>
-            <xsl:when test="@transitivity='trans'">trans. V.</xsl:when>
-            <xsl:when test="@transitivity='intrans'">intrans. V.</xsl:when>
-            <xsl:when test="@transitivity='both'">intrans. od. trans. V.</xsl:when>
-        </xsl:choose>
+        <xsl:call-template name="get_transitivity_text"/>
         <xsl:choose>
             <xsl:when test="@level='1i'">
                 <xsl:text> auf </xsl:text>
