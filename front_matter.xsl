@@ -25,11 +25,11 @@
                     <xsl:value-of select="format-dateTime(/entries/@date, '[D1o] [MNn] [Y0001]','de','AD','DE')"/>
                     <xsl:text>)</xsl:text>
                 </xsl:if>
-                des <a href="http://www.wadoku.de/">Wadoku-Online-Wörterbuches</a>
+                des <a href="https://www.wadoku.de/">Wadoku-Online-Wörterbuches</a>
                 erstellt.
             </p>
             <p xml:lang="ja">
-                本辞典は<a href="http://www.wadoku.de/">オンライン和独辞典</a>のXMLデータ
+                本辞典は<a href="https://www.wadoku.de/">オンライン和独辞典</a>のXMLデータ
                 <xsl:if test="/entries[@date] and string(@date) castable as xs:date">
                     <xsl:text>(</xsl:text>
                     <xsl:value-of select="format-dateTime(/entries/@date, '[Y0001]年[M01]月[D01]日')"/>
@@ -79,14 +79,14 @@
             <h3 xml:lang="de">Lizenz</h3>
             <h3 xml:lang="ja">ライセンス</h3>
             <p>
-                <a href="http://www.wadoku.de/wiki/x/ZQE">http://www.wadoku.de/wiki/x/ZQE</a>
+                <a href="https://www.wadoku.de/wiki/x/ZQE">https://www.wadoku.de/wiki/x/ZQE</a>
             </p>
             <h3 xml:lang="de">Ressourcen</h3>
             <h3 xml:lang="ja">資源</h3>
             <dl>
                 <dt xml:lang="de">XML-Dump</dt>
                 <dt xml:lang="ja">XMLデータ</dt>
-                <dd><a href="http://www.wadoku.de/wiki/display/WAD/Downloads+und+Links">http://www.wadoku.de/wiki/display/WAD/Downloads+und+Links</a></dd>
+                <dd><a href="https://www.wadoku.de/wiki/display/WAD/Downloads+und+Links">https://www.wadoku.de/wiki/display/WAD/Downloads+und+Links</a></dd>
                 <dt xml:lang="de">Transformations-Skript, CSS usw.</dt>
                 <dt xml:lang="ja">変換スクリプトやCSSスタイルシートなど</dt>
                 <dd><a href="https://github.com/makigumo/wadoku-mac-dic">https://github.com/makigumo/wadoku-mac-dic</a></dd>
