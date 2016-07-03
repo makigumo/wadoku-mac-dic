@@ -51,7 +51,7 @@
         <xsl:if test="$display-uid = '1'">
             <xsl:element name="a">
                 <xsl:attribute name="class">uid</xsl:attribute>
-                <xsl:attribute name="href">http://www.wadoku.de/entry/view/<xsl:value-of select="."/>
+                <xsl:attribute name="href">https://www.wadoku.de/entry/view/<xsl:value-of select="."/>
                 </xsl:attribute>
                 <xsl:value-of select="."/>
             </xsl:element>
