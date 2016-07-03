@@ -12,7 +12,8 @@ Die Umwandlung geschieht in zwei Schritten.
 Für den ersten Schritt wird ein XSLT-Prozessor, der XSLT 2.0 beherrscht, gebraucht.
 
 Für den zweiten Schritt wird das *Dictionary Development Kit* benötigt,
-welches im Paket ``Auxiliary Tools for Xcode``[1](https://developer.apple.com/downloads/index.action)
+welches im Paket ``Auxiliary Tools for Xcode``[1](https://developer.apple.com/downloads/index.action),
+seit macOS 10.12 (Xcode 8.x) im Paket ``Additional Tools for Xcode``[2](http://adcdownload.apple.com/Developer_Tools/Additional_Tools_for_Xcode_8/Additional_Tools_for_Xcode_8_beta.dmg)
 enthalten ist, das gesamte Xcode-Paket wird hierfür nicht benötigt.
 Vor Xcode 4.3 lag es im Verzeichnis ``/Developer/Extras/Dictionary Development Kit``.
 
@@ -112,6 +113,8 @@ Für ```de.wadoku.dictionary.mac``` ist der Wert des ```CFBundleIdentifier``` au
 ```
 /usr/libexec/PlistBuddy -c "Delete :com.apple.DictionaryServices:DCSDictionaryPrefs:de.wadoku.dictionary.mac" ~/Library/Preferences/.GlobalPreferences.plist
 ```
+
+Seit macOS 10.12 existiert eine eigene Voreinstellungsdatei in ```~/Library/Preferences/com.apple.DictionaryServices.plist```, welche zu löschen ist.
 
 ## Referenzen
 
