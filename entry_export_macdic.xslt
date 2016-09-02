@@ -1149,7 +1149,7 @@
             <xsl:call-template name="sense_accent"/>
             <xsl:apply-templates select="./wd:descr"/>
             <xsl:choose>
-                <xsl:when test="./wd:sense[not(@related)]">
+                <xsl:when test="count(./wd:sense[not(@related)])>1">
                     <ol class="senses">
                         <xsl:for-each select="./wd:sense">
                             <xsl:apply-templates select="."/>
