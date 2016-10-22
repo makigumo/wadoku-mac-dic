@@ -458,6 +458,8 @@
     </xsl:template>
 
     <xsl:template name="reading_from_extended_yomi">
+        <xsl:param name="hatsuon" select="./wd:form/wd:reading/wd:hatsuon"/>
+        <xsl:param name="accent" select="./wd:form/wd:reading/wd:accent"/>
         <xsl:variable name="yomi">
             <!--
                   * entferne störende Symbole
@@ -469,7 +471,7 @@
                                     translate(
                                     translate(
                                     replace(
-                                    replace(./wd:form/wd:reading/wd:hatsuon,'\[Akz\]',$accent_change_marker),
+                                    replace($hatsuon,'\[Akz\]',$accent_change_marker),
                                     'DinSP','･'),
                                     '&lt;>/[]1234567890: GrJoDevNinSsuPWap_＿',''),
                                     &quot;・·'’&quot;, '･･￨￨'),
@@ -478,8 +480,8 @@
         </xsl:variable>
 
         <xsl:choose>
-            <xsl:when test="./wd:form/wd:reading/wd:accent">
-                <xsl:for-each select="./wd:form/wd:reading/wd:accent">
+            <xsl:when test="$accent">
+                <xsl:for-each select="$accent">
                     <xsl:choose>
                         <xsl:when test="position() = 1">
                             <span class="pron accent" data-accent-id="{position()}">
@@ -1822,12 +1824,23 @@
     </xsl:template>
 
     <xsl:template match="wd:ruigo">
-        <a class="ruigo" href="x-dictionary:r:{./@id}">
-            <xsl:variable name="id" select="./@id"/>
-            <xsl:call-template name="get_subentry_title">
-                <xsl:with-param name="entry" select="//wd:entry[@id eq $id]"/>
-            </xsl:call-template>
-        </a>
+        <xsl:variable name="id" select="./@id"/>
+        <xsl:variable name="ruigo_entry" select="//wd:entry[@id eq $id]"/>
+        <ruby>
+            <rb>
+                <a class="ruigo" href="x-dictionary:r:{./@id}">
+                    <xsl:call-template name="get_subentry_title">
+                        <xsl:with-param name="entry" select="$ruigo_entry"/>
+                    </xsl:call-template>
+                </a>
+            </rb>
+            <rt>
+                <xsl:call-template name="reading_from_extended_yomi">
+                    <xsl:with-param name="hatsuon" select="$ruigo_entry/wd:form/wd:reading/wd:hatsuon"/>
+                    <xsl:with-param name="accent" select="$ruigo_entry/wd:form/wd:reading/wd:accent"/>
+                </xsl:call-template>
+            </rt>
+        </ruby>
         <xsl:if test="position() lt last()">
             <xsl:text>・</xsl:text>
         </xsl:if>
