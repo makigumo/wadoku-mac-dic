@@ -1466,6 +1466,9 @@
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:when>
+            <xsl:when test="@numerus='sg'">
+                <xsl:text>Singularetantum</xsl:text>
+            </xsl:when>
         </xsl:choose>
     </xsl:template>
 
@@ -1480,6 +1483,9 @@
                         <xsl:text>絶対複数</xsl:text>
                     </xsl:otherwise>
                 </xsl:choose>
+            </xsl:when>
+            <xsl:when test="@numerus='sg'">
+                <xsl:text>絶対単数</xsl:text>
             </xsl:when>
         </xsl:choose>
     </xsl:template>
