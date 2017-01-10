@@ -1508,7 +1508,10 @@
                 <xsl:text>männlich oder weiblich</xsl:text>
             </xsl:when>
             <xsl:when test="@genus='nf'">
-                <xsl:text>sächlich oder männlich</xsl:text>
+                <xsl:text>sächlich oder weiblich</xsl:text>
+            </xsl:when>
+            <xsl:when test="@genus='mnf'">
+                <xsl:text>männlich oder sächlich oder weiblich</xsl:text>
             </xsl:when>
         </xsl:choose>
     </xsl:template>
@@ -1532,6 +1535,9 @@
             </xsl:when>
             <xsl:when test="@genus='nf'">
                 <xsl:text>中性／女性</xsl:text>
+            </xsl:when>
+            <xsl:when test="@genus='mnf'">
+                <xsl:text>男性／中性／女性</xsl:text>
             </xsl:when>
         </xsl:choose>
     </xsl:template>
