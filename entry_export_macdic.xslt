@@ -237,7 +237,7 @@
                         </div>
                         <div class="content">
                             <xsl:text>「</xsl:text>
-                            <xsl:apply-templates mode="mistake_note" select="./wd:form/wd:orth[@type='mistake']" />
+                            <xsl:apply-templates mode="mistake_note" select="./wd:form/wd:orth[@type='mistake']"/>
                             <xsl:text>」</xsl:text>
                             <span xml:lang="ja">はあやまり。</span>
                             <xsl:choose>
@@ -248,7 +248,7 @@
                                     <span xml:lang="de">ist eine Falschschreibung。</span>
                                 </xsl:otherwise>
                             </xsl:choose>
-                            
+
                         </div>
                     </div>
                 </xsl:if>
@@ -263,7 +263,7 @@
             </div>
         </d:entry>
     </xsl:template>
-    
+
     <xsl:template mode="mistake_note" match="wd:orth[@type='mistake']">
         <xsl:value-of select="."/>
         <xsl:if test="position() lt last()">
@@ -293,10 +293,12 @@
     <!-- Untereinträge -->
     <xsl:template name="entry_subs">
         <xsl:variable name="subs" select="key('refs',@id)"/>
+        <!-- Selbstreferenz -->
+        <xsl:variable name="id" select="@id"/>
         <xsl:if test="$subs">
             <div class="subentries">
                 <!-- Ableitungen -->
-                <xsl:variable name="hasei" select="$subs[wd:ref[
+                <xsl:variable name="hasei" select="$subs[wd:ref[(
                     @subentrytype='suru' or
                     @subentrytype='shita' or
                     @subentrytype='shite' or
@@ -315,8 +317,8 @@
                     @subentrytype='garu' or
                     @subentrytype='ge' or
                     @subentrytype='o' or
-                    @subentrytype='ku'
-                    ]]"/>
+                    @subentrytype='ku')
+                     and @id=$id]]"/>
                 <xsl:if test="$hasei">
                     <span class="label">
                         <b xml:lang="ja">派生語</b>
@@ -343,14 +345,12 @@
                         <b xml:lang="ja">合成語</b>
                         <b xml:lang="de">Zusammensetzungen</b>
                     </span>
-                    <!-- Sichergehen, dass dieser Eintrag gemeint ist, bei evtl. Head- und tail-Kompositum -->
-                    <xsl:variable name="id" select="@id"/>
                     <xsl:apply-templates mode="subentry"
-                                         select="$subs[wd:ref[@subentrytype='head' and @id=$id]]">
+                                         select="$subs[wd:ref[@subentrytype='head']]">
                         <xsl:sort select="./wd:form/wd:reading/wd:hira/text()"/>
                     </xsl:apply-templates>
                     <xsl:apply-templates mode="subentry"
-                                         select="$subs[wd:ref[@subentrytype='tail' and @id=$id]]">
+                                         select="$subs[wd:ref[@subentrytype='tail']]">
                         <xsl:sort select="./wd:form/wd:reading/wd:hira/text()"/>
                     </xsl:apply-templates>
                 </xsl:if>
