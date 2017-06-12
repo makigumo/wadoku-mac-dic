@@ -1638,7 +1638,8 @@
                 <xsl:text>&#160;</xsl:text>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:text>, </xsl:text>
+                <!-- &#8201; == &thinsp; -->
+                <xsl:text>,&#8201;</xsl:text>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
