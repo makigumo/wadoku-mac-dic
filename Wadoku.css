@@ -197,7 +197,7 @@ ul.related > li.related:before { content: ' ‖ '}
 .reflink.anto:before{content:'\21d4\00a0'}
 .reflink.main:before{content:'\21d1\00a0'}
 .reflink.aread:before{content:'\2192\00a0'}
-.reflink.atranscr:before{content:'\261e\00a0'}
+.reflink.alttranscr:before{content:'\261e\00a0'}
 .parents + .parent:before{
     content: '\00a0≫\00a0';
     font-weight: bold;

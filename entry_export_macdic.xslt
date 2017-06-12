@@ -1692,27 +1692,7 @@
         <xsl:if test="position()>1">
             <xsl:text> </xsl:text>
         </xsl:if>
-        <a href="x-dictionary:r:{@id}" title="{./wd:jap}">
-            <xsl:choose>
-                <xsl:when test="@type='syn'">
-                    <xsl:attribute name="class">reflink syn</xsl:attribute>
-                </xsl:when>
-                <xsl:when test="@type='anto'">
-                    <xsl:attribute name="class">reflink anto</xsl:attribute>
-                </xsl:when>
-                <xsl:when test="@type='main'">
-                    <xsl:attribute name="class">reflink main</xsl:attribute>
-                </xsl:when>
-                <xsl:when test="@type='altread'">
-                    <xsl:attribute name="class">reflink aread</xsl:attribute>
-                </xsl:when>
-                <xsl:when test="@type='alttranscr'">
-                    <xsl:attribute name="class">reflink atranscr</xsl:attribute>
-                </xsl:when>
-                <xsl:when test="@type='other'">
-                    <xsl:attribute name="class">reflink</xsl:attribute>
-                </xsl:when>
-            </xsl:choose>
+        <a href="x-dictionary:r:{@id}" title="{./wd:jap}" class="reflink {@type}">
             <xsl:apply-templates select="./wd:transcr"/>
             <xsl:apply-templates select="./wd:jap"/>
         </a>
