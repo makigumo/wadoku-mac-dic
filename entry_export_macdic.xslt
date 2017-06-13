@@ -339,36 +339,37 @@
                 </xsl:if>
                 <!-- Komposita -->
                 <xsl:variable name="composita"
-                              select="$subs[wd:ref[@subentrytype='head' or @subentrytype='tail']]"/>
+                              select="$subs[wd:ref[(@subentrytype='head' or @subentrytype='tail') and @id=$id]]"/>
                 <xsl:if test="$composita">
                     <span class="label">
                         <b xml:lang="ja">合成語</b>
                         <b xml:lang="de">Zusammensetzungen</b>
                     </span>
                     <xsl:apply-templates mode="subentry"
-                                         select="$subs[wd:ref[@subentrytype='head']]">
+                                         select="$composita[wd:ref[@subentrytype='head']]">
                         <xsl:sort select="./wd:form/wd:reading/wd:hira/text()"/>
                     </xsl:apply-templates>
                     <xsl:apply-templates mode="subentry"
-                                         select="$subs[wd:ref[@subentrytype='tail']]">
+                                         select="$composita[wd:ref[@subentrytype='tail']]">
                         <xsl:sort select="./wd:form/wd:reading/wd:hira/text()"/>
                     </xsl:apply-templates>
                 </xsl:if>
                 <!-- Rest -->
                 <xsl:if test="(count($subs) - count($hasei) - count($composita)) > 0">
                     <xsl:apply-templates mode="subentry"
-                                         select="$subs[wd:ref[@subentrytype='VwBsp']]">
+                                         select="$subs[wd:ref[@subentrytype='VwBsp' and @id=$id]]">
                         <xsl:sort select="./wd:form/wd:reading/wd:hira/text()"/>
                     </xsl:apply-templates>
                     <xsl:apply-templates mode="subentry"
-                                         select="$subs[wd:ref[@subentrytype='XSatz']]">
+                                         select="$subs[wd:ref[@subentrytype='XSatz' and @id=$id]]">
                         <xsl:sort select="./wd:form/wd:reading/wd:hira/text()"/>
                     </xsl:apply-templates>
                     <xsl:apply-templates mode="subentry"
-                                         select="$subs[wd:ref[
+                                         select="$subs[wd:ref[(
                                          @subentrytype='WIdiom'
                                          or @subentrytype='ZSprW'
-                                         or @subentrytype='other']]">
+                                         or @subentrytype='other')
+                                          and @id=$id]]">
                         <xsl:sort select="./wd:form/wd:reading/wd:hira/text()"/>
                     </xsl:apply-templates>
                 </xsl:if>
