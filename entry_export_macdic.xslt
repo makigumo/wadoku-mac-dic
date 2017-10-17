@@ -346,11 +346,11 @@
                         <b xml:lang="de">Zusammensetzungen</b>
                     </span>
                     <xsl:apply-templates mode="subentry"
-                                         select="$composita[wd:ref[@subentrytype='head']]">
+                                         select="$composita[wd:ref[@subentrytype='head' and @id=$id]]">
                         <xsl:sort select="./wd:form/wd:reading/wd:hira/text()"/>
                     </xsl:apply-templates>
                     <xsl:apply-templates mode="subentry"
-                                         select="$composita[wd:ref[@subentrytype='tail']]">
+                                         select="$composita[wd:ref[@subentrytype='tail' and @id=$id]]">
                         <xsl:sort select="./wd:form/wd:reading/wd:hira/text()"/>
                     </xsl:apply-templates>
                 </xsl:if>
