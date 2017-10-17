@@ -326,14 +326,17 @@
                     </span>
                     <xsl:apply-templates mode="subentry"
                                          select="$hasei[wd:ref[@subentrytype='suru']]">
+                        <xsl:with-param name="parentid" select="$id"/>
                         <xsl:sort select="./wd:form/wd:reading/wd:hira/text()"/>
                     </xsl:apply-templates>
                     <xsl:apply-templates mode="subentry"
                                          select="$hasei[wd:ref[@subentrytype='sa']]">
+                        <xsl:with-param name="parentid" select="$id"/>
                         <xsl:sort select="./wd:form/wd:reading/wd:hira/text()"/>
                     </xsl:apply-templates>
                     <xsl:apply-templates mode="subentry"
                                          select="$hasei[wd:ref[not(@subentrytype='sa') and not(@subentrytype='suru')]]">
+                        <xsl:with-param name="parentid" select="$id"/>
                         <xsl:sort select="./wd:form/wd:reading/wd:hira/text()"/>
                     </xsl:apply-templates>
                 </xsl:if>
@@ -347,10 +350,12 @@
                     </span>
                     <xsl:apply-templates mode="subentry"
                                          select="$composita[wd:ref[@subentrytype='head' and @id=$id]]">
+                        <xsl:with-param name="parentid" select="$id"/>
                         <xsl:sort select="./wd:form/wd:reading/wd:hira/text()"/>
                     </xsl:apply-templates>
                     <xsl:apply-templates mode="subentry"
                                          select="$composita[wd:ref[@subentrytype='tail' and @id=$id]]">
+                        <xsl:with-param name="parentid" select="$id"/>
                         <xsl:sort select="./wd:form/wd:reading/wd:hira/text()"/>
                     </xsl:apply-templates>
                 </xsl:if>
@@ -358,10 +363,12 @@
                 <xsl:if test="(count($subs) - count($hasei) - count($composita)) > 0">
                     <xsl:apply-templates mode="subentry"
                                          select="$subs[wd:ref[@subentrytype='VwBsp' and @id=$id]]">
+                        <xsl:with-param name="parentid" select="$id"/>
                         <xsl:sort select="./wd:form/wd:reading/wd:hira/text()"/>
                     </xsl:apply-templates>
                     <xsl:apply-templates mode="subentry"
                                          select="$subs[wd:ref[@subentrytype='XSatz' and @id=$id]]">
+                        <xsl:with-param name="parentid" select="$id"/>
                         <xsl:sort select="./wd:form/wd:reading/wd:hira/text()"/>
                     </xsl:apply-templates>
                     <xsl:apply-templates mode="subentry"
@@ -370,6 +377,7 @@
                                          or @subentrytype='ZSprW'
                                          or @subentrytype='other')
                                           and @id=$id]]">
+                        <xsl:with-param name="parentid" select="$id"/>
                         <xsl:sort select="./wd:form/wd:reading/wd:hira/text()"/>
                     </xsl:apply-templates>
                 </xsl:if>
@@ -758,16 +766,18 @@
 
     <!-- subentry -->
     <xsl:template mode="subentry" match="wd:entry">
+        <xsl:param name="parentid"/>
         <xsl:variable name="title">
             <xsl:call-template name="get_subentry_title">
                 <xsl:with-param name="entry" select="."/>
             </xsl:call-template>
         </xsl:variable>
         <div class="subheadword" id="{@id}">
-            <xsl:call-template name="get_subentry_type"/>
+            <xsl:call-template name="get_subentry_type">
+                <xsl:with-param name="parentid" select="$parentid"/>
+            </xsl:call-template>
             <xsl:variable name="isHaseigo">
-                <xsl:choose>
-                    <xsl:when test="count(wd:ref[
+                <xsl:if test="count(wd:ref[
                     not(@subentrytype='head')
                     and not(@subentrytype='tail')
                     and not(@subentrytype='VwBsp')
@@ -776,11 +786,10 @@
                     and not(@subentrytype='ZSprW')
                     and not(@subentrytype='other')
                     ]) > 0">
-                        <xsl:call-template name="get_short_hasei">
-                            <xsl:with-param name="type" select="wd:ref/@subentrytype"/>
-                        </xsl:call-template>
-                    </xsl:when>
-                </xsl:choose>
+                    <xsl:call-template name="get_short_hasei">
+                        <xsl:with-param name="type" select="wd:ref/@subentrytype"/>
+                    </xsl:call-template>
+                </xsl:if>
             </xsl:variable>
             <!-- Untereintrag hat Untereinträge? dann als Link -->
             <ruby>
@@ -926,27 +935,28 @@
     </xsl:template>
 
     <xsl:template name="get_subentry_type">
+        <xsl:param name="parentid"/>
         <xsl:choose>
-            <xsl:when test="wd:ref[@subentrytype='head']">
+            <xsl:when test="wd:ref[@subentrytype='head' and @id=$parentid]">
                 <xsl:if test="position()=1">
                     <div>►</div>
                 </xsl:if>
                 <xsl:text>　</xsl:text>
             </xsl:when>
-            <xsl:when test="wd:ref[@subentrytype='tail']">
+            <xsl:when test="wd:ref[@subentrytype='tail' and @id=$parentid]">
                 <xsl:if test="position()=1">
                     <div>◀</div>
                 </xsl:if>
                 <xsl:text>　</xsl:text>
             </xsl:when>
-            <xsl:when test="wd:ref[@subentrytype='VwBsp']">
+            <xsl:when test="wd:ref[@subentrytype='VwBsp' and @id=$parentid]">
                 <xsl:if test="position()=1">
                     <div>◇</div>
                 </xsl:if>
                 <xsl:text>　</xsl:text>
             </xsl:when>
             <xsl:when
-                    test="wd:ref[@subentrytype='WIdiom' or @subentrytype='ZSprW' or @subentrytype='other' or @subentrytype='XSatz']">
+                    test="wd:ref[(@subentrytype='WIdiom' or @subentrytype='ZSprW' or @subentrytype='other' or @subentrytype='XSatz') and @id=$parentid]">
                 <xsl:if test="position()=1">
                     <div>&#160;</div>
                 </xsl:if>
