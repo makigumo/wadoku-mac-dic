@@ -300,6 +300,7 @@
                 <!-- Ableitungen -->
                 <xsl:variable name="hasei" select="$subs[wd:ref[(
                     @subentrytype='suru' or
+                    @subentrytype='saseru' or
                     @subentrytype='shita' or
                     @subentrytype='shite' or
                     @subentrytype='sa' or
@@ -882,6 +883,9 @@
             </xsl:when>
             <xsl:when test="$type='suru'">
                 <xsl:text>する</xsl:text>
+            </xsl:when>
+            <xsl:when test="$type='saseru'">
+                <xsl:text>させる</xsl:text>
             </xsl:when>
             <xsl:when test="$type='na'">
                 <xsl:text>な</xsl:text>
