@@ -1853,6 +1853,11 @@
             <xsl:text>・</xsl:text>
         </xsl:if>
     </xsl:template>
+    
+    <xsl:template match="wd:abbrev">
+        <xsl:text>Abk. von </xsl:text>
+        <xsl:apply-templates/>
+    </xsl:template>
 
     <xsl:template match="wd:*">
         <span class="{name(.)}">
