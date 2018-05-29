@@ -481,8 +481,10 @@
                                     translate(
                                     translate(
                                     replace(
+                                    replace(
                                     replace($hatsuon,'\[Akz\]',$accent_change_marker),
                                     'DinSP','･'),
+                                    'WaSep','･'),
                                     '&lt;>/[]1234567890: GrJoDevNinSsuPWap_＿',''),
                                     &quot;・·'’&quot;, '･･￨￨'),
                                     'う゛','ゔ')
