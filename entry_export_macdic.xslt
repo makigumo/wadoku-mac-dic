@@ -1278,6 +1278,7 @@
             <xsl:when test="not(empty(wd:bracket))">
                 <xsl:apply-templates/>
             </xsl:when>
+            <!-- def und expl auf sense-Ebene -->
             <xsl:when test="not(empty(wd:def) and empty(wd:expl))">
                 <!--
                  einträge ohne bracket
@@ -1302,6 +1303,7 @@
                         <xsl:text>)</xsl:text>
                     </span>
                 </xsl:if>
+                <xsl:text>.</xsl:text>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:apply-templates select="wd:usg"/>
@@ -1417,6 +1419,8 @@
                 <!-- wenn Satzzeichen schon im letzten Trans, dann keinen Punkt einfügen-->
                 <xsl:variable name="lastchild" select="child::wd:tr/*[position()=last()]"/>
                 <xsl:choose>
+                    <xsl:when test="following-sibling::wd:def"/>
+                    <xsl:when test="following-sibling::wd:expl"/>
                     <xsl:when test="$lastchild">
                         <xsl:choose>
                             <xsl:when
