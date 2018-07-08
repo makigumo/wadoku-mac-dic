@@ -39,6 +39,7 @@
 
     <!-- Kana/Symbole, die nicht als einzelne Mora gelten -->
     <xsl:variable name="letters" select="'ゅゃょぁぃぅぇぉ・･·~’￨|…'"/>
+    <xsl:variable name="small_digraph_letter" select="'ゅゃょぁぃぅぇぉ'"/>
 
     <!-- kennzeichnet den Beginn eines Akzentverlaufs -->
     <xsl:variable name="accent_change_marker" select="'—'"/>
@@ -582,7 +583,7 @@
             </xsl:choose>
         </xsl:variable>
         <!-- erste More aus zwei Kana, z.B. しゃ -->
-        <xsl:variable name="firstMora"
+        <xsl:variable name="firstMoraIsDigraph"
                       select="string-length(translate(substring($hiragana,2,1),$letters,''))=0"/>
         <xsl:if test="$startsWithEllipsis">
             <xsl:text>…</xsl:text>
@@ -590,7 +591,7 @@
         <xsl:choose>
             <xsl:when test="$accent=0">
                 <xsl:choose>
-                    <xsl:when test="$firstMora">
+                    <xsl:when test="$firstMoraIsDigraph">
                         <span class="b">
                             <xsl:call-template name="insert_divider">
                                 <xsl:with-param name="t"
@@ -622,7 +623,7 @@
             </xsl:when>
             <xsl:when test="$accent=1">
                 <xsl:choose>
-                    <xsl:when test="$firstMora">
+                    <xsl:when test="$firstMoraIsDigraph">
                         <span class="t r">
                             <xsl:call-template name="insert_divider">
                                 <xsl:with-param name="t"
@@ -654,7 +655,7 @@
             </xsl:when>
             <xsl:otherwise>
                 <xsl:choose>
-                    <xsl:when test="$firstMora">
+                    <xsl:when test="$firstMoraIsDigraph">
                         <span class="b r">
                             <xsl:call-template name="insert_divider">
                                 <xsl:with-param name="t"
@@ -665,36 +666,53 @@
                                       select="wd:get_accented_part(substring($hiragana, 3, string-length($hiragana)), $accent)"/>
                         <xsl:variable name="count"
                                       select="string-length($temp)-string-length(translate($temp,$letters,''))"/>
-                        <xsl:variable name="trail"
+                        <xsl:variable name="tail_len"
                                       select="string-length(translate(substring($hiragana,3 + $count + $accent - 1,1),$letters,''))"/>
                         <xsl:choose>
-                            <xsl:when test="$trail=0">
+                            <xsl:when test="$tail_len=0">
                                 <span class="t r">
                                     <xsl:call-template name="insert_divider">
                                         <xsl:with-param name="t"
                                                         select="substring($hiragana,3,$count + $accent)"/>
                                     </xsl:call-template>
                                 </span>
-                                <span class="b">
-                                    <xsl:call-template name="insert_divider">
-                                        <xsl:with-param name="t"
-                                                        select="substring($hiragana,3 + $count + $accent)"/>
-                                    </xsl:call-template>
-                                </span>
                             </xsl:when>
                             <xsl:otherwise>
-                                <span class="t r">
-                                    <xsl:call-template name="insert_divider">
-                                        <xsl:with-param name="t"
-                                                        select="substring($hiragana,3,$count + $accent - 1)"/>
-                                    </xsl:call-template>
-                                </span>
-                                <span class="b">
-                                    <xsl:call-template name="insert_divider">
-                                        <xsl:with-param name="t"
-                                                        select="substring($hiragana,3 + $count + $accent - 1)"/>
-                                    </xsl:call-template>
-                                </span>
+                                <xsl:choose>
+                                    <!-- wenn tail mit kleinem Kana startet -->
+                                    <xsl:when test="string-length(translate(substring($hiragana, 3 + $count + $accent - 1, 1), $small_digraph_letter, ''))=0">
+                                        <span class="t r">
+                                            <xsl:call-template name="insert_divider">
+                                                <xsl:with-param name="t"
+                                                                select="substring($hiragana, 3, $count + $accent)"/>
+                                            </xsl:call-template>
+                                        </span>
+                                        <xsl:if test="string-length(substring($hiragana, 3 + $count + $accent))>0">
+                                            <span class="b">
+                                                <xsl:call-template name="insert_divider">
+                                                    <xsl:with-param name="t"
+                                                                    select="substring($hiragana, 3 + $count + $accent)"/>
+                                                </xsl:call-template>
+                                            </span>
+                                        </xsl:if>
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        <span class="t r">
+                                            <xsl:call-template name="insert_divider">
+                                                <xsl:with-param name="t"
+                                                                select="substring($hiragana, 3, $count + $accent - 1)"/>
+                                            </xsl:call-template>
+                                        </span>
+                                        <xsl:if test="string-length(substring($hiragana, 3 + $count + $accent - 1))>0">
+                                            <span class="b">
+                                                <xsl:call-template name="insert_divider">
+                                                    <xsl:with-param name="t"
+                                                                    select="substring($hiragana, 3 + $count + $accent - 1)"/>
+                                                </xsl:call-template>
+                                            </span>
+                                        </xsl:if>
+                                    </xsl:otherwise>
+                                </xsl:choose>
                             </xsl:otherwise>
                         </xsl:choose>
                     </xsl:when>
@@ -708,16 +726,16 @@
                         <!-- String nach erstem Kana ohne Nicht-Kana-Zeichen bis Akzent - 1, da bei zweitem Kana beginnend-->
                         <xsl:variable name="str1"
                                       select="substring($hiragana,2,string-length($hiragana))"/>
-                        <!-- String nach erstem Kana bis Akzent -->
+                        <!-- String nach erstem Kana bis Akzentkern -->
                         <xsl:variable name="temp" select="wd:get_accented_part($str1, $accent)"/>
                         <!-- Anzahl der nicht als Mora zählenden Zeichen -->
                         <xsl:variable name="count"
                                       select="string-length($temp)-string-length(translate($temp,$letters,''))"/>
-                        <!-- Länge des Strings nach der Akzentuierung -->
-                        <xsl:variable name="trail"
+                        <!-- Länge des Strings nach dem Akzentkern -->
+                        <xsl:variable name="tail_len"
                                       select="string-length(substring-after($str1, $temp))"/>
                         <xsl:choose>
-                            <xsl:when test="$trail=0">
+                            <xsl:when test="$tail_len=0">
                                 <span class="t r">
                                     <xsl:call-template name="insert_divider">
                                         <xsl:with-param name="t"
@@ -732,18 +750,41 @@
                                 </span>
                             </xsl:when>
                             <xsl:otherwise>
-                                <span class="t r">
-                                    <xsl:call-template name="insert_divider">
-                                        <xsl:with-param name="t"
-                                                        select="substring($hiragana, 2, $count + $accent - 1)"/>
-                                    </xsl:call-template>
-                                </span>
-                                <span class="b">
-                                    <xsl:call-template name="insert_divider">
-                                        <xsl:with-param name="t"
-                                                        select="substring($hiragana, 2 + $count + $accent - 1)"/>
-                                    </xsl:call-template>
-                                </span>
+                                <xsl:choose>
+                                    <!-- wenn tail mit kleinem Kana startet -->
+                                    <xsl:when test="string-length(translate(substring($hiragana, 2 + $count + $accent - 1, 1), $small_digraph_letter, ''))=0">
+                                        <span class="t r">
+                                            <xsl:call-template name="insert_divider">
+                                                <xsl:with-param name="t"
+                                                                select="substring($hiragana, 2, $count + $accent)"/>
+                                            </xsl:call-template>
+                                        </span>
+                                        <xsl:if test="string-length(substring($hiragana, 2 + $count + $accent))>0">
+                                            <span class="b">
+                                                <xsl:call-template name="insert_divider">
+                                                    <xsl:with-param name="t"
+                                                                    select="substring($hiragana, 2 + $count + $accent)"/>
+                                                </xsl:call-template>
+                                            </span>
+                                        </xsl:if>
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        <span class="t r">
+                                            <xsl:call-template name="insert_divider">
+                                                <xsl:with-param name="t"
+                                                                select="substring($hiragana, 2, $count + $accent - 1)"/>
+                                            </xsl:call-template>
+                                        </span>
+                                        <xsl:if test="string-length(substring($hiragana, 2 + $count + $accent - 1))>0">
+                                            <span class="b">
+                                                <xsl:call-template name="insert_divider">
+                                                    <xsl:with-param name="t"
+                                                                    select="substring($hiragana, 2 + $count + $accent - 1)"/>
+                                                </xsl:call-template>
+                                            </span>
+                                        </xsl:if>
+                                    </xsl:otherwise>
+                                </xsl:choose>
                             </xsl:otherwise>
                         </xsl:choose>
                     </xsl:otherwise>
