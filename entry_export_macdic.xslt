@@ -1296,13 +1296,16 @@
                         <xsl:text>(</xsl:text>
                         <xsl:for-each select="wd:trans[last()]/following-sibling::*[not(self::wd:trans)]">
                             <xsl:apply-templates select="."/>
-                            <xsl:if test="position()&lt;last()">
+                            <xsl:if test="position()&lt;last() and not(following-sibling::*[self::wd:seasonword])">
                                 <xsl:text>; </xsl:text>
                             </xsl:if>
                         </xsl:for-each>
                         <xsl:text>)</xsl:text>
                     </span>
                 </xsl:if>
+                <xsl:for-each select="wd:seasonword">
+                    <xsl:apply-templates select="."/>
+                </xsl:for-each>
                 <xsl:text>.</xsl:text>
             </xsl:when>
             <xsl:otherwise>
