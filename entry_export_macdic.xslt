@@ -1306,14 +1306,13 @@
                 <xsl:text>.</xsl:text>
             </xsl:when>
             <xsl:otherwise>
+                <xsl:if test="wd:etym">
+                    <xsl:apply-templates select="wd:etym"/>
+                </xsl:if>
                 <xsl:apply-templates select="wd:usg"/>
                 <xsl:apply-templates select="wd:trans"/>
                 <xsl:if test="wd:seasonword">
                     <xsl:apply-templates select="wd:seasonword"/>
-                </xsl:if>
-                <xsl:if test="wd:etym">
-                    <xsl:text> </xsl:text>
-                    <xsl:apply-templates select="wd:etym"/>
                 </xsl:if>
                 <xsl:if test="./wd:ref">
                     <xsl:text> </xsl:text>
@@ -1900,7 +1899,23 @@
             <xsl:text>・</xsl:text>
         </xsl:if>
     </xsl:template>
-    
+
+    <xsl:template match="wd:etym">
+        <span class="etym">
+            <xsl:text>(</xsl:text>
+            <xsl:apply-templates/>
+            <xsl:choose>
+                <xsl:when test="not(empty(following-sibling::*))">
+                    <xsl:text>) </xsl:text>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:text>)</xsl:text>
+                </xsl:otherwise>
+            </xsl:choose>
+        </span>
+    </xsl:template>
+
+
     <xsl:template match="wd:abbrev">
         <xsl:text>Abk. von </xsl:text>
         <xsl:apply-templates/>

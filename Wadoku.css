@@ -157,9 +157,12 @@ ul.related > li.related:before { content: ' ‖ '}
     font-size: 80%;
     color: gray;
 }
-.etym {color: gray;}
-.etym:before{content:'\00a0('}
-.etym:after{content:')'}
+.etym {
+    color: gray;
+}
+span.etym {
+    font-size: 80%;
+}
 .global .etym:before {
     content: '〔';
 }
