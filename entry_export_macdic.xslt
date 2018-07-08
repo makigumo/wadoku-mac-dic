@@ -1825,7 +1825,7 @@
 
     <xsl:template match="wd:link[@type='picture']">
         <div class="image">
-            <img alt="{text()}" src="Images/{@url}.jpg"/>
+            <img alt="{text()}" src="Images/{@url}.svg"/>
             <div class="caption">
                 <xsl:value-of select="text()"/>
             </div>
