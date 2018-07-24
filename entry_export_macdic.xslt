@@ -1159,10 +1159,8 @@
                         * related sense with a directly preceding related sense
                         -->
                         <xsl:for-each
-                                select="following-sibling::wd:sense[
-                                @related and (
-                                preceding-sibling::wd:sense[1]=$this_sense or preceding-sibling::wd:sense[1][@related])
-                                ]">
+                                select="following-sibling::*[self::wd:sense[@related] and
+                                        preceding-sibling::*[self::wd:sense[not(@related)]][1] eq $this_sense]">
                             <li class="sense related">
                                 <xsl:call-template name="sense_content"/>
                             </li>
@@ -1245,10 +1243,8 @@
                         * related sense with a directly preceding related sense
                         -->
                         <xsl:for-each
-                                select="following-sibling::wd:sense[
-                                @related and (
-                                preceding-sibling::wd:sense[1]=$this_sense or preceding-sibling::wd:sense[1][@related])
-                                ]">
+                                select="following-sibling::*[self::wd:sense[@related] and
+                                        preceding-sibling::*[self::wd:sense[not(@related)]][1] eq $this_sense]">
                             <li class="sense related">
                                 <xsl:call-template name="sense_accent"/>
                                 <xsl:apply-templates select="./wd:descr"/>
@@ -1425,12 +1421,9 @@
                     <xsl:when test="following-sibling::wd:expl"/>
                     <xsl:when test="$lastchild">
                         <xsl:choose>
-                            <xsl:when
-                                    test="contains(substring($lastchild, string-length($lastchild), 1), '.')"/>
-                            <xsl:when
-                                    test="contains(substring($lastchild, string-length($lastchild), 1), '!')"/>
-                            <xsl:when
-                                    test="contains(substring($lastchild, string-length($lastchild), 1), '?')"/>
+                            <xsl:when test="contains(substring($lastchild, string-length($lastchild), 1), '.')"/>
+                            <xsl:when test="contains(substring($lastchild, string-length($lastchild), 1), '!')"/>
+                            <xsl:when test="contains(substring($lastchild, string-length($lastchild), 1), '?')"/>
                             <xsl:otherwise>
                                 <xsl:text>.</xsl:text>
                             </xsl:otherwise>
