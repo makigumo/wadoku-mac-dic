@@ -26,10 +26,11 @@
 */
 d|entry {
 }
-body{
+
+body {
     font-family: 'Hiragino Mincho ProN';
-    font-weight:normal;
-    line-height:1.33em;
+    font-weight: normal;
+    line-height: 1.33em;
     margin-right: 1em;
     margin-top: 1.5em;
     margin-bottom: 1.5em;
@@ -41,8 +42,8 @@ h1 {
 }
 
 span.headword {
-    font-weight:bold;
-    font-size:100%;
+    font-weight: bold;
+    font-size: 100%;
     margin-bottom: 0.2em;
 }
 
@@ -51,23 +52,23 @@ span.headword .divider {
 }
 
 span.hyouki {
-    font-weight:normal;
-    font-size:80%;
-    vertical-align:10%;
+    font-weight: normal;
+    font-size: 80%;
+    vertical-align: 10%;
 }
 
 .uid {
     font-size: 80%;
 }
 
-a       {
-    color:#2971A7;
-    text-decoration:none;
+a {
+    color: #2971A7;
+    text-decoration: none;
 }
 
 a:hover {
-    color:#2971A7;
-    text-decoration:underline;
+    color: #2971A7;
+    text-decoration: underline;
 }
 
 rt {
@@ -79,106 +80,185 @@ rt {
     margin-top: 0.4em;
     text-align: center;
 }
+
 .image .caption {
-    color:gray;
+    color: gray;
     font-size: 80%;
     font-weight: bold;
 }
+
 .url {
     display: block;
     font-size: 80%;
 }
+
 .url:before {
     content: 'Link: '
 }
-.genus,.foreign{
-    font-style:italic;
-    color:gray;
+
+.genus, .foreign {
+    font-style: italic;
+    color: gray;
 }
-.genus{font-size: 80%;}
+
+.global .etym .foreign {
+    color: inherit;
+}
+
+.genus {
+    font-size: 80%;
+}
+
 ol, ul {
     padding: 0;
     margin: 0;
 }
+
 ol.master {
     counter-reset: master;
     margin-left: 0;
     padding-left: 0;
 }
+
 ol.master > li:before {
     color: #333300;
     font-weight: bold;
     content: '[' counter(master, upper-alpha) '] ';
     counter-increment: master;
 }
+
 ol > li {
     list-style: none;
 }
+
 ol.senses > li {
     position: relative;
     margin: 0 0 .2em 1em;
     padding-left: .2em;
 }
+
 ol.senses {
     counter-reset: senses;
     /*padding-left:0; /* Remove the default left padding */
 }
+
 ol.senses > li:before {
     color: #000066;
     font-weight: bold;
     content: '[' counter(senses, decimal) '] ';
     counter-increment: senses;
 }
+
 ol.senses.single > li:before {
     content: '';
 }
+
 .subentries ol {
     display: inline;
 }
+
 .subentries ol > li {
     display: inline;
     margin-left: .2em;
     padding-left: .2em;
 }
+
 .subentries ol + ol {
     padding-left: .2em;
 }
-.subentries ul {display: inline;}
-ul.related {display: inline;}
-ul.related > li {list-style: none; display: inline;}
-ul.related > li.related:before { content: ' ‖ '}
-.master {display: block}
-.descr {color: gray;}
-.descr:before {content: ' (';}
-.descr:after {content: ') ';}
-.klammer:before,.klammer+.token:before,.klammer+.famn:before{content:'\0020'}
-.sense>.def:before {
+
+.subentries ul {
+    display: inline;
+}
+
+ul.related {
+    display: inline;
+}
+
+ul.related > li {
+    list-style: none;
+    display: inline;
+}
+
+ul.related > li.related:before {
+    content: ' ‖ '
+}
+
+.master {
+    display: block
+}
+
+.descr {
+    color: gray;
+}
+
+.descr:before {
+    content: ' (';
+}
+
+.descr:after {
+    content: ') ';
+}
+
+.klammer:before, .klammer + .token:before, .klammer + .famn:before {
+    content: '\0020'
+}
+
+.sense > .def:before {
     content: 'Def.: ';
     font-size: 80%;
     color: gray;
 }
+
 .etym {
     color: gray;
 }
+
 span.etym {
     font-size: 80%;
 }
+
+.global .etym {
+    color: inherit;
+    font-size: inherit;
+}
+
 .global .etym:before {
     content: '〔';
 }
+
 .global .etym::after {
     content: '〕';
 }
-.famn{font-weight:bold}
-.b{border-bottom:1px dotted gray}
-.t{border-top:1px dotted gray}
-.l{border-left:1px dotted gray}
-.r{border-right:1px dotted gray}
-.accents{padding-left: 3px; padding-right: 3px;}
-.accents .accent, .senseaccent{
+
+.famn {
+    font-weight: bold
+}
+
+.b {
+    border-bottom: 1px dotted gray
+}
+
+.t {
+    border-top: 1px dotted gray
+}
+
+.l {
+    border-left: 1px dotted gray
+}
+
+.r {
+    border-right: 1px dotted gray
+}
+
+.accents {
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+.accents .accent, .senseaccent {
     font-family: sans-serif;
-    padding: 3px 3px 2px;
-    padding-right: 4px;
+    padding: 3px 4px 2px 3px;
     font-size: 40%;
     border-radius: 3px;
     color: white;
@@ -186,68 +266,128 @@ span.etym {
     margin-left: 1px;
     margin-right: 1px;
 }
-.accents .accent.active{background-color: #2971A7}
-.hidden{display:none}
-.transcr{font-style: italic;}
-.jap + .transcr:before,.transcr + .jap:before{content:'\0020'}
+
+.accents .accent.active {
+    background-color: #2971A7
+}
+
+.hidden {
+    display: none
+}
+
+.transcr {
+    font-style: italic;
+}
+
+.jap + .transcr:before, .transcr + .jap:before {
+    content: '\0020'
+}
+
 .rel {
     padding-left: 1px;
     padding-right: 2px;
 }
-.reflink {margin-left:4px;margin-right:4px;}
-.def > .reflink {margin-left: 0; margin-right: 0}
-.reflink.syn:before{content:'\21d2\00a0'}
-.reflink.anto:before{content:'\21d4\00a0'}
-.reflink.main:before{content:'\21d1\00a0'}
-.reflink.altread:before{content:'\2192\00a0'}
-.reflink.alttranscr:before{content:'\261e\00a0'}
-.parents + .parent:before{
+
+.reflink {
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+.def > .reflink {
+    margin-left: 0;
+    margin-right: 0
+}
+
+.reflink.syn:before {
+    content: '\21d2\00a0'
+}
+
+.reflink.anto:before {
+    content: '\21d4\00a0'
+}
+
+.reflink.main:before {
+    content: '\21d1\00a0'
+}
+
+.reflink.altread:before {
+    content: '\2192\00a0'
+}
+
+.reflink.alttranscr:before {
+    content: '\261e\00a0'
+}
+
+.parents + .parent:before {
     content: '\00a0≫\00a0';
     font-weight: bold;
 }
+
 .parentheadword {
     padding-top: 2px;
     font-size: 80%;
     background-color: #f2f2f2;
 }
+
 .parentheadword a {
     color: #606060;
 }
-.parentheadword:before{
+
+.parentheadword:before {
     content: '\00a0≫\00a0';
     font-weight: bold;
 }
-.dom{
-    font-family:sans-serif;
-    color:darkgreen;
-    font-style:italic;
-    font-variant:small-caps
+
+.dom {
+    font-family: sans-serif;
+    color: darkgreen;
+    font-style: italic;
+    font-variant: small-caps
 }
-.global{
+
+.global {
     font-family: 'Baskerville';
-    font-size:80%;
-    vertical-align:8%;
+    font-size: 80%;
+    vertical-align: 8%;
     margin-right: 0.5em;
     margin-top: .5em;
     margin-bottom: .2em;
     display: block;
     padding: 0 2px;
 }
-.hinshi:after {content: ' '}
-.subheadword, .ruigo{
+
+.hinshi:after {
+    content: ' '
+}
+
+.subheadword, .ruigo {
     font-size: 80%;
 }
-.reg, .usage{
+
+.reg, .usage {
     font-size: 80%;
     display: block;
 }
+
 .sense .reg, .sense .usage, .subheadword .reg, .subheadword .usage {
     display: inline-block;
 }
-.reg{font-style:italic;color:#483d8b}
-.usage{color:maroon;font-style:italic}
-.reg+.token:before,.usage+.token:before,.famn+.token:before{content:'\0020'}
-.season{
+
+.reg {
+    font-style: italic;
+    color: #483d8b
+}
+
+.usage {
+    color: maroon;
+    font-style: italic
+}
+
+.reg + .token:before, .usage + .token:before, .famn + .token:before {
+    content: '\0020'
+}
+
+.season {
     font-size: 80%;
     color: gray;
     border: 1px solid #ddd;
@@ -256,40 +396,59 @@ span.etym {
     margin-right: 0.5em;
     margin-left: 0.5em;
 }
-.latin{font-style: italic;}
-.label{
+
+.latin {
+    font-style: italic;
+}
+
+.label {
     font-family: 'Hiragino Kaku Gothic ProN';
-    font-weight:bold;
-    font-size:80%;
+    font-weight: bold;
+    font-size: 80%;
     color: #ffffff;
     Background: #606060;
-    vertical-align:8%;
+    vertical-align: 8%;
     border: solid #606060;
-    border-width:2px 4px 2px 4px;
+    border-width: 2px 4px 2px 4px;
     margin-right: 0.5em;
 }
-.title {quotes: '„' '“' '‚' '‘';}
-.title:before{content: open-quote}
-.title:after{content: close-quote}
-.klammer{color:gray}
-.note .label{
+
+.title {
+    quotes: '„' '“' '‚' '‘';
+}
+
+.title:before {
+    content: open-quote
+}
+
+.title:after {
+    content: close-quote
+}
+
+.klammer {
+    color: gray
+}
+
+.note .label {
     display: inline-block;
-    font-weight:normal;
+    font-weight: normal;
     color: #db7093;
     Background: #ffffff;
     border-color: #db7093;
-    border-width:1px 2px 1px 2px;
+    border-width: 1px 2px 1px 2px;
     border-radius: 3px;
     padding-left: 2px;
     padding-right: 2px;
 }
-.note .content{
+
+.note .content {
     display: inline-block;
 }
 
 body[lang="ja"] *[lang="de"] {
     display: none;
 }
+
 body[lang="de"] *[lang="ja"] {
     display: none;
 }
@@ -297,6 +456,7 @@ body[lang="de"] *[lang="ja"] {
 div.image_appendix_line {
 
 }
+
 span.image_appendix_entry {
     font-size: 80%;
 }
@@ -306,48 +466,60 @@ dd .season {
 }
 
 span.njk:before {
-    content:'╳';
-    font-size:60%;
-    vertical-align:40%;
+    content: '╳';
+    font-size: 60%;
+    vertical-align: 40%;
     color: gray;
 }
 
 span.njok:before {
-    content:'△';
-    font-size:60%;
-    vertical-align:40%;
+    content: '△';
+    font-size: 60%;
+    vertical-align: 40%;
     color: gray;
 }
 
 span.jjk:before {
-    content:'〈';
+    content: '〈';
     color: gray;
 }
+
 span.jjk:after {
-    content:'〉';
+    content: '〉';
     color: gray;
 }
 
 span.fjjk:before {
-    content:'《';
+    content: '《';
     color: gray;
 }
+
 span.fjjk:after {
-    content:'》';
+    content: '》';
     color: gray;
 }
+
 span.paren:before {
     content: '（';
     color: gray;
 }
+
 span.paren:after {
     content: '）';
     color: gray;
 }
 
-.iron, .literal, .topic, .transl, .specchar {quotes: '»' '«' '›' '‹';}
-.iron:before, .literal:before, .topic:before, .transl:before, .specchar:before {content: open-quote;}
-.iron:after, .literal:after, .topic:after, .transl:after, .specchar:after {content: close-quote;}
+.iron, .literal, .topic, .transl, .specchar {
+    quotes: '»' '«' '›' '‹';
+}
+
+.iron:before, .literal:before, .topic:before, .transl:before, .specchar:before {
+    content: open-quote;
+}
+
+.iron:after, .literal:after, .topic:after, .transl:after, .specchar:after {
+    content: close-quote;
+}
 
 .debug {
     font-family: monospace;
@@ -359,6 +531,7 @@ span.paren:after {
 html.apple_client-panel {
     background-color: transparent;
 }
+
 html.apple_client-panel body {
     font-size: 14px;
 
@@ -374,35 +547,33 @@ html.apple_client-panel body {
     overflow-x: hidden;
     overflow-y: hidden;
 }
+
 html.apple_client-panel a,
 html.apple_client-panel a:link,
 html.apple_client-panel a:visited,
 html.apple_client-panel a:hover,
-html.apple_client-panel a:active
-{
+html.apple_client-panel a:active {
     color: #000000;
     text-decoration: none;
 }
+
 html.apple_client-panel .image,
 html.apple_client-panel .url,
 html.apple_client-panel .uid,
 html.apple_client-panel .hinshi,
 html.apple_client-panel .reflink.parent,
-html.apple_client-panel .parentheadword
-{
+html.apple_client-panel .parentheadword {
     display: none;
 }
 
 html.apple_client-panel h1,
-html.apple_client-panel h1 > *
-{
+html.apple_client-panel h1 > * {
     font-size: 100%;
     color: #777777;
 }
 
 html.apple_client-panel span.meaning,
-html.apple_client-panel span.subheadword
-{
+html.apple_client-panel span.subheadword {
     display: block;
     padding-bottom: 2px;
     padding-left: 1em;

@@ -1902,6 +1902,14 @@
         </xsl:if>
     </xsl:template>
 
+    <!-- globales Etym -->
+    <xsl:template match="wd:entry/wd:etym">
+        <span class="etym">
+            <xsl:apply-templates/>
+        </span>
+    </xsl:template>
+
+    <!-- Etym auf sense-Ebene usw. -->
     <xsl:template match="wd:etym">
         <span class="etym">
             <xsl:text>(</xsl:text>
