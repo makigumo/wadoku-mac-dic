@@ -24,6 +24,10 @@
     - ersetzt Gaiji durch Textrepräsentation in @d:alt
 
 */
+html {
+    -apple-color-filter: apple-invert-lightness();
+}
+
 d|entry {
 }
 
