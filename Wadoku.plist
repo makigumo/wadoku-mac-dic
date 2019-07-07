@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>DCSDictionaryNativeDisplayName</key>
+        <string>Japanisch-Deutsch</string>
+        <key>CFBundleDevelopmentRegion</key>
+        <string>Germany</string>
+        <key>CFBundleIdentifier</key>
+        <string>de.wadoku.dictionary.mac</string>
+        <key>CFBundleName</key>
+        <string>Wadoku</string>
+        <key>CFBundleDisplayName</key>
+        <string>和独辞典 — Wadoku — Japanisch-Deutsches Wörterbuch, 6. Januar 2019</string>
+        <key>CFBundleShortVersionString</key>
+        <string>2019.01.06</string>
+        <key>DCSDictionaryCopyright</key>
+        <string>Copyright © 2019 Wadoku e.V., https://www.wadoku.de</string>
+        <key>DCSDictionaryManufacturerName</key>
+        <string>Wadoku e.V., https://www.wadoku.de</string>
+        <key>DCSDictionaryFrontMatterReferenceID</key>
+        <string>wadoku_front_matter</string>
+        <key>DCSDictionaryDefaultPrefs</key>
+        <dict>
+            <key>display-lang</key>
+            <string>ja</string>
+            <key>version</key>
+            <string>2</string>
+            <key>display-uid</key>
+            <string>0</string>
+            <key>display-genera</key>
+            <string>1</string>
+            <key>display-ruby</key>
+            <string>0</string>
+            <key>display-short</key>
+            <string>1</string>
+        </dict>
+        <key>DCSDictionaryPrefsHTML</key>
+        <string>prefs.xhtml</string>
+        <key>DCSDictionaryXSL</key>
+        <string>lang_pref.xslt</string>
+        <key>DCSDictionaryLanguages</key>
+        <array>
+            <dict>
+                <key>DCSDictionaryDescriptionLanguage</key>
+                <string>de</string>
+                <key>DCSDictionaryIndexLanguage</key>
+                <string>ja</string>
+            </dict>
+        </array>
+        <key>DCSDictionaryPrimaryLanguage</key>
+        <string>de</string>
+        <key>DCSDictionaryUseSystemAppearance</key>
+        <true/>
+    </dict>
+</plist>
