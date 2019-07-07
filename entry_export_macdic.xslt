@@ -1286,11 +1286,14 @@
                     <xsl:text> </xsl:text>
                 </xsl:if>
                 <xsl:apply-templates select="wd:trans"/>
-                <xsl:if test="wd:trans[last()]/following-sibling::*[not(self::wd:trans)]">
+                <!--
+                 alles nach trans, außer seasonword, mit einer Klammer umschließen.
+                -->
+                <xsl:if test="wd:trans[last()]/following-sibling::*[not(self::wd:trans) and not(self::wd:seasonword)]">
                     <xsl:text> </xsl:text>
                     <span class="klammer">
                         <xsl:text>(</xsl:text>
-                        <xsl:for-each select="wd:trans[last()]/following-sibling::*[not(self::wd:trans)]">
+                        <xsl:for-each select="wd:trans[last()]/following-sibling::*[not(self::wd:trans) and not(self::wd:seasonword)]">
                             <xsl:apply-templates select="."/>
                             <xsl:if test="count(./following-sibling::*[not(self::wd:seasonword)])>0">
                                 <xsl:text>; </xsl:text>
@@ -1299,6 +1302,9 @@
                         <xsl:text>)</xsl:text>
                     </span>
                 </xsl:if>
+                <!--
+                 seasonwords
+                -->
                 <xsl:for-each select="wd:seasonword">
                     <xsl:apply-templates select="."/>
                 </xsl:for-each>
