@@ -1272,8 +1272,8 @@
             <xsl:when test="not(empty(wd:bracket))">
                 <xsl:apply-templates/>
             </xsl:when>
-            <!-- def und expl auf sense-Ebene -->
-            <xsl:when test="not(empty(wd:def) and empty(wd:expl))">
+            <!-- def, expl und date auf sense-Ebene -->
+            <xsl:when test="not(empty(wd:def) and empty(wd:expl) and empty(date))">
                 <!--
                  einträge ohne bracket
                 -->
