@@ -23,36 +23,68 @@
     - lässt alles mit d:priority='2' weg
     - ersetzt Gaiji durch Textrepräsentation in @d:alt
 
+    Apple Color Reference
+    ---------------------
+    - https://developer.apple.com/design/human-interface-guidelines/macos/visual-design/color/
+
 */
 html {
-    -apple-color-filter: apple-invert-lightness();
+/*    -apple-color-filter: apple-invert-lightness(); */
 }
 
 d|entry {
 }
 
 body {
-    font-family: 'Hiragino Mincho ProN';
-    font-weight: normal;
-    line-height: 1.33em;
-    margin-right: 1em;
-    margin-top: 1.5em;
+    font-size: 12pt;
+    font: -apple-system-body;
+    font-family: -apple-system;
+    font-feature-settings: "halt", "liga", "clig"; /* 字幅半角メトリクス */
+    line-height: 130%;
+    margin-left: 0.9em;
+    margin-right: 0.9em;
+    margin-top: 1.0em;
     margin-bottom: 1.5em;
+
+    color: text;
+}
+
+html.apple_client-panel body {
+    margin-top: 0em;
+}
+
+@media (prefers-color-scheme: dark) {
+    img {
+        filter: invert(100%);
+    }
+}
+
+div.entry + div.entry {
+    margin-top: 4em;
 }
 
 h1 {
     font-size: 150%;
+    font-weight: normal;
     margin-bottom: 0.2em;
 }
 
+hr {
+    margin-right: 0em;
+    margin-left: 0em;
+    margin-top: 3em;
+    margin-bottom: 1em;
+    border: 1px solid -apple-system-tertiary-label ;
+    border-bottom: 0px;
+    color: -apple-system-secondary-label;
+}
 span.headword {
-    font-weight: bold;
     font-size: 100%;
     margin-bottom: 0.2em;
 }
 
 span.headword .divider {
-    color: #ddd;
+    color: -apple-system-secondary-label;
 }
 
 span.hyouki {
@@ -66,17 +98,17 @@ span.hyouki {
 }
 
 a {
-    color: #2971A7;
+    color: -webkit-link;
     text-decoration: none;
 }
 
 a:hover {
-    color: #2971A7;
+    color: -webkit-link;
     text-decoration: underline;
 }
 
 rt {
-    color: gray;
+    color: -apple-system-secondary-label;
 }
 
 .image {
@@ -86,7 +118,7 @@ rt {
 }
 
 .image .caption {
-    color: gray;
+    color: -apple-system-secondary-label;
     font-size: 80%;
     font-weight: bold;
 }
@@ -102,7 +134,7 @@ rt {
 
 .genus, .foreign {
     font-style: italic;
-    color: gray;
+    color: -apple-system-secondary-label;
 }
 
 .global .etym .foreign {
@@ -125,7 +157,7 @@ ol.master {
 }
 
 ol.master > li:before {
-    color: #333300;
+    color: -apple-system-secondary-label;
     font-weight: bold;
     content: '[' counter(master, upper-alpha) '] ';
     counter-increment: master;
@@ -147,8 +179,7 @@ ol.senses {
 }
 
 ol.senses > li:before {
-    color: #000066;
-    font-weight: bold;
+    color: -apple-system-secondary-label;
     content: '[' counter(senses, decimal) '] ';
     counter-increment: senses;
 }
@@ -185,15 +216,16 @@ ul.related > li {
 }
 
 ul.related > li.related:before {
-    content: ' ‖ '
+    content: ' ‖ ';
+    color: -apple-system-tertiary-label;
 }
 
 .master {
-    display: block
+    display: block;
 }
 
 .descr {
-    color: gray;
+    color: -apple-system-secondary-label;
 }
 
 .descr:before {
@@ -211,11 +243,11 @@ ul.related > li.related:before {
 .sense > .def:before {
     content: 'Def.: ';
     font-size: 80%;
-    color: gray;
+    color: -apple-system-secondary-label;
 }
 
 .etym {
-    color: gray;
+    color: -apple-system-secondary-label;
 }
 
 span.etym {
@@ -240,19 +272,19 @@ span.etym {
 }
 
 .b {
-    border-bottom: 1px dotted gray
+    border-bottom: 1px dotted -apple-system-secondary-label
 }
 
 .t {
-    border-top: 1px dotted gray
+    border-top: 1px dotted -apple-system-secondary-label
 }
 
 .l {
-    border-left: 1px dotted gray
+    border-left: 1px dotted -apple-system-secondary-label
 }
 
 .r {
-    border-right: 1px dotted gray
+    border-right: 1px dotted -apple-system-secondary-label
 }
 
 .accents {
@@ -263,16 +295,32 @@ span.etym {
 .accents .accent, .senseaccent {
     font-family: sans-serif;
     padding: 3px 4px 2px 3px;
-    font-size: 40%;
+    border: solid 1px -apple-system-secondary-label;
     border-radius: 3px;
-    color: white;
-    background-color: lightgray;
+    color: -webkit-link;
     margin-left: 1px;
     margin-right: 1px;
 }
 
+.accents .accent {
+    font-size: 40%;
+    vertical-align: 5%;
+}
+
+.senseaccent {
+    font-size: 60%;
+    margin-right: .4em;
+}
+
 .accents .accent.active {
-    background-color: #2971A7
+    color: white;
+    background-color: -webkit-link;
+}
+
+@media (prefers-color-scheme: dark) {
+    .accents .accent.active {
+        color: text;
+    }
 }
 
 .hidden {
@@ -324,17 +372,16 @@ span.etym {
 
 .parents + .parent:before {
     content: '\00a0≫\00a0';
-    font-weight: bold;
 }
 
 .parentheadword {
     padding-top: 2px;
     font-size: 80%;
-    background-color: #f2f2f2;
+    background-color: -apple-system-text-background;
 }
 
 .parentheadword a {
-    color: #606060;
+    color: -apple-system-secondary-label;
 }
 
 .parentheadword:before {
@@ -344,13 +391,12 @@ span.etym {
 
 .dom {
     font-family: sans-serif;
-    color: darkgreen;
+    color: -apple-system-green;
     font-style: italic;
     font-variant: small-caps
 }
 
 .global {
-    font-family: 'Baskerville';
     font-size: 80%;
     vertical-align: 8%;
     margin-right: 0.5em;
@@ -365,7 +411,11 @@ span.etym {
 }
 
 .subheadword, .ruigo {
-    font-size: 80%;
+    font-size: 90%;
+}
+
+.ruigos {
+    margin-top: .6em;
 }
 
 .reg, .usage {
@@ -379,26 +429,33 @@ span.etym {
 
 .reg {
     font-style: italic;
-    color: #483d8b
+    color: darkSlateBlue;
+}
+
+@media (prefers-color-scheme: dark) {
+    .reg {
+        -apple-color-filter: apple-invert-lightness();
+    }
 }
 
 .usage {
-    color: maroon;
+    color: -apple-system-red;
     font-style: italic
 }
 
 .reg + .token:before, .usage + .token:before, .famn + .token:before {
     content: '\0020'
 }
+
 .iron + *:empty + .token:before {
     content: ' ';
 }
 
 .season {
     font-size: 80%;
-    color: gray;
-    border: 1px solid #ddd;
-    -webkit-border-radius: 3px;
+    color: -apple-system-secondary-label;
+    border: 1px solid -apple-system-secondary-label;
+    border-radius: 3px;
     padding: 2px 2px 0px 3px;
     margin-right: 0.5em;
     margin-left: 0.5em;
@@ -409,15 +466,18 @@ span.etym {
 }
 
 .label {
-    font-family: 'Hiragino Kaku Gothic ProN';
-    font-weight: bold;
-    font-size: 80%;
-    color: #ffffff;
-    Background: #606060;
+    font-size: 90%;
     vertical-align: 8%;
-    border: solid #606060;
     border-width: 2px 4px 2px 4px;
     margin-right: 0.5em;
+}
+
+.label:before {
+    content: '〈';
+}
+
+.label:after {
+    content: '〉';
 }
 
 .title {
@@ -433,19 +493,15 @@ span.etym {
 }
 
 .klammer {
-    color: gray
+    color: -apple-system-secondary-label;
 }
 
 .note .label {
+    margin-top: .6em;
     display: inline-block;
     font-weight: normal;
     color: #db7093;
-    Background: #ffffff;
-    border-color: #db7093;
-    border-width: 1px 2px 1px 2px;
-    border-radius: 3px;
-    padding-left: 2px;
-    padding-right: 2px;
+    background: transparent;
 }
 
 .note .content {
@@ -476,44 +532,55 @@ span.njk:before {
     content: '╳';
     font-size: 60%;
     vertical-align: 40%;
-    color: gray;
+    color: -apple-system-secondary-label;
 }
 
 span.njok:before {
     content: '△';
     font-size: 60%;
     vertical-align: 40%;
-    color: gray;
+    color: -apple-system-secondary-label;
 }
 
 span.jjk:before {
     content: '〈';
-    color: gray;
+    color: -apple-system-secondary-label;
 }
 
 span.jjk:after {
     content: '〉';
-    color: gray;
+    color: -apple-system-secondary-label;
 }
 
 span.fjjk:before {
     content: '《';
-    color: gray;
+    color: -apple-system-secondary-label;
 }
 
 span.fjjk:after {
     content: '》';
-    color: gray;
+    color: -apple-system-secondary-label;
 }
 
 span.paren:before {
     content: '（';
-    color: gray;
+    color: -apple-system-secondary-label;
 }
 
 span.paren:after {
     content: '）';
-    color: gray;
+    color: -apple-system-secondary-label;
+}
+
+a span.njk:before,
+a span.njok:before,
+a span.jjk:before,
+a span.jjk:after,
+a span.fjjk:before,
+a span.fjjk:after,
+a span.paren:before,
+a span.paren:after {
+    color: -webkit-link;
 }
 
 .iron, .literal, .topic, .transl, .specchar {
@@ -547,7 +614,7 @@ html.apple_client-panel body {
     margin-bottom: 0px;
     margin-right: 1em;
 
-    color: #111111;
+    color: text;
     text-shadow: 0px 1px 0px #EEEEEE;
     line-height: 18px;
 
@@ -560,7 +627,7 @@ html.apple_client-panel a:link,
 html.apple_client-panel a:visited,
 html.apple_client-panel a:hover,
 html.apple_client-panel a:active {
-    color: #000000;
+    color: text;
     text-decoration: none;
 }
 
@@ -576,7 +643,7 @@ html.apple_client-panel .parentheadword {
 html.apple_client-panel h1,
 html.apple_client-panel h1 > * {
     font-size: 100%;
-    color: #777777;
+    color: text;
 }
 
 html.apple_client-panel span.meaning,
