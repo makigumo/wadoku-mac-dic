@@ -297,6 +297,7 @@
         <!-- Selbstreferenz -->
         <xsl:variable name="id" select="@id"/>
         <xsl:if test="$subs">
+            <hr/>
             <div class="subentries">
                 <!-- Ableitungen -->
                 <xsl:variable name="hasei" select="$subs[wd:ref[(
