@@ -390,6 +390,9 @@ span.etym {
 .reg + .token:before, .usage + .token:before, .famn + .token:before {
     content: '\0020'
 }
+.iron + *:empty + .token:before {
+    content: ' ';
+}
 
 .season {
     font-size: 80%;
