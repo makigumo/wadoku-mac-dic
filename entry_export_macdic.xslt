@@ -1467,10 +1467,7 @@
     </xsl:template>
 
     <xsl:template match="wd:token">
-        <xsl:if test="position()>1 and string-length(.)>0 and not(preceding-sibling::wd:text)">
-            <xsl:text> </xsl:text>
-        </xsl:if>
-        <xsl:if test="preceding-sibling::wd:iron">
+        <xsl:if test="position()>1 and string-length(.)>0 and not(preceding-sibling::*[1][self::wd:text])">
             <xsl:text> </xsl:text>
         </xsl:if>
         <span class="token">
