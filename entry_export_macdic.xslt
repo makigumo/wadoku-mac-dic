@@ -323,10 +323,8 @@
                     @subentrytype='ku')
                      and @id=$id]]"/>
                 <xsl:if test="$hasei">
-                    <span class="label">
-                        <b xml:lang="ja">派生語</b>
-                        <b xml:lang="de">Ableitungen</b>
-                    </span>
+                    <span class="label" xml:lang="ja">派生語</span>
+                    <span class="label" xml:lang="de">Ableitungen</span>
                     <xsl:apply-templates mode="subentry"
                                          select="$hasei[wd:ref[@subentrytype='suru']]">
                         <xsl:with-param name="parentid" select="$id"/>
@@ -347,10 +345,8 @@
                 <xsl:variable name="composita"
                               select="$subs[wd:ref[(@subentrytype='head' or @subentrytype='tail') and @id=$id]]"/>
                 <xsl:if test="$composita">
-                    <span class="label">
-                        <b xml:lang="ja">合成語</b>
-                        <b xml:lang="de">Zusammensetzungen</b>
-                    </span>
+                    <span class="label" xml:lang="ja">合成語</span>
+                    <span class="label" xml:lang="de">Zusammensetzungen</span>
                     <xsl:apply-templates mode="subentry"
                                          select="$composita[wd:ref[@subentrytype='head' and @id=$id]]">
                         <xsl:with-param name="parentid" select="$id"/>
@@ -1878,12 +1874,8 @@
 
     <xsl:template match="wd:ruigos">
         <div class="ruigos">
-            <span class="label" xml:lang="ja">
-                <b>類語</b>
-            </span>
-            <span class="label" xml:lang="de">
-                <b>Synonyme</b>
-            </span>
+            <span class="label" xml:lang="ja">類語</span>
+            <span class="label" xml:lang="de">Synonyme</span>
             <xsl:apply-templates/>
         </div>
     </xsl:template>
