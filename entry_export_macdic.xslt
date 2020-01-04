@@ -118,149 +118,151 @@
                 <xsl:apply-templates mode="subheadindex" select="key('refs',@id)"/>
             </xsl:if>
 
-            <xsl:if test="$strictSubHeadIndex != 'yes'">
-                <!-- breadcrumb links to parent(s) -->
-                <xsl:if test="./wd:ref[@type='main']">
-                    <div class="parentheadword">
-                        <xsl:apply-templates mode="parent" select="./wd:ref[@type='main']"/>
-                    </div>
+            <div class="entry">
+                <xsl:if test="$strictSubHeadIndex != 'yes'">
+                    <!-- breadcrumb links to parent(s) -->
+                    <xsl:if test="./wd:ref[@type='main']">
+                        <div class="parentheadword">
+                            <xsl:apply-templates mode="parent" select="./wd:ref[@type='main']"/>
+                        </div>
+                    </xsl:if>
                 </xsl:if>
-            </xsl:if>
-            <!-- header -->
-            <h1>
-                <!-- reading -->
-                <span class="headword">
-                    <ruby>
-                        <rb>
-                            <xsl:call-template name="reading_from_extended_yomi"/>
-                        </rb>
-                        <rt>
-                            <xsl:value-of select="./wd:form/wd:reading/wd:romaji"/>
-                        </rt>
-                    </ruby>
-                </span>
-                <!-- accent -->
-                <xsl:if test="./wd:form/wd:reading/wd:accent">
-                    <span class="accents">
-                        <xsl:for-each select="./wd:form/wd:reading/wd:accent">
-                            <xsl:choose>
-                                <xsl:when test="position() = 1">
-                                    <small class="accent active" data-accent-id="{position()}">
-                                        <xsl:value-of select="."/>
-                                    </small>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <small class="accent" data-accent-id="{position()}">
-                                        <xsl:value-of select="."/>
-                                    </small>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                        </xsl:for-each>
+                <!-- header -->
+                <h1>
+                    <!-- reading -->
+                    <span class="headword">
+                        <ruby>
+                            <rb>
+                                <xsl:call-template name="reading_from_extended_yomi"/>
+                            </rb>
+                            <rt>
+                                <xsl:value-of select="./wd:form/wd:reading/wd:romaji"/>
+                            </rt>
+                        </ruby>
                     </span>
-                </xsl:if>
-                <!-- writing -->
-                <span class="hyouki">
-                    <xsl:choose>
-                        <xsl:when test="./wd:form/wd:orth[@midashigo]">
-                            <xsl:text>&#12304;</xsl:text>
-                            <xsl:apply-templates mode="simple"
-                                                 select="./wd:form/wd:orth[@midashigo]"/>
-                            <xsl:text>&#12305;</xsl:text>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:if test="./wd:form/wd:orth[not(@irr)]">
+                    <!-- accent -->
+                    <xsl:if test="./wd:form/wd:reading/wd:accent">
+                        <span class="accents">
+                            <xsl:for-each select="./wd:form/wd:reading/wd:accent">
+                                <xsl:choose>
+                                    <xsl:when test="position() = 1">
+                                        <small class="accent active" data-accent-id="{position()}">
+                                            <xsl:value-of select="."/>
+                                        </small>
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        <small class="accent" data-accent-id="{position()}">
+                                            <xsl:value-of select="."/>
+                                        </small>
+                                    </xsl:otherwise>
+                                </xsl:choose>
+                            </xsl:for-each>
+                        </span>
+                    </xsl:if>
+                    <!-- writing -->
+                    <span class="hyouki">
+                        <xsl:choose>
+                            <xsl:when test="./wd:form/wd:orth[@midashigo]">
                                 <xsl:text>&#12304;</xsl:text>
                                 <xsl:apply-templates mode="simple"
-                                                     select="./wd:form/wd:orth[not(@irr) and not(@midashigo)]"/>
+                                                     select="./wd:form/wd:orth[@midashigo]"/>
                                 <xsl:text>&#12305;</xsl:text>
-                            </xsl:if>
-                            <xsl:if test="./wd:form/wd:orth[@irr]">
-                                <xsl:text>&#12310;</xsl:text>
-                                <xsl:apply-templates mode="simple"
-                                                     select="./wd:form/wd:orth[@irr]"/>
-                                <xsl:text>&#12311;</xsl:text>
-                            </xsl:if>
-                        </xsl:otherwise>
-                    </xsl:choose>
-                </span>
-            </h1>
-            <div class="uid">
-                <xsl:value-of select="@id"/>
-            </div>
-            <!-- meaning -->
-            <div class="meaning">
-                <!-- grammar group and global etymology-->
-                <xsl:if test="./wd:gramGrp or ./wd:etym">
-                    <div class="global">
-                        <xsl:if test="./wd:gramGrp">
-                            <span class="hinshi">
-                                <xsl:apply-templates select="./wd:gramGrp"/>
-                            </span>
-                        </xsl:if>
-                        <xsl:apply-templates select="./wd:etym"/>
-                    </div>
-                </xsl:if>
-                <!-- if only one sense, handle usg in sense template -->
-                <xsl:apply-templates select="wd:usg"/>
-                <xsl:choose>
-                    <xsl:when test="./wd:sense/wd:sense">
-                        <ol class="master">
-                            <xsl:for-each select="./wd:sense">
-                                <xsl:apply-templates select="."/>
-                            </xsl:for-each>
-                        </ol>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <xsl:choose>
-                            <xsl:when test="count(./wd:sense[not(@related='true')])>1">
-                                <ol class="senses">
-                                    <xsl:for-each select="./wd:sense">
-                                        <xsl:apply-templates select="."/>
-                                    </xsl:for-each>
-                                </ol>
                             </xsl:when>
                             <xsl:otherwise>
-                                <ol class="senses single">
-                                    <xsl:for-each select="./wd:sense">
-                                        <xsl:apply-templates select="."/>
-                                    </xsl:for-each>
-                                </ol>
+                                <xsl:if test="./wd:form/wd:orth[not(@irr)]">
+                                    <xsl:text>&#12304;</xsl:text>
+                                    <xsl:apply-templates mode="simple"
+                                                         select="./wd:form/wd:orth[not(@irr) and not(@midashigo)]"/>
+                                    <xsl:text>&#12305;</xsl:text>
+                                </xsl:if>
+                                <xsl:if test="./wd:form/wd:orth[@irr]">
+                                    <xsl:text>&#12310;</xsl:text>
+                                    <xsl:apply-templates mode="simple"
+                                                         select="./wd:form/wd:orth[@irr]"/>
+                                    <xsl:text>&#12311;</xsl:text>
+                                </xsl:if>
                             </xsl:otherwise>
                         </xsl:choose>
-                    </xsl:otherwise>
-                </xsl:choose>
-                <!-- note about typical spelling mistakes -->
-                <xsl:if test="./wd:form/wd:orth[@type='mistake']">
-                    <div class="note">
-                        <div class="label">
-                            <span xml:lang="ja">注意</span>
-                            <span xml:lang="de">Hinweis</span>
+                    </span>
+                </h1>
+                <div class="uid">
+                    <xsl:value-of select="@id"/>
+                </div>
+                <!-- meaning -->
+                <div class="meaning">
+                    <!-- grammar group and global etymology-->
+                    <xsl:if test="./wd:gramGrp or ./wd:etym">
+                        <div class="global">
+                            <xsl:if test="./wd:gramGrp">
+                                <span class="hinshi">
+                                    <xsl:apply-templates select="./wd:gramGrp"/>
+                                </span>
+                            </xsl:if>
+                            <xsl:apply-templates select="./wd:etym"/>
                         </div>
-                        <div class="content">
-                            <xsl:text>「</xsl:text>
-                            <xsl:apply-templates mode="mistake_note" select="./wd:form/wd:orth[@type='mistake']"/>
-                            <xsl:text>」</xsl:text>
-                            <span xml:lang="ja">はあやまり。</span>
+                    </xsl:if>
+                    <!-- if only one sense, handle usg in sense template -->
+                    <xsl:apply-templates select="wd:usg"/>
+                    <xsl:choose>
+                        <xsl:when test="./wd:sense/wd:sense">
+                            <ol class="master">
+                                <xsl:for-each select="./wd:sense">
+                                    <xsl:apply-templates select="."/>
+                                </xsl:for-each>
+                            </ol>
+                        </xsl:when>
+                        <xsl:otherwise>
                             <xsl:choose>
-                                <xsl:when test="count(./wd:form/wd:orth[@type='mistake']) > 1">
-                                    <span xml:lang="de">sind Falschschreibungen。</span>
+                                <xsl:when test="count(./wd:sense[not(@related='true')])>1">
+                                    <ol class="senses">
+                                        <xsl:for-each select="./wd:sense">
+                                            <xsl:apply-templates select="."/>
+                                        </xsl:for-each>
+                                    </ol>
                                 </xsl:when>
                                 <xsl:otherwise>
-                                    <span xml:lang="de">ist eine Falschschreibung。</span>
+                                    <ol class="senses single">
+                                        <xsl:for-each select="./wd:sense">
+                                            <xsl:apply-templates select="."/>
+                                        </xsl:for-each>
+                                    </ol>
                                 </xsl:otherwise>
                             </xsl:choose>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                    <!-- note about typical spelling mistakes -->
+                    <xsl:if test="./wd:form/wd:orth[@type='mistake']">
+                        <div class="note">
+                            <div class="label">
+                                <span xml:lang="ja">注意</span>
+                                <span xml:lang="de">Hinweis</span>
+                            </div>
+                            <div class="content">
+                                <xsl:text>「</xsl:text>
+                                <xsl:apply-templates mode="mistake_note" select="./wd:form/wd:orth[@type='mistake']"/>
+                                <xsl:text>」</xsl:text>
+                                <span xml:lang="ja">はあやまり。</span>
+                                <xsl:choose>
+                                    <xsl:when test="count(./wd:form/wd:orth[@type='mistake']) > 1">
+                                        <span xml:lang="de">sind Falschschreibungen。</span>
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        <span xml:lang="de">ist eine Falschschreibung。</span>
+                                    </xsl:otherwise>
+                                </xsl:choose>
 
+                            </div>
                         </div>
-                    </div>
-                </xsl:if>
-                <!-- synonyms, antonyms, alternate readings, alternate transcriptions -->
-                <xsl:apply-templates select="wd:ref[not(@type='main')]"/>
-                <!-- URLs, image links -->
-                <xsl:apply-templates select="wd:link"/>
-                <!-- subentries -->
-                <xsl:call-template name="entry_subs"/>
-                <!-- general synonyms -->
-                <xsl:apply-templates select="./wd:ruigos"/>
+                    </xsl:if>
+                    <!-- synonyms, antonyms, alternate readings, alternate transcriptions -->
+                    <xsl:apply-templates select="wd:ref[not(@type='main')]"/>
+                    <!-- URLs, image links -->
+                    <xsl:apply-templates select="wd:link"/>
+                    <!-- subentries -->
+                    <xsl:call-template name="entry_subs"/>
+                    <!-- general synonyms -->
+                    <xsl:apply-templates select="./wd:ruigos"/>
+                </div>
             </div>
         </d:entry>
     </xsl:template>
