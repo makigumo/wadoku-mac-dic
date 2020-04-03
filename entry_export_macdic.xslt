@@ -1329,6 +1329,9 @@
                 <xsl:if test="wd:seasonword">
                     <xsl:apply-templates select="wd:seasonword"/>
                 </xsl:if>
+                <xsl:if test="wd:count">
+                    <xsl:apply-templates select="wd:count"/>
+                </xsl:if>
                 <xsl:if test="./wd:ref">
                     <xsl:text> </xsl:text>
                     <xsl:apply-templates select="./wd:ref"/>
@@ -1770,15 +1773,13 @@
     </xsl:template>
 
     <xsl:template match="wd:text">
-        <span class="text">
-            <xsl:if test="@hasPrecedingSpace='true'">
-                <xsl:text> </xsl:text>
-            </xsl:if>
-            <xsl:apply-templates/>
-            <xsl:if test="@hasFollowingSpace='true'">
-                <xsl:text> </xsl:text>
-            </xsl:if>
-        </span>
+        <xsl:if test="@hasPrecedingSpace='true'">
+            <xsl:text> </xsl:text>
+        </xsl:if>
+        <xsl:apply-templates/>
+        <xsl:if test="@hasFollowingSpace='true'">
+            <xsl:text> </xsl:text>
+        </xsl:if>
     </xsl:template>
 
     <xsl:template match="wd:bracket">
