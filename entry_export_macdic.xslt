@@ -391,7 +391,7 @@
         <xsl:param name="accent"/>
         <xsl:choose>
             <xsl:when test="string-length(translate($str, $letters, '')) > $accent">
-                <xsl:value-of select="wd:get_accented_part(substring($str, 1, string-length($str)-1), $accent)"/>
+                <xsl:value-of select="wd:get_accented_part(substring($str, 1, string-length($str)-2), $accent)"/>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="substring($str, 1, string-length($str)-1)"/>
