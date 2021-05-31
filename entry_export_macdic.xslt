@@ -391,11 +391,24 @@
         <xsl:param name="str"/>
         <xsl:param name="accent"/>
         <xsl:choose>
-            <xsl:when test="string-length(translate($str, $symbols, '')) > $accent">
-                <xsl:value-of select="wd:get_accented_part(substring($str, 1, string-length($str)-2), $accent)"/>
+            <!-- noch genug Zeichen für den Akzent, die keine kleinen Digraphe oder Symbole sind? -->
+            <xsl:when test="string-length(translate($str, $letters, '')) > $accent">
+                <xsl:message>-- <xsl:value-of select="substring($str, 1, string-length($str)-1)"/></xsl:message>
+                <!-- dann letztes Zeichen entfernen -->
+                <xsl:value-of select="wd:get_accented_part(substring($str, 1, string-length($str)-1), $accent)"/>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:value-of select="substring($str, 1, string-length($str)-1)"/>
+                <xsl:message>== <xsl:value-of select="substring($str, 1, string-length($str)-1)"/></xsl:message>
+                <xsl:choose>
+                    <!-- ist letztes Zeichen ein Symbol? -->
+                    <xsl:when test="string-length(translate(substring($str, string-length($str), 1), $symbols, ''))=0">
+                        <!-- dann letztes Zeichen entfernen -->
+                        <xsl:value-of select="wd:get_accented_part(substring($str, 1, string-length($str)-1), $accent)"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="substring($str, 1, string-length($str)-1)"/>
+                    </xsl:otherwise>
+                </xsl:choose>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
@@ -582,9 +595,12 @@
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
-        <!-- erste More aus zwei Kana, z.B. しゃ -->
+        <!-- erste More aus zwei Kana, z.B. しゃ
+             das heißt, zweites Zeichen muss kleines Digraph-Kana sein
+         -->
         <xsl:variable name="firstMoraIsDigraph"
-                      select="string-length(translate(substring($hiragana,2,1),$letters,''))=0"/>
+                      select="string-length(translate(substring($hiragana,2,1),$small_digraph_letter,''))=0"/>
+
         <xsl:if test="$startsWithEllipsis">
             <xsl:text>…</xsl:text>
         </xsl:if>
