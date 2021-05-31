@@ -38,8 +38,9 @@
     </xsl:variable>
 
     <!-- Kana/Symbole, die nicht als einzelne Mora gelten -->
-    <xsl:variable name="letters" select="'ゅゃょぁぃぅぇぉ・･·~’￨|…'"/>
+    <xsl:variable name="symbols" select="'・･·~’￨|…'"/>
     <xsl:variable name="small_digraph_letter" select="'ゅゃょぁぃぅぇぉ'"/>
+    <xsl:variable name="letters" select="concat($small_digraph_letter, $symbols)"/>
 
     <!-- kennzeichnet den Beginn eines Akzentverlaufs -->
     <xsl:variable name="accent_change_marker" select="'—'"/>
@@ -390,7 +391,7 @@
         <xsl:param name="str"/>
         <xsl:param name="accent"/>
         <xsl:choose>
-            <xsl:when test="string-length(translate($str, $letters, '')) > $accent">
+            <xsl:when test="string-length(translate($str, $symbols, '')) > $accent">
                 <xsl:value-of select="wd:get_accented_part(substring($str, 1, string-length($str)-2), $accent)"/>
             </xsl:when>
             <xsl:otherwise>
