@@ -393,12 +393,10 @@
         <xsl:choose>
             <!-- noch genug Zeichen für den Akzent, die keine kleinen Digraphe oder Symbole sind? -->
             <xsl:when test="string-length(translate($str, $letters, '')) > $accent">
-                <xsl:message>-- <xsl:value-of select="substring($str, 1, string-length($str)-1)"/></xsl:message>
                 <!-- dann letztes Zeichen entfernen -->
                 <xsl:value-of select="wd:get_accented_part(substring($str, 1, string-length($str)-1), $accent)"/>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:message>== <xsl:value-of select="substring($str, 1, string-length($str)-1)"/></xsl:message>
                 <xsl:choose>
                     <!-- ist letztes Zeichen ein Symbol? -->
                     <xsl:when test="string-length(translate(substring($str, string-length($str), 1), $symbols, ''))=0">
