@@ -345,7 +345,7 @@ span.etym {
     margin-right: 4px;
 }
 
-.def > .reflink {
+.def > .reflink, .klammer > .reflink {
     margin-left: 0;
     margin-right: 0
 }
