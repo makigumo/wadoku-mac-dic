@@ -1216,7 +1216,7 @@
             <xsl:text> </xsl:text>
             <xsl:apply-templates select="./wd:etym"/>
         </xsl:if>
-        <xsl:if test="./wd:ref">
+        <xsl:if test="./wd:ref and empty(wd:def) and empty(wd:expl) and empty(wd:date)">
             <xsl:text> </xsl:text>
             <xsl:apply-templates select="./wd:ref"/>
         </xsl:if>
@@ -1300,7 +1300,7 @@
                 <xsl:apply-templates/>
             </xsl:when>
             <!-- def, expl und date auf sense-Ebene -->
-            <xsl:when test="not(empty(wd:def) and empty(wd:expl) and empty(date))">
+            <xsl:when test="not(empty(wd:def) and empty(wd:expl) and empty(wd:date))">
                 <!--
                  einträge ohne bracket
                 -->
