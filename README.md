@@ -6,60 +6,52 @@ Kleines Howto zur Erzeugung des Mac-Wörterbuches.
 
 Die Umwandlung geschieht in zwei Schritten.
 
-* Transformation der Wadoku.de-XML-Daten in das Xml-Format des Mac-Wörterbuches.
+* Transformation der Wadoku.de-XML-Daten in das XML-Format für Apples *Dictionary Development Kit*.
 * Erzeugung des Mac-Wörterbuches aus den transformierten Daten.
 
 Für den ersten Schritt wird ein XSLT-Prozessor, der XSLT 2.0 beherrscht, gebraucht.
 
-Für den zweiten Schritt wird das *Dictionary Development Kit* benötigt,
-welches im Paket ``Auxiliary Tools for Xcode``[1](https://developer.apple.com/downloads/index.action),
-seit macOS 10.12 (Xcode 8.x) im Paket ``Additional Tools for Xcode``[2](http://adcdownload.apple.com/Developer_Tools/Additional_Tools_for_Xcode_8/Additional_Tools_for_Xcode_8_beta.dmg)
-enthalten ist. Das gesamte Xcode-Paket wird hierfür nicht benötigt.
-Vor Xcode 4.3 lag es im Verzeichnis ``/Developer/Extras/Dictionary Development Kit``.
+Für den zweiten Schritt wird das *Dictionary Development Kit* benötigt.
+Dieses findet sich derzeit im Paket ``Additional Tools for Xcode``[2](https://developer.apple.com/download/all/?q=Additional).
+Das gesamte Xcode-Paket ist hierfür nicht notwendig.
 
-Das erzeugte Wörterbuch ist kompatibel mit OS X ab 10.5 (Leopard).
-Mit einer der folgenden Optionen lässt sich ein mit OS X 10.6 bzw. 10.11
-(und aufwärts) kompatibles Wörterbuch erzeugen.
-Die letzteren sind im Allgemeinen stärker komprimiert und nehmen damit weniger Platz 
-auf der Festplatte ein.
-
-Im Makefile:
-```
-DICT_BUILD_OPTS = -v 10.6
-DICT_BUILD_OPTS = -v 10.11
-```
+Im Makefile kann die mindestens benötigte OS X/macOS-Versionen spezifiziert werden.
+* (default) 10.5 (Leopard)
+ `DICT_BUILD_OPTS = -v 10.5`
+* 10.6 (Snow Leopard)
+ `DICT_BUILD_OPTS = -v 10.6`
+* 10.11 (El Capitan)
+ `DICT_BUILD_OPTS = -v 10.11`
+ 
+Höhere Versionen haben den Vorteil, die Wörterbuchdaten im Allgemeinen stärker zu komprimieren
+und somit weniger Platz auf der Festplatte zu beanspruchen.
 
 ## Dateien
 
-### entry_export_macdic.xslt
+### `xsl/entry_export_macdic.xsl`
 
-Transformationsskript zur Umwandlung der XML-Daten in das XML-Format
+Hauptskript zur Umwandlung der XML-Daten in das XML-Format
 des Mac Dictionary Development Kit.
 Verwendet werden ebenfalls folgende Dateien:
 
-* front_matter.xsl
-* image_appendix.xsl
-* seasonword_appendix.xsl
-* gramgrp.xsl
+* `front_matter.xsl`
+* `image_appendix.xsl`
+* `seasonword_appendix.xsl`
+* `gramgrp.xsl`
 
-### Wadoku.css
+### `Wadoku.css`
 
 CSS-Datei zur Formatierung der Einträge im Wörterbuch.
 
 * Pfad muss als ``CSS_SRC_PATH`` bzw. ``CSS_PATH`` im Makefile angegeben werden.
 
-### lang_pref.xslt
+### `OtherResources/lang_pref.xslt`
 
 Transformationsskript zur Umsetzung der Voreinstellungen.
 
-* Muss im Verzeichnis ``OtherResources`` liegen.
-* Pfad muss als ``PREF_XSLT_SRC_PATH`` im Makefile angegeben werden.
-
-### Resources
+### OtherResources/Resources
 
 Verzeichnis mit HTML-Dateien für die Voreinstellungselemente.
-
-* Muss im Verzeichnis ``OtherResources`` liegen.
 
 ## Troubleshooting
 
