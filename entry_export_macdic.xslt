@@ -537,8 +537,16 @@
     <xsl:template name="call_mark_accent">
         <xsl:param name="yomi"/>
         <xsl:choose>
+            <xsl:when test="contains(., '—') and not(contains($yomi,$accent_change_marker))">
+                <xsl:message>'<xsl:value-of select="$yomi"/>' has missing '<xsl:value-of select="$accent_change_marker"/>' marker. Ignored.</xsl:message>
+                <xsl:call-template name="insert_divider">
+                    <!-- entferne nicht benötigtes full-width space -->
+                    <xsl:with-param name="t"
+                                    select="translate($yomi, '　', '')"/>
+                </xsl:call-template>
+            </xsl:when>
             <!-- Akzentangabe mit mehrfachem Akzentwechsel -->
-            <xsl:when test="contains(., '—')">
+            <xsl:when test="contains(., '—') and contains($yomi,$accent_change_marker)">
                 <!-- Auftrennen der Lesung am accent_change_marker -->
                 <xsl:variable name="y" select="tokenize($yomi,$accent_change_marker)"/>
                 <!--
