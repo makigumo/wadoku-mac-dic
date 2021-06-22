@@ -11,11 +11,11 @@
         <key>CFBundleName</key>
         <string>Wadoku</string>
         <key>CFBundleDisplayName</key>
-        <string>和独辞典 — Wadoku — Japanisch-Deutsches Wörterbuch, 10. Januar 2021</string>
+        <string>和独辞典 — Wadoku — Japanisch-Deutsches Wörterbuch, GERMAN_DATE</string>
         <key>CFBundleShortVersionString</key>
-        <string>2021.01.10</string>
+        <string>VERSION_DATE</string>
         <key>DCSDictionaryCopyright</key>
-        <string>Copyright © 2021 Wadoku e.V., https://www.wadoku.de</string>
+        <string>Copyright © YEAR Wadoku e.V., https://www.wadoku.de</string>
         <key>DCSDictionaryManufacturerName</key>
         <string>Wadoku e.V., https://www.wadoku.de</string>
         <key>DCSDictionaryFrontMatterReferenceID</key>
