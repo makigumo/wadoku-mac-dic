@@ -14,21 +14,40 @@ jobs:
       - name: Clone DDK
         run: |
           git clone https://github.com/SebastianSzturo/Dictionary-Development-Kit.git "$HOME"/'Dictionary Development Kit'
+      - name: Cache wadoku.de download
+        uses: actions/cache@v2
+        id: cache-wadoku
+        with:
+          path: |
+            wadoku-xml.tar.xz
+          key: ${{ runner.os }}-wadoku
+      - name: Cache saxon download
+        uses: actions/cache@v2
+        id: cache-saxon
+        with:
+          path: |
+            SaxonEE10-3J.zip
+          key: ${{ runner.os }}-saxon
       - name: Download wadoku.de XML data
+        if: steps.cache-wadoku.outputs.cache-hit != 'true'
         run: |
-          curl https://www.wadoku.de/downloads/xml-export/wadoku-xml-latest.tar.xz --output wadoku-xml.tar.xz
+          curl https://www.wadoku.de/downloads/xml-export/wadoku-xml-latest.tar.xz --output wadoku-xml.tar.xz --silent
       - name: Extract wadoku.de XML data
         run: |
           tar xf wadoku-xml.tar.xz
       - name: Download Saxon
+        if: steps.cache-saxon.outputs.cache-hit != 'true'
         run: |
           curl https://www.saxonica.com/download/SaxonEE10-3J.zip --output SaxonEE10-3J.zip --silent
+      - name: Extract Saxon
+        run: |
           unzip SaxonEE10-3J.zip saxon-ee-10.3.jar
       - name: Transform wadoku.de XML data to Apple dictionary XML
         env:
           LFILE: ${{ secrets.SECRET_KAGI }}
         run: |
-          echo $LFILE > saxon-license.lic
+          echo "$LFILE" > saxon-license.lic
+          ls -l saxon-license.lic
           WADOKU_DIR=$(find . -name 'wadoku-xml-*' -type d) && export WADOKU_DIR=$WADOKU_DIR
           java -Xmx1024M -jar saxon-ee-10.3.jar -s:$WADOKU_DIR/wadoku.xml -opt:10 -t -xsl:xsl/entry_export_macdic.xslt -o:wadoku-mac.xml
       - name: Prepare plist file and dates
@@ -39,7 +58,7 @@ jobs:
           export YEAR=$(date -j -f %Y%m%d $DATE +%Y)
           export VERSION_DATE=$(date -j -f %Y%m%d $DATE +%Y.%m.%d)
           export GERMAN_DATE=$(LC_ALL=de_DE date -j -f %Y%m%d $DATE '+%e %B %Y')
-          cat Wadoku.plist.in | m4 -DYEAR=$YEAR -DVERSION_DATE=$VERSION_DATE -DGERMAN_DATE=$GERMAN_DATE > Wadoku.plist
+          cat Wadoku.plist.in | m4 -DYEAR="$YEAR" -DVERSION_DATE="$VERSION_DATE" -DGERMAN_DATE="$GERMAN_DATE" > Wadoku.plist
           echo "::set-output name=release-date::$DATE"
           echo "::set-output name=date::$(date +'%Y%m%d')"
       - name: Prepare images
@@ -53,8 +72,8 @@ jobs:
           make
       - name: Package dictionary
         run: |
-          hdiutil create tmp.dmg -ov -volname "Wadoku $DATE" -fs HFS+ -srcfolder "./objects/Wadoku.dictionary"
-          hdiutil convert tmp.dmg -format UDZO -o "Wadoku$DATE.dictionary.dmg"
+          hdiutil create tmp.dmg -ov -volname "Wadoku ${{ steps.date.outputs.date }}" -fs HFS+ -srcfolder "./objects/Wadoku.dictionary"
+          hdiutil convert tmp.dmg -format UDZO -o "Wadoku${{ steps.date.outputs.date }}.dictionary.dmg"
       - name: Cleanup
         run: |
           make clean
@@ -63,7 +82,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ steps.date.outputs.release-date }}-${{ steps.date.outputs.date }}
-          artifacts: "Wadoku$DATE.dictionary.dmg"
+          artifacts: "Wadoku${{ steps.date.outputs.date }}.dictionary.dmg"
           artifactContentType: application/x-apple-diskimage
-          body: "Release of wadoku.de data ${{ steps.date.outputs.release-date }}. Build on ${{ steps.date.outputs.date }}."
+          body: "Release of wadoku.de data ${{ steps.date.outputs.release-date }}. Built on ${{ steps.date.outputs.date }}."
           token: ${{ secrets.GITHUB_TOKEN }}
