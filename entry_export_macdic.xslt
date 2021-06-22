@@ -482,6 +482,7 @@
     <xsl:template name="reading_from_extended_yomi">
         <xsl:param name="hatsuon" select="./wd:form/wd:reading/wd:hatsuon"/>
         <xsl:param name="accent" select="./wd:form/wd:reading/wd:accent"/>
+        <xsl:param name="id" select="./@id"/>
         <xsl:variable name="yomi">
             <!--
                   * entferne störende Symbole
@@ -511,6 +512,7 @@
                             <span class="pron accent" data-accent-id="{position()}">
                                 <xsl:call-template name="call_mark_accent">
                                     <xsl:with-param name="yomi" select="$yomi"/>
+                                    <xsl:with-param name="id" select="$id"/>
                                 </xsl:call-template>
                             </span>
                         </xsl:when>
@@ -518,6 +520,7 @@
                             <span class="pron accent hidden" data-accent-id="{position()}">
                                 <xsl:call-template name="call_mark_accent">
                                     <xsl:with-param name="yomi" select="$yomi"/>
+                                    <xsl:with-param name="id" select="$id"/>
                                 </xsl:call-template>
                             </span>
                         </xsl:otherwise>
@@ -536,9 +539,10 @@
 
     <xsl:template name="call_mark_accent">
         <xsl:param name="yomi"/>
+        <xsl:param name="id"/>
         <xsl:choose>
             <xsl:when test="contains(., '—') and not(contains($yomi,$accent_change_marker))">
-                <xsl:message>'<xsl:value-of select="$yomi"/>' has missing '<xsl:value-of select="$accent_change_marker"/>' marker. Ignored.</xsl:message>
+                <xsl:message>[<xsl:value-of select="$id"/>] '<xsl:value-of select="$yomi"/>' (<xsl:value-of select="."/>) has missing '<xsl:value-of select="$accent_change_marker"/>' marker. Ignored.</xsl:message>
                 <xsl:call-template name="insert_divider">
                     <!-- entferne nicht benötigtes full-width space -->
                     <xsl:with-param name="t"
@@ -568,6 +572,7 @@
                         <!-- entferne nicht mehr benötigtes full-width space -->
                         <xsl:with-param name="yomi"
                                         select="translate($yomi_part, '　', '')"/>
+                        <xsl:with-param name="id" select="$id"/>
                     </xsl:call-template>
                 </xsl:for-each>
             </xsl:when>
@@ -582,6 +587,7 @@
                                     select="translate(
                                     translate($yomi, $accent_change_marker,'･'),
                                     '　', '')"/>
+                    <xsl:with-param name="id" select="$id"/>
                 </xsl:call-template>
             </xsl:otherwise>
         </xsl:choose>
@@ -590,6 +596,7 @@
     <xsl:template name="mark_accent">
         <xsl:param name="accent"/>
         <xsl:param name="yomi"/>
+        <xsl:param name="id"/>
         <xsl:variable name="startsWithEllipsis" select="starts-with($yomi, '…')"/>
         <xsl:variable name="hiragana">
             <xsl:choose>
@@ -677,6 +684,16 @@
             </xsl:when>
             <xsl:otherwise>
                 <xsl:choose>
+                    <!-- Wenn Akzentkern größer als Morenzahl, dann Akzentkern auf letzte More setzen. -->
+                    <xsl:when test="$accent > string-length(translate($yomi,$letters,''))">
+                        <xsl:message>[<xsl:value-of select="$id"/>] Accent core <xsl:value-of select="$accent"/> greater than mora count <xsl:value-of
+                                select="string-length(translate($yomi,$letters,''))"/>. Setting accent core to mora count.</xsl:message>
+                        <xsl:call-template name="mark_accent">
+                            <xsl:with-param name="accent" select="string-length(translate($yomi,$letters,''))"/>
+                            <xsl:with-param name="yomi" select="$yomi"/>
+                            <xsl:with-param name="id" select="$id"/>
+                        </xsl:call-template>
+                    </xsl:when>
                     <xsl:when test="$firstMoraIsDigraph">
                         <span class="b r">
                             <xsl:call-template name="insert_divider">
@@ -1764,10 +1781,7 @@
 
         <!-- if parent has parent, log self reference -->
         <xsl:if test="$entry/wd:ref[@type='main' and $id = @id]">
-            <xsl:message>
-                <xsl:text>self-reference: </xsl:text>
-                <xsl:value-of select="$id"/>
-            </xsl:message>
+            <xsl:message>[<xsl:value-of select="$id"/>] self-reference</xsl:message>
         </xsl:if>
         <xsl:if test="$entry/wd:ref[@type='main' and $id != @id]">
             <span class="parents parent">
