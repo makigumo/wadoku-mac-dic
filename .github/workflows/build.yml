@@ -57,7 +57,7 @@ jobs:
           export DATE=$(echo $WADOKU_DIR | grep -Eo '[[:digit:]]{4}[[:digit:]]{2}[[:digit:]]{2}')
           export YEAR=$(date -j -f %Y%m%d $DATE +%Y)
           export VERSION_DATE=$(date -j -f %Y%m%d $DATE +%Y.%m.%d)
-          export GERMAN_DATE=$(LC_ALL=de_DE date -j -f %Y%m%d $DATE '+%e %B %Y')
+          export GERMAN_DATE=$(LC_ALL=de_DE date -j -f %Y%m%d $DATE '+%e. %B %Y')
           cat Wadoku.plist.in | m4 -DYEAR="$YEAR" -DVERSION_DATE="$VERSION_DATE" -DGERMAN_DATE="$GERMAN_DATE" > Wadoku.plist
           echo "::set-output name=release-date::$DATE"
           echo "::set-output name=date::$(date +'%Y%m%d')"
