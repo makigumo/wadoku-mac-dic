@@ -29,9 +29,8 @@ jobs:
             SaxonEE10-3J.zip
           key: ${{ runner.os }}-saxon
       - name: Download wadoku.de XML data
-        if: steps.cache-wadoku.outputs.cache-hit != 'true'
         run: |
-          curl https://www.wadoku.de/downloads/xml-export/wadoku-xml-latest.tar.xz --output wadoku-xml.tar.xz --silent
+          curl https://www.wadoku.de/downloads/xml-export/wadoku-xml-latest.tar.xz --output wadoku-xml.tar.xz -z wadoku-xml.tar.xz --silent
       - name: Extract wadoku.de XML data
         run: |
           tar xf wadoku-xml.tar.xz
@@ -46,10 +45,11 @@ jobs:
         env:
           LFILE: ${{ secrets.SECRET_KAGI }}
         run: |
-          echo "$LFILE" > saxon-license.lic
-          ls -l saxon-license.lic
+          echo "::add-mask::${{ secrets.LNUM }}"
+          echo "::add-mask::${{ secrets.LFNAME }}"
+          echo "$LFILE" > "${{ secrets.LFNAME }}"
           WADOKU_DIR=$(find . -name 'wadoku-xml-*' -type d) && export WADOKU_DIR=$WADOKU_DIR
-          java -Xmx1024M -jar saxon-ee-10.3.jar -s:$WADOKU_DIR/wadoku.xml -opt:10 -t -xsl:xsl/entry_export_macdic.xslt -o:wadoku-mac.xml
+          java -Xmx1024M -jar saxon-ee-10.3.jar -s:$WADOKU_DIR/wadoku.xml -t -xsl:xsl/entry_export_macdic.xslt -o:wadoku-mac.xml
       - name: Prepare plist file and dates
         id: date
         run: |
@@ -59,6 +59,7 @@ jobs:
           export VERSION_DATE=$(date -j -f %Y%m%d $DATE +%Y.%m.%d)
           export GERMAN_DATE=$(LC_ALL=de_DE date -j -f %Y%m%d $DATE '+%e. %B %Y')
           cat Wadoku.plist.in | m4 -DYEAR="$YEAR" -DVERSION_DATE="$VERSION_DATE" -DGERMAN_DATE="$GERMAN_DATE" > Wadoku.plist
+          cat pkg/pkg.json.in | m4 -DVERSION_DATE="$VERSION_DATE" > pkg/pkg.json
           echo "::set-output name=release-date::$DATE"
           echo "::set-output name=date::$(date +'%Y%m%d')"
       - name: Prepare images
@@ -72,12 +73,11 @@ jobs:
           make
       - name: Package dictionary
         run: |
-          hdiutil create tmp.dmg -ov -volname "Wadoku ${{ steps.date.outputs.date }}" -fs HFS+ -srcfolder "./objects/Wadoku.dictionary"
-          hdiutil convert tmp.dmg -format UDZO -o "Wadoku${{ steps.date.outputs.date }}.dictionary.dmg"
+          npm install -g appdmg
+          appdmg pkg/pkg.json "Wadoku${{ steps.date.outputs.date }}.dictionary.dmg"
       - name: Cleanup
         run: |
           make clean
-          rm tmp.dmg
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:

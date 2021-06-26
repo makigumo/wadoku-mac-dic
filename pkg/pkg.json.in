@@ -1,0 +1,25 @@
+{
+  "title": "Wadoku VERSION_DATE",
+  "background": "bg.png",
+  "contents": [
+    {
+      "x": 399,
+      "y": 159,
+      "type": "link",
+      "path": "/Library/Dictionaries/"
+    },
+    {
+      "x": 131,
+      "y": 159,
+      "type": "file",
+      "path": "../objects/Wadoku.dictionary"
+    }
+  ],
+  "window": {
+    "size": {
+      "width": 530,
+      "height": 300
+    }
+  },
+  "format": "ULFO"
+}
