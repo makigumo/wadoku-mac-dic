@@ -552,19 +552,36 @@
             <!-- Akzentangabe mit mehrfachem Akzentwechsel -->
             <xsl:when test="contains(., '—') and contains($yomi,$accent_change_marker)">
                 <!-- Auftrennen der Lesung am accent_change_marker -->
-                <xsl:variable name="y" select="tokenize($yomi,$accent_change_marker)"/>
+                <xsl:variable name="sub-accent" select="tokenize(.,'—')"/>
+                <xsl:variable name="sub-yomi" select="tokenize($yomi,$accent_change_marker)"/>
                 <!--
                     Auftrennen Akzentangaben am 'em dash' und markiere den Akzent für
                     den korrespondierenden Lesungsteil.
                 -->
-                <xsl:for-each select="tokenize(.,'—')">
+                <xsl:for-each select="$sub-accent">
                     <xsl:variable name="pos" select="position()"/>
                     <xsl:variable name="yomi_part">
-                        <xsl:value-of select="$y[$pos]"/>
-                        <!-- middle dot nur für leerzeichenlose Teile -->
-                        <xsl:if test="position() &lt; last() and not(ends-with($y[$pos], '　'))">
-                            <xsl:text>･</xsl:text>
-                        </xsl:if>
+                        <xsl:choose>
+                            <!-- letzter sub-accent aber nicht letzter sub-yomi -->
+                            <xsl:when test="position() = last() and position() lt count($sub-yomi)">
+                                <xsl:variable name="rest" select="count($sub-yomi) - $pos"/>
+                                <!-- die letzten sub-yomis zu einem sub-yomi zusammenfassen -->
+                                <xsl:for-each select="for $i in $pos to $pos + $rest return $sub-yomi[$i]">
+                                    <xsl:value-of select="."/>
+                                    <!-- middle dot nur für leerzeichenlose Teile -->
+                                    <xsl:if test="position() &lt; last() and not(ends-with($sub-yomi[$pos], '　'))">
+                                        <xsl:text>･</xsl:text>
+                                    </xsl:if>
+                                </xsl:for-each>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="$sub-yomi[$pos]"/>
+                                <!-- middle dot nur für leerzeichenlose Teile -->
+                                <xsl:if test="position() &lt; last() and not(ends-with($sub-yomi[$pos], '　'))">
+                                    <xsl:text>･</xsl:text>
+                                </xsl:if>
+                            </xsl:otherwise>
+                        </xsl:choose>
                     </xsl:variable>
                     <xsl:call-template name="mark_accent">
                         <xsl:with-param name="accent"
@@ -572,7 +589,6 @@
                         <!-- entferne nicht mehr benötigtes full-width space -->
                         <xsl:with-param name="yomi"
                                         select="translate($yomi_part, '　', '')"/>
-                        <xsl:with-param name="id" select="$id"/>
                     </xsl:call-template>
                 </xsl:for-each>
             </xsl:when>
