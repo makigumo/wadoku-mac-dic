@@ -589,6 +589,7 @@
                         <!-- entferne nicht mehr benötigtes full-width space -->
                         <xsl:with-param name="yomi"
                                         select="translate($yomi_part, '　', '')"/>
+                        <xsl:with-param name="id" select="$id"/>
                     </xsl:call-template>
                 </xsl:for-each>
             </xsl:when>
