@@ -1494,6 +1494,7 @@
                 <xsl:variable name="lastchild" select="child::wd:tr/*[position()=last()]"/>
                 <xsl:choose>
                     <xsl:when test="following-sibling::wd:def"/>
+                    <xsl:when test="following-sibling::wd:date"/>
                     <xsl:when test="following-sibling::wd:expl"/>
                     <xsl:when test="$lastchild">
                         <xsl:choose>
