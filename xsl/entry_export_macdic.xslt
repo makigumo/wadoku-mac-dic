@@ -1304,6 +1304,7 @@
                         <!-- this sense -->
                         <li class="sense">
                             <xsl:call-template name="sense_accent"/>
+                            <xsl:apply-templates select="./wd:descr"/>
                             <xsl:apply-templates mode="core" select="."/>
                         </li>
                         <!-- all following @related senses, in particular
@@ -1325,6 +1326,7 @@
             <xsl:otherwise>
                 <li class="sense">
                     <xsl:call-template name="sense_accent"/>
+                    <xsl:apply-templates select="./wd:descr"/>
                     <xsl:apply-templates mode="core" select="."/>
                 </li>
             </xsl:otherwise>
