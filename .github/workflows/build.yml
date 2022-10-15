@@ -60,8 +60,8 @@ jobs:
           export GERMAN_DATE=$(LC_ALL=de_DE date -j -f %Y%m%d $DATE '+%e. %B %Y')
           cat Wadoku.plist.in | m4 -DYEAR="$YEAR" -DVERSION_DATE="$VERSION_DATE" -DGERMAN_DATE="$GERMAN_DATE" > Wadoku.plist
           cat pkg/pkg.json.in | m4 -DVERSION_DATE="$VERSION_DATE" > pkg/pkg.json
-          echo "::set-output name=release-date::$DATE"
-          echo "::set-output name=date::$(date +'%Y%m%d')"
+          echo "release-date=$DATE" >> $GITHUB_OUTPUT
+          echo "build-date=$(date +'%Y%m%d')" >> $GITHUB_OUTPUT
       - name: Prepare images
         run: |
           git clone https://github.com/WaDoku/WaDokuAPI.git
@@ -74,14 +74,14 @@ jobs:
       - name: Package dictionary
         run: |
           npm install -g appdmg
-          appdmg pkg/pkg.json "Wadoku${{ steps.date.outputs.date }}.dictionary.dmg"
+          appdmg pkg/pkg.json "Wadoku${{ steps.release-date.outputs.date }}.dictionary.dmg"
       - name: Cleanup
         run: |
           make clean
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          tag: ${{ steps.date.outputs.release-date }}-${{ steps.date.outputs.date }}
+          tag: ${{ steps.date.outputs.release-date }}-${{ steps.date.outputs.build-date }}
           artifacts: "Wadoku${{ steps.date.outputs.date }}.dictionary.dmg"
           artifactContentType: application/x-apple-diskimage
           body: "Release of wadoku.de data ${{ steps.date.outputs.release-date }}. Built on ${{ steps.date.outputs.date }}."
