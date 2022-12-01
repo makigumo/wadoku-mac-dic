@@ -20,7 +20,7 @@
             <h3 xml:lang="ja">本辞典について</h3>
             <p xml:lang="de">
                 Dieses Wörterbuch wurde aus dem XML-Datensatz
-                <xsl:if test="/entries[@date] and string(@date) castable as xs:date">
+                <xsl:if test="/entries[@date]">
                     <xsl:text>(vom </xsl:text>
                     <xsl:value-of select="format-dateTime(/entries/@date, '[D1o] [MNn] [Y0001]','de','AD','DE')"/>
                     <xsl:text>)</xsl:text>
@@ -30,7 +30,7 @@
             </p>
             <p xml:lang="ja">
                 本辞典は<a href="https://www.wadoku.de/">オンライン和独辞典</a>のXMLデータ
-                <xsl:if test="/entries[@date] and string(@date) castable as xs:date">
+                <xsl:if test="/entries[@date]">
                     <xsl:text>(</xsl:text>
                     <xsl:value-of select="format-dateTime(/entries/@date, '[Y0001]年[M01]月[D01]日')"/>
                     <xsl:text>より)</xsl:text>
