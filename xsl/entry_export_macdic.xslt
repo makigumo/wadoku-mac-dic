@@ -929,6 +929,7 @@
                 </ruby>
             </xsl:if>
             <xsl:text>｜</xsl:text>
+            <xsl:apply-templates select="./wd:usg"/>
             <xsl:choose>
                 <xsl:when test="./wd:sense/wd:sense">
                     <ol class="master">
