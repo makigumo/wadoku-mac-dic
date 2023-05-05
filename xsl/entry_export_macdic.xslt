@@ -1564,7 +1564,7 @@
                 </xsl:with-param>
             </xsl:call-template>
         </span>
-        <xsl:if test="following-sibling::wd:iron">
+        <xsl:if test="following-sibling::*[1][self::wd:iron | self::wd:topic]">
             <xsl:text> </xsl:text>
         </xsl:if>
     </xsl:template>
