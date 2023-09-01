@@ -1990,7 +1990,17 @@
 
     <xsl:template match="wd:abbrev">
         <xsl:text>Abk. von </xsl:text>
-        <xsl:apply-templates/>
+        <xsl:for-each select="wd:ref">
+            <xsl:apply-templates select="."/>
+            <xsl:choose>
+                <xsl:when test="position() lt last() - 1">
+                    <xsl:text>, </xsl:text>
+                </xsl:when>
+                <xsl:when test="position() = last() - 1">
+                    <xsl:text> bzw. </xsl:text>
+                </xsl:when>
+            </xsl:choose>
+        </xsl:for-each>
     </xsl:template>
 
     <xsl:template match="wd:*">
