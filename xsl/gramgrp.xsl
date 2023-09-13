@@ -196,6 +196,10 @@
         <xsl:text>Hilfsv.</xsl:text>
     </xsl:template>
 
+    <xsl:template match="wd:hojokeiyoushi">
+        <xsl:text>Hilfsadj.</xsl:text>
+    </xsl:template>
+
     <xsl:template match="wd:kandoushi">
         <xsl:text>Interj.</xsl:text>
     </xsl:template>
