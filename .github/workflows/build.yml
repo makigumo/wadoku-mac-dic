@@ -10,19 +10,19 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Clone DDK
         run: |
           git clone https://github.com/SebastianSzturo/Dictionary-Development-Kit.git "$HOME"/'Dictionary Development Kit'
       - name: Cache wadoku.de download
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: cache-wadoku
         with:
           path: |
             wadoku-xml.tar.xz
           key: ${{ runner.os }}-wadoku
       - name: Cache saxon download
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: cache-saxon
         with:
           path: |
