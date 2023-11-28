@@ -228,12 +228,20 @@
         <xsl:text>Pron.</xsl:text>
     </xsl:template>
 
+    <xsl:template match="wd:setsuzokujoshi">
+        <xsl:text>konjunktionale Part.</xsl:text>
+    </xsl:template>
+
     <xsl:template match="wd:shuujoshi">
         <xsl:text>satzbeendende Part.</xsl:text>
     </xsl:template>
 
     <xsl:template match="wd:fukujoshi">
         <xsl:text>adv. Part.</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="wd:heiritsujoshi">
+        <xsl:text>Themenpart.</xsl:text>
     </xsl:template>
 
     <xsl:template match="wd:rengo">
