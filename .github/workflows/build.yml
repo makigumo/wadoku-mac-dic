@@ -74,7 +74,7 @@ jobs:
       - name: Package dictionary
         run: |
           npm install -g appdmg
-          appdmg pkg/pkg.json "Wadoku${{ steps.release-date.outputs.date }}.dictionary.dmg"
+          appdmg pkg/pkg.json "Wadoku${{ steps.release-date.outputs.release-date }}.dictionary.dmg"
       - name: Cleanup
         run: |
           make clean
@@ -82,7 +82,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ steps.date.outputs.release-date }}-${{ steps.date.outputs.build-date }}
-          artifacts: "Wadoku${{ steps.date.outputs.date }}.dictionary.dmg"
+          artifacts: "Wadoku${{ steps.date.outputs.release-date }}.dictionary.dmg"
           artifactContentType: application/x-apple-diskimage
           body: "Release of wadoku.de data ${{ steps.date.outputs.release-date }}. Built on ${{ steps.date.outputs.date }}."
           token: ${{ secrets.GITHUB_TOKEN }}
