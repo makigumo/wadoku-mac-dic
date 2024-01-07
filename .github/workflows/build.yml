@@ -37,7 +37,7 @@ jobs:
       - name: Download Saxon
         if: steps.cache-saxon.outputs.cache-hit != 'true'
         run: |
-          curl https://www.saxonica.com/download/SaxonEE10-3J.zip --output SaxonEE10-3J.zip --silent
+          curl https://downloads.saxonica.com/SaxonJ/EE/10/SaxonEE10-3J.zip --output SaxonEE10-3J.zip --silent
       - name: Extract Saxon
         run: |
           unzip SaxonEE10-3J.zip saxon-ee-10.3.jar
