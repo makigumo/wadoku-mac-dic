@@ -1349,8 +1349,9 @@
                 <!--
                  einträge ohne bracket
                 -->
-                <xsl:if test="wd:trans/preceding-sibling::*[not(self::wd:trans)]">
-                    <xsl:for-each select="wd:trans/preceding-sibling::*[not(self::wd:trans)]">
+                <!-- alles vor dem trans, außer descr -->
+                <xsl:if test="wd:trans/preceding-sibling::*[not(self::wd:trans) and not(self::wd:descr)]">
+                    <xsl:for-each select="wd:trans/preceding-sibling::*[not(self::wd:trans) and not(self::wd:descr)]">
                         <xsl:apply-templates select="."/>
                     </xsl:for-each>
                     <xsl:text> </xsl:text>
