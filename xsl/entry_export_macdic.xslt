@@ -2004,6 +2004,15 @@
         </xsl:for-each>
     </xsl:template>
 
+    <xsl:template match="wd:transl | wd:literal">
+        <span class="{name(.)}">
+            <xsl:apply-templates/>
+        </span>
+        <xsl:if test="following-sibling::*[1][local-name()]">
+            <xsl:text> </xsl:text>
+        </xsl:if>
+    </xsl:template>
+
     <xsl:template match="wd:*">
         <span class="{name(.)}">
             <xsl:apply-templates/>
