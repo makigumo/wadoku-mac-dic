@@ -1385,7 +1385,10 @@
                 <xsl:if test="wd:etym">
                     <xsl:apply-templates select="wd:etym"/>
                 </xsl:if>
-                <xsl:apply-templates select="wd:usg"/>
+                <xsl:if test="wd:usg">
+                    <xsl:apply-templates select="wd:usg" />
+                    <xsl:text> </xsl:text>
+                </xsl:if>
                 <xsl:apply-templates select="wd:trans"/>
                 <xsl:if test="wd:seasonword">
                     <xsl:apply-templates select="wd:seasonword"/>
@@ -1768,15 +1771,10 @@
 
     <!-- Einfügen von Leerzeichen bzw. Komma, wenn gleiches usg-Element folgt. -->
     <xsl:template name="usg_after">
-        <xsl:choose>
-            <xsl:when test="empty(following-sibling::wd:usg[@type=./@type or @reg and ./@reg])">
-                <xsl:text>&#160;</xsl:text>
-            </xsl:when>
-            <xsl:otherwise>
-                <!-- &#8201; == &thinsp; -->
-                <xsl:text>,&#8201;</xsl:text>
-            </xsl:otherwise>
-        </xsl:choose>
+        <xsl:if test="not(empty(following-sibling::wd:usg[@type=./@type or @reg and ./@reg]))">
+            <!-- &#8201; == &thinsp; -->
+            <xsl:text>,&#8201;</xsl:text>
+        </xsl:if>
     </xsl:template>
 
 
