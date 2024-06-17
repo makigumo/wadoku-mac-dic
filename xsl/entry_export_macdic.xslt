@@ -1537,6 +1537,9 @@
         <xsl:if test="position()>1 and string-length(.)>0 and not(preceding-sibling::*[1][self::wd:text])">
             <xsl:text> </xsl:text>
         </xsl:if>
+        <xsl:if test="preceding-sibling::*[1][self::wd:iron]">
+            <xsl:text> </xsl:text>
+        </xsl:if>
         <span class="token">
             <xsl:value-of select="."/>
             <xsl:call-template name="genusTemplate">
