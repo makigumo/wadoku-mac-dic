@@ -8,7 +8,7 @@
                 doctype-public="-//W3C//DTD XHTML 1.1//EN"
                 doctype-system="http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"/>
     <xsl:param name="display-debug">false</xsl:param>
-    <xsl:param name="display-lang">ja</xsl:param>
+    <xsl:param name="displaylang">0</xsl:param>
     <xsl:param name="display-uid">0</xsl:param>
     <xsl:param name="display-genera">1</xsl:param>
     <xsl:param name="display-ruby">0</xsl:param>
@@ -17,7 +17,14 @@
     <xsl:template match="body">
         <xsl:copy>
             <xsl:attribute name="lang">
-                <xsl:value-of select="$display-lang"/>
+                <xsl:choose>
+                    <xsl:when test="$displaylang = '0'">
+                        <xsl:text>ja</xsl:text>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:text>de</xsl:text>
+                    </xsl:otherwise>
+                </xsl:choose>
             </xsl:attribute>
             <xsl:if test="$display-debug = 'true'">
                 <div class="debug">
@@ -38,8 +45,8 @@
                         <xsl:value-of select="$display-genera"/>
                     </div>
                     <div>
-                        display-lang:
-                        <xsl:value-of select="$display-lang"/>
+                        displaylang:
+                        <xsl:value-of select="$displaylang"/>
                     </div>
                 </div>
             </xsl:if>

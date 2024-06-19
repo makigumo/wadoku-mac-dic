@@ -22,8 +22,8 @@
         <string>wadoku_front_matter</string>
         <key>DCSDictionaryDefaultPrefs</key>
         <dict>
-            <key>display-lang</key>
-            <string>ja</string>
+            <key>displaylang</key>
+            <string>0</string>
             <key>version</key>
             <string>2</string>
             <key>display-uid</key>
