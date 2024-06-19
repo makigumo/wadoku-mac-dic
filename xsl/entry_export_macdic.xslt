@@ -1818,16 +1818,20 @@
         <xsl:if test="@type='main'">
             <xsl:choose>
                 <xsl:when test="@subentrytype='VwBsp'">
-                    <span class="parenttype phrase">PHRASE</span>
+                    <span class="parenttype phrase" xml:lang="de">PHRASE</span>
+                    <span class="parenttype phrase" xml:lang="ja">句</span>
                 </xsl:when>
                 <xsl:when test="@subentrytype='WIdiom'">
-                    <span class="parenttype idiom">IDIOM</span>
+                    <span class="parenttype idiom" xml:lang="de">IDIOM</span>
+                    <span class="parenttype idiom" xml:lang="ja">慣用句</span>
                 </xsl:when>
                 <xsl:when test="@subentrytype='XSatz'">
-                    <span class="parenttype bsp-satz">BSP.-SATZ</span>
+                    <span class="parenttype bsp-satz" xml:lang="de">BSP.-SATZ</span>
+                    <span class="parenttype bsp-satz" xml:lang="ja">例文</span>
                 </xsl:when>
                 <xsl:when test="@subentrytype='ZSprW'">
-                    <span class="parenttype sprichw">SPRICHW.</span>
+                    <span class="parenttype sprichw" xml:lang="de">SPRICHW.</span>
+                    <span class="parenttype sprichw" xml:lang="ja">諺</span>
                 </xsl:when>
             </xsl:choose>
         </xsl:if>
