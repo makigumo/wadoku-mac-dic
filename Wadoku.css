@@ -389,6 +389,23 @@ span.etym {
     font-weight: bold;
 }
 
+.parenttype {
+    font-size: 60%;
+    padding: 2px;
+    border-radius: 3px;
+    border: 1px solid #adfaad;
+    background: #adfaad;
+    color: #005700;
+}
+
+@media (prefers-color-scheme: dark) {
+    .parenttype {
+        border: 1px solid #005700;
+        background: #005700;
+        color: #adfaad;
+    }
+}
+
 .dom {
     font-family: sans-serif;
     color: -apple-system-green;

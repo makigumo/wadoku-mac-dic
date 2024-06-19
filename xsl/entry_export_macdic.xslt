@@ -1815,6 +1815,22 @@
         <a href="x-dictionary:r:{@id}" class="reflink parent">
             <xsl:copy-of select="$title"/>
         </a>
+        <xsl:if test="@type='main'">
+            <xsl:choose>
+                <xsl:when test="@subentrytype='VwBsp'">
+                    <span class="parenttype phrase">PHRASE</span>
+                </xsl:when>
+                <xsl:when test="@subentrytype='WIdiom'">
+                    <span class="parenttype idiom">IDIOM</span>
+                </xsl:when>
+                <xsl:when test="@subentrytype='XSatz'">
+                    <span class="parenttype bsp-satz">BSP.-SATZ</span>
+                </xsl:when>
+                <xsl:when test="@subentrytype='ZSprW'">
+                    <span class="parenttype sprichw">SPRICHW.</span>
+                </xsl:when>
+            </xsl:choose>
+        </xsl:if>
         <xsl:if test="position() lt last()">
             <xsl:text>・</xsl:text>
         </xsl:if>
