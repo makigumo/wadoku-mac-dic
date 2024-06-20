@@ -439,7 +439,10 @@ span.etym {
     display: block;
 }
 
-.sense .reg, .sense .usage, .subheadword .reg, .subheadword .usage {
+.sense .reg,
+.sense .usage,
+.subheadword .reg,
+.subheadword .usage {
     display: inline-block;
 }
 
@@ -459,7 +462,12 @@ span.etym {
     font-style: italic
 }
 
-.reg + .token:before, .usage + .token:before, .famn + .token:before {
+/* letztes dom, reg, usage */
+.dom:has(+ *:not(.dom)):after,
+.reg:has(+ *:not(.reg)):after,
+.usage:has(+ *:not(.usage)):after,
+
+.famn + .token:before {
     content: '\0020'
 }
 

@@ -1237,7 +1237,10 @@
     <xsl:template mode="compact" match="wd:sense[empty(./wd:sense) and @related]"/>
 
     <xsl:template name="sense_content">
-        <xsl:apply-templates select="wd:usg"/>
+        <xsl:if test="wd:usg">
+            <xsl:apply-templates select="wd:usg" />
+            <xsl:text> </xsl:text>
+        </xsl:if>
         <xsl:apply-templates select="wd:trans"/>
         <xsl:if test="not(empty(wd:def) and empty(wd:expl) and empty(wd:date))">
             <xsl:text> </xsl:text>
