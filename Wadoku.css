@@ -406,8 +406,9 @@ span.etym {
 }
 
 .dom {
-    font-family: sans-serif;
     color: -apple-system-green;
+    font-family: sans-serif;
+    font-size: 80%;
     font-style: italic;
     font-variant: small-caps
 }
@@ -436,7 +437,6 @@ span.etym {
 
 .reg, .usage {
     font-size: 80%;
-    display: block;
 }
 
 .sense .reg,
@@ -463,9 +463,9 @@ span.etym {
 }
 
 /* letztes dom, reg, usage */
-.dom:has(+ *:not(.dom)):after,
-.reg:has(+ *:not(.reg)):after,
-.usage:has(+ *:not(.usage)):after,
+.dom:has(+ *:not(.dom,.reg,.usage)):after,
+.reg:has(+ *:not(.dom,.reg,.usage)):after,
+.usage:has(+ *:not(.dom,.reg,.usage)):after,
 
 .famn + .token:before {
     content: '\0020'
