@@ -1688,7 +1688,36 @@
 
 
     <xsl:template match="wd:tr">
-        <xsl:apply-templates/>
+        <xsl:for-each-group select="node()" group-adjacent="name()">
+            <xsl:choose>
+                <xsl:when test="name() = 'expl'">
+                    <span class="klammer">
+                        <xsl:text>(</xsl:text>
+                        <xsl:for-each select="current-group()">
+                            <xsl:apply-templates select="."/>
+                            <xsl:if test="position() ne last()">
+                                <xsl:text>; </xsl:text>
+                            </xsl:if>
+                        </xsl:for-each>
+                        <xsl:text>)</xsl:text>
+                    </span>
+                </xsl:when>
+                <xsl:when test="name() = 'bracket'">
+                    <xsl:apply-templates select="."/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:for-each select="current-group()">
+                        <xsl:if test="position() = 1 and not(empty(preceding-sibling::*[1][name() = 'expl']))">
+                            <xsl:text> </xsl:text>
+                        </xsl:if>
+                        <xsl:apply-templates select="."/>
+                        <xsl:if test="position() = last() and not(empty(following-sibling::*[1][name() = 'expl']))">
+                            <xsl:text> </xsl:text>
+                        </xsl:if>
+                    </xsl:for-each>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:for-each-group>
     </xsl:template>
 
     <xsl:template match="wd:title">
@@ -1884,7 +1913,7 @@
                 </xsl:if>-->
             <xsl:text>)</xsl:text>
         </span>
-        <xsl:if test="position()&lt;last()">
+        <xsl:if test="following-sibling::*">
             <xsl:text> </xsl:text>
         </xsl:if>
     </xsl:template>
