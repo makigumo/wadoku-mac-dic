@@ -2057,13 +2057,22 @@
         </xsl:for-each>
     </xsl:template>
 
-    <xsl:template match="wd:transl | wd:literal">
+    <xsl:template match="wd:iron | wd:literal | wd:topic | wd:transcr | wd:transl">
+        <xsl:if test="preceding-sibling::*[1][not(self::wd:text)]">
+            <xsl:text> </xsl:text>
+        </xsl:if>
         <span class="{name(.)}">
             <xsl:apply-templates/>
         </span>
-        <xsl:if test="following-sibling::*[1][local-name()]">
+    </xsl:template>
+
+    <xsl:template match="wd:jap">
+        <xsl:if test="preceding-sibling::*[1][not(self::wd:text)]">
             <xsl:text> </xsl:text>
         </xsl:if>
+        <span class="jap" lang="ja" xml:lang="ja">
+            <xsl:value-of select="."/>
+        </span>
     </xsl:template>
 
     <xsl:template match="wd:*">
