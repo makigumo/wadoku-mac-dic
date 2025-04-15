@@ -1537,7 +1537,7 @@
     </xsl:template>
 
     <xsl:template match="wd:token">
-        <xsl:if test="position()>1 and string-length(.)>0 and not(preceding-sibling::*[1][self::wd:text])">
+        <xsl:if test="position()>1 and string-length(.)>0 and not(preceding-sibling::*[1][not(self::wd:text) and not(name()='')])">
             <xsl:text> </xsl:text>
         </xsl:if>
         <xsl:if test="preceding-sibling::*[1][self::wd:iron]">
@@ -1706,15 +1706,37 @@
                     <xsl:apply-templates select="."/>
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:for-each select="current-group()">
-                        <xsl:if test="position() = 1 and not(empty(preceding-sibling::*[1][name() = 'expl']))">
-                            <xsl:text> </xsl:text>
-                        </xsl:if>
-                        <xsl:apply-templates select="."/>
-                        <xsl:if test="position() = last() and not(empty(following-sibling::*[1][name() = 'expl']))">
-                            <xsl:text> </xsl:text>
-                        </xsl:if>
-                    </xsl:for-each>
+                    <xsl:otherwise>
+                        <xsl:for-each select="current-group()">
+                            <!--
+                            insert space when
+                            at head of group
+                            no wd:text and no text node
+                            after wd:expl
+                            not after text node
+                            -->
+                            <xsl:if test="position() = 1 and
+                            not(self::wd:text) and not(name()='') and
+                            not(empty(preceding-sibling::*[1][name() = 'expl'])) and
+                            empty(preceding-sibling::node()[1][name() = ''])">
+                                <xsl:text> </xsl:text>
+                            </xsl:if>
+                            <xsl:apply-templates select="."/>
+                            <!--
+                            insert space when
+                            at end of group
+                            no wd:text and no text node
+                            before wd:expl
+                            not before text node
+                            -->
+                            <xsl:if test="position() = last()
+                            and not(self::wd:text) and not(name()='') and
+                            not(empty(following-sibling::*[1][name() = 'expl'])) and
+                            empty(following-sibling::node()[1][name() = ''])">
+                                <xsl:text> </xsl:text>
+                            </xsl:if>
+                        </xsl:for-each>
+                    </xsl:otherwise>
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:for-each-group>
@@ -2058,7 +2080,7 @@
     </xsl:template>
 
     <xsl:template match="wd:iron | wd:literal | wd:topic | wd:transcr | wd:transl">
-        <xsl:if test="preceding-sibling::*[1][not(self::wd:text)]">
+        <xsl:if test="count(preceding-sibling::node()[1][not(self::wd:text) and not(name()='')]) > 0">
             <xsl:text> </xsl:text>
         </xsl:if>
         <span class="{name(.)}">
@@ -2067,7 +2089,7 @@
     </xsl:template>
 
     <xsl:template match="wd:jap">
-        <xsl:if test="preceding-sibling::*[1][not(self::wd:text)]">
+        <xsl:if test="count(preceding-sibling::node()[1][not(self::wd:text) and not(name()='')]) > 0">
             <xsl:text> </xsl:text>
         </xsl:if>
         <span class="jap" lang="ja" xml:lang="ja">
