@@ -44,12 +44,13 @@ jobs:
       - name: Transform wadoku.de XML data to Apple dictionary XML
         env:
           LFILE: ${{ secrets.SECRET_KAGI }}
+          JAVA_OPTS: "-Xmx4096M -Djdk.xml.totalEntitySizeLimit=0 -Djdk.xml.maxGeneralEntitySizeLimit=0"
         run: |
           echo "::add-mask::${{ secrets.LNUM }}"
           echo "::add-mask::${{ secrets.LFNAME }}"
           echo "$LFILE" > "${{ secrets.LFNAME }}"
           WADOKU_DIR=$(find . -name 'wadoku-xml-*' -type d) && export WADOKU_DIR=$WADOKU_DIR
-          java -Xmx1024M -jar saxon-ee-10.3.jar -s:$WADOKU_DIR/wadoku.xml -t -xsl:xsl/entry_export_macdic.xslt -o:wadoku-mac.xml
+          java $JAVA_OPTS -jar saxon-ee-10.3.jar -s:$WADOKU_DIR/wadoku.xml -t -xsl:xsl/entry_export_macdic.xslt -o:wadoku-mac.xml
       - name: Prepare plist file and dates
         id: date
         run: |
