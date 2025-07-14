@@ -1947,7 +1947,7 @@
         <span class="famn">
             <xsl:apply-templates/>
         </span>
-        <xsl:if test="following-sibling::*[not(wd:text) and not(self::text())]">
+        <xsl:if test="following-sibling::node()[not(wd:text) and not(self::text())]">
             <xsl:text> </xsl:text>
         </xsl:if>
     </xsl:template>
