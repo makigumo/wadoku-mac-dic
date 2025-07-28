@@ -1501,7 +1501,8 @@
             <!--<xsl:when test="position()=last()"><xsl:text>.</xsl:text></xsl:when>-->
             <xsl:when test="not(following-sibling::wd:trans)">
                 <!-- wenn Satzzeichen schon im letzten Trans, dann keinen Punkt einfügen-->
-                <xsl:variable name="lastchild" select="child::wd:tr/*[position()=last()]"/>
+                <xsl:variable name="lastchild"
+                              select="child::wd:tr/node()[self::* or self::text()][position()=last()]"/>
                 <xsl:choose>
                     <xsl:when test="following-sibling::wd:def"/>
                     <xsl:when test="following-sibling::wd:date"/>
