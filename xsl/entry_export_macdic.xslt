@@ -2090,9 +2090,14 @@
         <xsl:if test="count(preceding-sibling::node()[1][not(self::wd:text) and not(self::text())]) > 0">
             <xsl:text> </xsl:text>
         </xsl:if>
-        <span class="{name(.)}">
+        <xsl:element name="span">
+            <xsl:attribute name="class"><xsl:value-of select="name(.)"/></xsl:attribute>
+            <xsl:if test="self::wd:transcr">
+                <xsl:attribute name="lang">ja-Latn</xsl:attribute>
+                <xsl:attribute name="xml:lang">ja-Latn</xsl:attribute>
+            </xsl:if>
             <xsl:apply-templates/>
-        </span>
+        </xsl:element>
     </xsl:template>
 
     <xsl:template match="wd:jap">
