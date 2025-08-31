@@ -1246,9 +1246,10 @@
             <xsl:text> </xsl:text>
             <span class="klammer">
                 <xsl:text>(</xsl:text>
-                <xsl:for-each select="wd:trans[last()]/following-sibling::*[not(self::wd:trans) and not(self::wd:seasonword)]">
+                <!-- Ausnehmen von wd:link, wird auf Eintragsebene verarbeitet -->
+                <xsl:for-each select="wd:trans[last()]/following-sibling::*[not(self::wd:trans or self::wd:seasonword or self::wd:link)]">
                     <xsl:apply-templates select="."/>
-                    <xsl:if test="count(./following-sibling::*[not(self::wd:seasonword)])>0">
+                    <xsl:if test="count(./following-sibling::*[not(self::wd:seasonword or self::wd:link)])>0">
                         <xsl:text>; </xsl:text>
                     </xsl:if>
                 </xsl:for-each>
@@ -1265,6 +1266,9 @@
         <xsl:if test="./wd:ref and empty(wd:def) and empty(wd:expl) and empty(wd:date)">
             <xsl:text> </xsl:text>
             <xsl:apply-templates select="./wd:ref"/>
+        </xsl:if>
+        <xsl:if test="./wd:link[@type='picture']">
+            <xsl:apply-templates select="./wd:link[@type='picture']"/>
         </xsl:if>
     </xsl:template>
 
@@ -1363,13 +1367,13 @@
                 <!--
                  alles nach trans, außer seasonword, mit einer Klammer umschließen.
                 -->
-                <xsl:if test="wd:trans[last()]/following-sibling::*[not(self::wd:trans) and not(self::wd:seasonword)]">
+                <xsl:if test="wd:trans[last()]/following-sibling::*[not(self::wd:trans or self::wd:link or self::wd:seasonword)]">
                     <xsl:text> </xsl:text>
                     <span class="klammer">
                         <xsl:text>(</xsl:text>
-                        <xsl:for-each select="wd:trans[last()]/following-sibling::*[not(self::wd:trans) and not(self::wd:seasonword)]">
+                        <xsl:for-each select="wd:trans[last()]/following-sibling::*[not(self::wd:trans or self::wd:link or self::wd:seasonword)]">
                             <xsl:apply-templates select="."/>
-                            <xsl:if test="count(./following-sibling::*[not(self::wd:seasonword)])>0">
+                            <xsl:if test="count(./following-sibling::*[not(self::wd:seasonword or self::wd:link)])>0">
                                 <xsl:text>; </xsl:text>
                             </xsl:if>
                         </xsl:for-each>
