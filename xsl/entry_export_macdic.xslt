@@ -1831,12 +1831,19 @@
         </xsl:choose>
     </xsl:template>
 
-    <!-- Einfügen von Leerzeichen bzw. Komma, wenn gleiches usg-Element folgt. -->
+
     <xsl:template name="usg_after">
-        <xsl:if test="not(empty(following-sibling::wd:usg[@type=./@type or @reg and ./@reg]))">
-            <!-- &#8201; == &thinsp; -->
-            <xsl:text>,&#8201;</xsl:text>
-        </xsl:if>
+        <xsl:choose>
+            <!-- Einfügen von Leerzeichen bzw. Komma, wenn gleiches usg-Element folgt. -->
+            <xsl:when test="not(empty(following-sibling::wd:usg[@type=./@type or @reg and ./@reg]))">
+                <!-- &#8201; == &thinsp; -->
+                <xsl:text>,&#8201;</xsl:text>
+            </xsl:when>
+            <!-- Einfügen von Leerzeichen nach letztem usg-Element. -->
+            <xsl:when test="empty(following-sibling::*[1][self::wd:usg])">
+                <xsl:text> </xsl:text>
+            </xsl:when>
+        </xsl:choose>
     </xsl:template>
 
 

@@ -468,7 +468,8 @@ span.etym {
 .usage:has(+ *:not(.dom,.reg,.usage)):after,
 
 .famn + .token:before {
-    content: '\0020'
+    content: '\0020';
+    white-space: pre;
 }
 
 .iron + *:empty + .token:before {
