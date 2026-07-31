@@ -140,9 +140,6 @@
                 </xsl:choose>
             </xsl:when>
         </xsl:choose>
-        <xsl:if test="following-sibling::wd:doushi">
-            <xsl:text>; </xsl:text>
-        </xsl:if>
     </xsl:template>
 
     <xsl:template match="wd:keiyoudoushi">
